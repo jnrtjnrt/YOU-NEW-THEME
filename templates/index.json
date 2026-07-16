@@ -119,7 +119,8 @@
         "card_1": {
           "type": "card",
           "settings": {
-            "collection": "",
+            "collection": "frontpage",
+            "image": "shopify://shop_images/photo_2026-06-17_10.04.32.jpg",
             "title": "Bags",
             "button_label": "OBVIOUSLY"
           }
@@ -128,6 +129,7 @@
           "type": "card",
           "settings": {
             "collection": "",
+            "image": "shopify://shop_images/photo_2026-06-17_10.04.27.jpg",
             "title": "Straps",
             "button_label": "PICK YOUR MOOD"
           }
@@ -136,6 +138,7 @@
           "type": "card",
           "settings": {
             "collection": "",
+            "image": "shopify://shop_images/photo_2026-06-17_10.04.29.jpg",
             "title": "Accessories",
             "button_label": "THE EXTRAS"
           }
@@ -156,7 +159,7 @@
       "type": "featured-products",
       "settings": {
         "heading": "Y'all Can't Stop Buying",
-        "collection": "",
+        "collection": "frontpage",
         "products_count": 8,
         "layout": "carousel",
         "image_ratio": "square",
@@ -179,7 +182,7 @@
         "review_2": {
           "type": "review",
           "settings": {
-            "quote": "<p>Best purchase this year. The zippers feel premium and it fits my laptop plus everything else I hoard. Buying another for my brother next.</p>",
+            "quote": "<p>Best purchase this year. The zippers feel premium and the VERSA bag fits my laptop plus everything else I hoard. Buying another for my brother next.</p>",
             "author": "j*****v",
             "label": "Verified Buyer"
           }
@@ -224,16 +227,17 @@
         "photo_1": {
           "type": "photo",
           "settings": {
-            "handle": "@aya.dlc",
-            "caption": "wears VERSA in Rich Black",
+            "image": "shopify://shop_images/686161060_18582196825009466_7475025348656298444_n.jpg",
+            "handle": "@ashleyortega",
+            "caption": "wears PIXIE in NEON PINK",
             "link": ""
           }
         },
         "photo_2": {
           "type": "photo",
           "settings": {
-            "handle": "@kimverso",
-            "caption": "wears FLIP in Cherry",
+            "handle": "@djbigboycheng",
+            "caption": "wears FLIP in Black Red",
             "link": ""
           }
         },
@@ -252,31 +256,13 @@
             "caption": "wears PIXIE in Bright Orange",
             "link": ""
           }
-        },
-        "photo_5": {
-          "type": "photo",
-          "settings": {
-            "handle": "@notmarco",
-            "caption": "wears STRAPPY in Cyan",
-            "link": ""
-          }
-        },
-        "photo_6": {
-          "type": "photo",
-          "settings": {
-            "handle": "@camz.txt",
-            "caption": "wears ROAM in Sage",
-            "link": ""
-          }
         }
       },
       "block_order": [
         "photo_1",
         "photo_2",
         "photo_3",
-        "photo_4",
-        "photo_5",
-        "photo_6"
+        "photo_4"
       ],
       "settings": {
         "heading": "Wearing It Better Than Us",
@@ -284,7 +270,7 @@
         "heading_color": "#fdfeff",
         "handle_color": "#fdfeff",
         "caption_color": "#d4e84a",
-        "columns": 6,
+        "columns": 4,
         "padding": 64
       }
     },

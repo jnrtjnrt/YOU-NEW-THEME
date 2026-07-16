@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "type": "footer",
   "name": "Footer group",
@@ -26,13 +35,21 @@
           }
         }
       },
-      "block_order": ["shop_menu", "help_menu", "social"],
+      "block_order": [
+        "shop_menu",
+        "help_menu",
+        "social"
+      ],
       "settings": {
+        "logo": "shopify://shop_images/YOU_Logo_wide.png",
         "tagline": "A bag is more than something you wear — it's a part of your everyday story.",
+        "copyright": "",
         "hashtags": "#MadeByYOU #YOUBags",
         "padding_top": 64
       }
     }
   },
-  "order": ["footer"]
+  "order": [
+    "footer"
+  ]
 }
