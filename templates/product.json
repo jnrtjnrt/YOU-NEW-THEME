@@ -1,22 +1,79 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main": {
       "type": "main-product",
       "blocks": {
-        "eyebrow": { "type": "eyebrow" },
-        "title": { "type": "title" },
-        "rating": { "type": "rating" },
-        "price": { "type": "price" },
-        "divider": { "type": "divider" },
-        "variant_picker": { "type": "variant_picker" },
-        "quantity": { "type": "quantity" },
-        "buy_buttons": { "type": "buy_buttons" },
-        "trust": { "type": "trust_badges" },
+        "eyebrow": {
+          "type": "eyebrow",
+          "settings": {
+            "text": "",
+            "color": "#e8401c"
+          }
+        },
+        "title": {
+          "type": "title",
+          "settings": {}
+        },
+        "rating": {
+          "type": "rating",
+          "settings": {
+            "placeholder_text": ""
+          }
+        },
+        "price": {
+          "type": "price",
+          "settings": {}
+        },
+        "divider": {
+          "type": "divider",
+          "settings": {}
+        },
+        "variant_picker": {
+          "type": "variant_picker",
+          "settings": {
+            "color_swatches": true
+          }
+        },
+        "quantity": {
+          "type": "quantity",
+          "settings": {}
+        },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": true
+          }
+        },
+        "trust": {
+          "type": "trust_badges",
+          "disabled": true,
+          "settings": {
+            "item_1": "Free shipping over ₱2,000",
+            "item_2": "7-day easy returns",
+            "item_3": "Secure checkout",
+            "item_4": "6-month warranty"
+          }
+        },
+        "divider_3PCiEj": {
+          "type": "divider",
+          "settings": {}
+        },
         "description": {
           "type": "collapsible_tab",
           "settings": {
             "heading": "Description",
             "use_description": true,
+            "content": "",
+            "page": "",
             "open_by_default": true
           }
         },
@@ -24,7 +81,10 @@
           "type": "collapsible_tab",
           "settings": {
             "heading": "Care",
-            "content": "<p>Spot clean with mild soap and cold water. Air dry away from direct sunlight.</p>"
+            "use_description": false,
+            "content": "<p>Spot clean with mild soap and cold water. Air dry away from direct sunlight.</p>",
+            "page": "",
+            "open_by_default": false
           }
         }
       },
@@ -38,27 +98,73 @@
         "quantity",
         "buy_buttons",
         "trust",
+        "divider_3PCiEj",
         "description",
         "care"
-      ]
+      ],
+      "settings": {
+        "show_thumbnails": true,
+        "show_gallery_arrows": false,
+        "enable_sticky_atc": true
+      }
     },
     "related": {
-      "type": "related-products"
+      "type": "related-products",
+      "settings": {
+        "heading": "You Might Also Like",
+        "subtext": "More stuff worth grabbing.",
+        "products_count": 4,
+        "padding": 80
+      }
     },
     "reviews": {
       "type": "testimonials",
+      "blocks": {
+        "review_1": {
+          "type": "review",
+          "settings": {
+            "quote": "<p>Write a real customer review here.</p>",
+            "author": "a*****n",
+            "label": "Verified Buyer"
+          }
+        },
+        "review_2": {
+          "type": "review",
+          "settings": {
+            "quote": "<p>Write a real customer review here.</p>",
+            "author": "j*****v",
+            "label": "Verified Buyer"
+          }
+        },
+        "review_3": {
+          "type": "review",
+          "settings": {
+            "quote": "<p>Write a real customer review here.</p>",
+            "author": "m*****z",
+            "label": "Verified Buyer"
+          }
+        }
+      },
+      "block_order": [
+        "review_1",
+        "review_2",
+        "review_3"
+      ],
       "settings": {
         "heading": "They Won't Shut Up About It",
+        "background": "#e535ab",
+        "heading_color": "#1a1a1a",
+        "card_background": "#fdfeff",
+        "card_text_color": "#1a1a1a",
+        "show_stars": true,
         "columns": 3,
-        "show_stars": true
-      },
-      "blocks": {
-        "review_1": { "type": "review", "settings": { "author": "a*****n" } },
-        "review_2": { "type": "review", "settings": { "author": "j*****v" } },
-        "review_3": { "type": "review", "settings": { "author": "m*****z" } }
-      },
-      "block_order": ["review_1", "review_2", "review_3"]
+        "padding": 64
+      }
     }
   },
-  "order": ["main", "related", "reviews"]
+  "order": [
+    "main",
+    "related",
+    "reviews"
+  ]
 }
