@@ -1,0 +1,35 @@
+{% layout none %}
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  {%- assign gift_card_value = gift_card.initial_value | money -%}
+  <title>{{ 'gift_cards.issued.title' | t: value: gift_card_value, shop: shop.name }}</title>
+  {% render 'css-variables' %}
+  {{ 'base.css' | asset_url | stylesheet_tag }}
+</head>
+<body>
+  <div class="big-statement" style="min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+    <span class="header__logo-text">{{ shop.name }}</span>
+    <h1 style="font-size: calc(72px * var(--heading-scale)); margin-top: 24px;">{{ gift_card_value }}</h1>
+    <p>{{ 'gift_cards.issued.subtext' | t }}</p>
+
+    {%- if gift_card.expired -%}
+      <p class="form-status form-status--error">{{ 'gift_cards.issued.expired' | t }}</p>
+    {%- endif -%}
+
+    <div style="border: 2px solid var(--color-fg); padding: 20px 32px; font-size: 22px; font-weight: 700; letter-spacing: 0.15em; margin: 24px 0;">
+      {{ gift_card.code | format_code }}
+    </div>
+
+    {%- if gift_card.balance != gift_card.initial_value -%}
+      {%- assign gift_card_balance = gift_card.balance | money -%}
+      <p>{{ 'gift_cards.issued.remaining' | t: balance: gift_card_balance }}</p>
+    {%- endif -%}
+
+    <a href="{{ shop.url }}" class="button">{{ 'gift_cards.issued.shop_link' | t }}</a>
+  </div>
+</body>
+</html>

@@ -1,0 +1,142 @@
+{%- liquid
+  assign accent = section.settings.accent_color
+-%}
+
+<div class="collection-hero">
+  <h1 class="collection-hero__title" style="color: {{ accent }};">{{ collection.title }}</h1>
+  {%- if section.settings.show_description and collection.description != blank -%}
+    <div class="collection-hero__blurb">{{ collection.description }}</div>
+  {%- endif -%}
+</div>
+
+{%- paginate collection.products by section.settings.products_per_page -%}
+  <div class="container">
+    {%- if section.settings.enable_filtering or section.settings.enable_sorting -%}
+      <form data-filter-form>
+        <div class="filter-bar" style="border-color: {{ accent }};">
+          <div class="filter-bar__group">
+            {%- if section.settings.enable_filtering -%}
+              {%- for filter in collection.filters -%}
+                <details class="filter-dropdown">
+                  <summary>
+                    {{ filter.label | upcase }}
+                    {% render 'icon', icon: 'chevron', size: 12 %}
+                  </summary>
+                  <div class="filter-dropdown__panel">
+                    {%- case filter.type -%}
+                      {%- when 'boolean', 'list' -%}
+                        {%- for value in filter.values -%}
+                          <label class="filter-option">
+                            <input
+                              type="checkbox"
+                              name="{{ value.param_name }}"
+                              value="{{ value.value }}"
+                              {% if value.active %}checked{% endif %}
+                              {% if value.count == 0 and value.active == false %}disabled{% endif %}>
+                            <span>{{ value.label }} ({{ value.count }})</span>
+                          </label>
+                        {%- endfor -%}
+                      {%- when 'price_range' -%}
+                        <div class="filter-price-row">
+                          <input
+                            type="number"
+                            name="{{ filter.min_value.param_name }}"
+                            placeholder="0"
+                            min="0"
+                            {% if filter.min_value.value %}value="{{ filter.min_value.value | money_without_currency | remove: ',' }}"{% endif %}>
+                          <span>–</span>
+                          <input
+                            type="number"
+                            name="{{ filter.max_value.param_name }}"
+                            placeholder="{{ filter.range_max | money_without_currency | remove: ',' }}"
+                            min="0"
+                            {% if filter.max_value.value %}value="{{ filter.max_value.value | money_without_currency | remove: ',' }}"{% endif %}>
+                          <button type="submit" class="button button--md" style="padding: 8px 16px;">{{ 'collections.apply' | t }}</button>
+                        </div>
+                    {%- endcase -%}
+                  </div>
+                </details>
+              {%- endfor -%}
+            {%- endif -%}
+          </div>
+
+          <div class="filter-bar__group">
+            <span class="filter-bar__count">{{ 'collections.items_count' | t: count: collection.products_count }}</span>
+            {%- if section.settings.enable_sorting -%}
+              <label class="visually-hidden" for="SortBy">{{ 'collections.sort_label' | t }}</label>
+              <select name="sort_by" id="SortBy" class="sort-select">
+                {%- for option in collection.sort_options -%}
+                  <option value="{{ option.value }}" {% if option.value == collection.sort_by %}selected{% endif %}>{{ option.name | upcase }}</option>
+                {%- endfor -%}
+              </select>
+            {%- endif -%}
+            {%- if section.settings.show_grid_toggle -%}
+              <div class="grid-toggle">
+                <button type="button" data-grid-columns="3" class="is-active" aria-label="{{ 'collections.grid_wide' | t }}">▦</button>
+                <button type="button" data-grid-columns="4" aria-label="{{ 'collections.grid_narrow' | t }}">▤</button>
+              </div>
+            {%- endif -%}
+          </div>
+        </div>
+
+        {%- liquid
+          assign has_active = false
+          for filter in collection.filters
+            if filter.active_values.size > 0 or filter.min_value.value or filter.max_value.value
+              assign has_active = true
+            endif
+          endfor
+        -%}
+        {%- if has_active -%}
+          <div class="active-filters">
+            {%- for filter in collection.filters -%}
+              {%- for value in filter.active_values -%}
+                <a class="active-filters__pill" href="{{ value.url_to_remove }}">{{ value.label }} ×</a>
+              {%- endfor -%}
+              {%- if filter.type == 'price_range' -%}
+                {%- if filter.min_value.value or filter.max_value.value -%}
+                  <a class="active-filters__pill" href="{{ filter.url_to_remove }}">{{ filter.label }} ×</a>
+                {%- endif -%}
+              {%- endif -%}
+            {%- endfor -%}
+            <a class="active-filters__pill" href="{{ collection.url }}">{{ 'collections.clear_all' | t }}</a>
+          </div>
+        {%- endif -%}
+      </form>
+    {%- endif -%}
+
+    <div class="collection-grid">
+      {%- if collection.products.size > 0 -%}
+        <div class="grid grid--collection" data-collection-grid style="--collection-columns: {{ section.settings.columns }};">
+          {%- for product in collection.products -%}
+            {% render 'product-card', card_product: product, badge_color: accent %}
+          {%- endfor -%}
+        </div>
+      {%- else -%}
+        <div class="big-statement" style="padding: 48px var(--gutter);">
+          <p>{{ 'collections.empty' | t }}</p>
+          <a href="{{ collection.url }}" class="button">{{ 'collections.clear_all' | t }}</a>
+        </div>
+      {%- endif -%}
+
+      {% render 'pagination', paginate: paginate %}
+    </div>
+  </div>
+{%- endpaginate -%}
+
+{% schema %}
+{
+  "name": "Collection page",
+  "tag": "section",
+  "settings": [
+    { "type": "color", "id": "accent_color", "label": "Accent color", "default": "#E8401C", "info": "Colors the title, filter bar and sale badges for this collection layout." },
+    { "type": "checkbox", "id": "show_description", "label": "Show collection description", "default": true },
+    { "type": "range", "id": "products_per_page", "label": "Products per page", "min": 6, "max": 48, "step": 3, "default": 12 },
+    { "type": "range", "id": "columns", "label": "Columns (desktop)", "min": 2, "max": 5, "step": 1, "default": 3 },
+    { "type": "header", "content": "Filtering & sorting" },
+    { "type": "checkbox", "id": "enable_filtering", "label": "Enable filtering", "default": true, "info": "Configure which filters appear in Search & Discovery." },
+    { "type": "checkbox", "id": "enable_sorting", "label": "Enable sorting", "default": true },
+    { "type": "checkbox", "id": "show_grid_toggle", "label": "Show grid density toggle", "default": true }
+  ]
+}
+{% endschema %}

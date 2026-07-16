@@ -1,0 +1,37 @@
+<div style="padding: {{ section.settings.padding }}px 0;">
+  <div class="container">
+    <div
+      data-recommendations
+      data-url="{{ routes.product_recommendations_url }}?section_id={{ section.id }}&product_id={{ product.id }}&limit={{ section.settings.products_count }}">
+      {%- if recommendations.performed and recommendations.products_count > 0 -%}
+        {%- if section.settings.heading != blank -%}
+          <h2 class="section-heading" style="font-size: calc(36px * var(--heading-scale)); margin-bottom: 8px;">{{ section.settings.heading }}</h2>
+        {%- endif -%}
+        {%- if section.settings.subtext != blank -%}
+          <p class="section-subtext" style="margin-bottom: 32px;">{{ section.settings.subtext }}</p>
+        {%- endif -%}
+        <div class="grid grid--4">
+          {%- for rec_product in recommendations.products -%}
+            {% render 'product-card', card_product: rec_product, image_ratio: 'square' %}
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Related products",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "You Might Also Like" },
+    { "type": "text", "id": "subtext", "label": "Subtext", "default": "More stuff worth grabbing." },
+    { "type": "range", "id": "products_count", "label": "Products to show", "min": 2, "max": 8, "step": 1, "default": 4 },
+    { "type": "range", "id": "padding", "label": "Vertical padding", "min": 0, "max": 128, "step": 4, "unit": "px", "default": 80 }
+  ],
+  "enabled_on": {
+    "templates": ["product"]
+  }
+}
+{% endschema %}

@@ -1,0 +1,74 @@
+<div class="container" style="padding-top: 48px; padding-bottom: 64px;">
+  <h1 class="page-title">{{ 'sections.cart.title' | t }}</h1>
+
+  {%- if cart.item_count == 0 -%}
+    <div class="big-statement" style="padding: 32px var(--gutter) 64px var(--gutter);">
+      <p>{{ 'sections.cart.empty' | t }}</p>
+      <a href="{{ routes.all_products_collection_url }}" class="button">{{ 'sections.cart.continue_shopping' | t }}</a>
+    </div>
+  {%- else -%}
+    <form action="{{ routes.cart_url }}" method="post" novalidate>
+      <div>
+        {%- for item in cart.items -%}
+          <div class="cart-page__row">
+            <div class="cart-line">
+              {%- if item.image -%}
+                <a href="{{ item.url }}">
+                  <img class="cart-line__image" src="{{ item.image | image_url: width: 176 }}" alt="{{ item.image.alt | escape }}" width="88" height="88" loading="lazy">
+                </a>
+              {%- endif -%}
+              <div class="cart-line__info">
+                <a href="{{ item.url }}" class="cart-line__title">{{ item.product.title }}</a>
+                {%- unless item.product.has_only_default_variant -%}
+                  <span class="cart-line__meta">{{ item.variant.title }}</span>
+                {%- endunless -%}
+                {%- for discount in item.line_level_discount_allocations -%}
+                  <span class="cart-line__meta" style="color: var(--color-accent);">{{ discount.discount_application.title }}</span>
+                {%- endfor -%}
+                <a href="{{ item.url_to_remove }}" class="cart-line__remove">{{ 'sections.cart.remove' | t }}</a>
+              </div>
+            </div>
+            <div class="qty">
+              <button type="button" class="qty__button" data-qty-change="-1" aria-label="{{ 'sections.cart.decrease' | t }}">{% render 'icon', icon: 'minus', size: 14 %}</button>
+              <input class="qty__input" type="number" name="updates[]" value="{{ item.quantity }}" min="0" aria-label="{{ 'sections.cart.quantity' | t }}" data-cart-page-qty>
+              <button type="button" class="qty__button" data-qty-change="1" aria-label="{{ 'sections.cart.increase' | t }}">{% render 'icon', icon: 'plus', size: 14 %}</button>
+            </div>
+            <div class="cart-line__price" style="text-align: right;">{{ item.final_line_price | money }}</div>
+          </div>
+        {%- endfor -%}
+      </div>
+
+      <div class="cart-page__totals">
+        {%- if section.settings.show_note -%}
+          <div class="field" style="margin: 0;">
+            <label for="CartNote">{{ 'sections.cart.note_label' | t }}</label>
+            <textarea id="CartNote" name="note" rows="3">{{ cart.note }}</textarea>
+          </div>
+        {%- endif -%}
+        {%- for discount in cart.cart_level_discount_applications -%}
+          <div style="display: flex; justify-content: space-between; font-size: 14px; color: var(--color-accent);">
+            <span>{{ discount.title }}</span>
+            <span>-{{ discount.total_allocated_amount | money }}</span>
+          </div>
+        {%- endfor -%}
+        <div class="cart-page__subtotal">
+          <span>{{ 'sections.cart.subtotal' | t }}</span>
+          <span>{{ cart.total_price | money }}</span>
+        </div>
+        <p class="cart-page__note">{{ 'sections.cart.taxes_note' | t }}</p>
+        <button type="submit" name="update" class="button button--secondary" style="border: 2px solid var(--color-fg);">{{ 'sections.cart.update' | t }}</button>
+        <button type="submit" name="checkout" class="button button--full">{{ 'sections.cart.checkout' | t }}</button>
+      </div>
+    </form>
+  {%- endif -%}
+</div>
+
+{% schema %}
+{
+  "name": "Cart page",
+  "tag": "section",
+  "settings": [
+    { "type": "checkbox", "id": "show_note", "label": "Show order note field", "default": true }
+  ]
+}
+{% endschema %}

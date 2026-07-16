@@ -1,0 +1,84 @@
+<div class="customer customer--wide container" style="padding-top: 48px; padding-bottom: 64px;">
+  <h1>{{ 'customer.addresses.title' | t }}</h1>
+  <div class="customer__actions" style="justify-content: center; margin-bottom: 40px;">
+    <a href="{{ routes.account_url }}" class="link-underline">← {{ 'customer.account.back' | t }}</a>
+    <button type="button" class="button button--md" onclick="document.getElementById('AddAddress').hidden = !document.getElementById('AddAddress').hidden;">{{ 'customer.addresses.add_new' | t }}</button>
+  </div>
+
+  <div id="AddAddress" hidden style="max-width: 520px; margin: 0 auto 48px auto;">
+    <h2 style="font-size: calc(24px * var(--heading-scale)); margin-bottom: 16px;">{{ 'customer.addresses.add_new' | t }}</h2>
+    {% form 'customer_address', customer.new_address %}
+      {% render 'address-fields', form: form %}
+      <div class="customer__actions">
+        <button type="submit" class="button">{{ 'customer.addresses.save' | t }}</button>
+      </div>
+    {% endform %}
+  </div>
+
+  {%- paginate customer.addresses by 6 -%}
+    <div class="grid grid--3">
+      {%- for address in customer.addresses -%}
+        <div style="border: 2px solid var(--color-border-subtle); padding: 24px;">
+          {%- if address == customer.default_address -%}
+            <span class="eyebrow" style="color: var(--color-accent);">{{ 'customer.addresses.default' | t }}</span>
+          {%- endif -%}
+          {{ address | format_address }}
+          <div class="customer__actions">
+            <button type="button" class="link-underline" style="background: none; border: none; cursor: pointer; padding: 0;" onclick="var f = document.getElementById('EditAddress_{{ address.id }}'); f.hidden = !f.hidden;">{{ 'customer.addresses.edit' | t }}</button>
+            <form method="post" action="{{ routes.account_addresses_url }}/{{ address.id }}" style="display: inline;">
+              <input type="hidden" name="_method" value="delete">
+              <button type="submit" class="link-underline" style="background: none; border: none; cursor: pointer; padding: 0;" onclick="return confirm('{{ 'customer.addresses.delete_confirm' | t }}');">{{ 'customer.addresses.delete' | t }}</button>
+            </form>
+          </div>
+
+          <div id="EditAddress_{{ address.id }}" hidden style="margin-top: 24px;">
+            {% form 'customer_address', address %}
+              {% render 'address-fields', form: form %}
+              <div class="customer__actions">
+                <button type="submit" class="button button--md">{{ 'customer.addresses.save' | t }}</button>
+              </div>
+            {% endform %}
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+    {% render 'pagination', paginate: paginate %}
+  {%- endpaginate -%}
+</div>
+
+<script>
+  // Wire up Shopify's country/province selectors for every address form on the page.
+  document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('[data-address-country]').forEach(function (select, i) {
+      var provinceWrap = select.closest('form').querySelector('[data-province-wrap]');
+      var provinceSelect = select.closest('form').querySelector('[data-address-province]');
+      function update() {
+        var option = select.options[select.selectedIndex];
+        var provinces = JSON.parse(option.getAttribute('data-provinces') || '[]');
+        provinceSelect.innerHTML = '';
+        if (!provinces.length) { provinceWrap.hidden = true; return; }
+        provinceWrap.hidden = false;
+        provinces.forEach(function (p) {
+          var opt = document.createElement('option');
+          opt.value = p[0];
+          opt.textContent = p[1];
+          if (provinceSelect.getAttribute('data-default') === p[0]) opt.selected = true;
+          provinceSelect.appendChild(opt);
+        });
+      }
+      select.addEventListener('change', update);
+      if (select.getAttribute('data-default')) {
+        select.value = select.getAttribute('data-default');
+      }
+      update();
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Addresses",
+  "tag": "section",
+  "settings": []
+}
+{% endschema %}

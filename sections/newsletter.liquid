@@ -1,0 +1,57 @@
+<div style="background: {{ section.settings.background }}; padding: {{ section.settings.padding }}px 0;">
+  <div style="max-width: 640px; margin: 0 auto; padding: 0 var(--gutter); text-align: center; display: flex; flex-direction: column; align-items: center; gap: 24px;">
+    {%- if section.settings.heading != blank -%}
+      <h2 style="font-size: calc(40px * var(--heading-scale)); color: {{ section.settings.text_color }}; margin: 0;">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+    {%- if section.settings.text != blank -%}
+      <div style="color: var(--color-fg-muted); font-size: 16px; margin: 0;">{{ section.settings.text }}</div>
+    {%- endif -%}
+
+    {% form 'customer', class: 'newsletter-form' %}
+      <input type="hidden" name="contact[tags]" value="newsletter">
+      {%- if form.posted_successfully? -%}
+        <p class="form-status form-status--success" style="width: 100%;">{{ 'sections.newsletter.success' | t }}</p>
+      {%- endif -%}
+      {%- if form.errors -%}
+        <p class="form-status form-status--error" style="width: 100%;">{{ form.errors.translated_fields.email | capitalize }} {{ form.errors.messages.email }}</p>
+      {%- endif -%}
+      <div style="display: flex; gap: 12px; width: 100%; flex-wrap: wrap;">
+        <input
+          type="email"
+          name="contact[email]"
+          required
+          autocomplete="email"
+          placeholder="{{ 'sections.newsletter.placeholder' | t }}"
+          aria-label="{{ 'sections.newsletter.placeholder' | t }}"
+          style="flex: 1; min-width: 200px; padding: 14px 4px; border: none; border-bottom: 2px solid {{ section.settings.text_color }}; background: transparent; color: {{ section.settings.text_color }}; font-size: 15px; font-family: var(--font-body); outline: none;">
+        <button type="submit" class="button">{{ section.settings.button_label }}</button>
+      </div>
+    {% endform %}
+  </div>
+</div>
+
+<style>
+  #shopify-section-{{ section.id }} .newsletter-form { width: 100%; }
+  #shopify-section-{{ section.id }} input::placeholder { color: {{ section.settings.text_color | color_modify: 'alpha', 0.6 }}; }
+</style>
+
+{% schema %}
+{
+  "name": "Newsletter",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Miss The Drop, That's On You." },
+    { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Just put your email in. We'll handle the rest.</p>" },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "SUBSCRIBE" },
+    { "type": "color", "id": "background", "label": "Background", "default": "#1A1A1A" },
+    { "type": "color", "id": "text_color", "label": "Text color", "default": "#FDFEFF" },
+    { "type": "range", "id": "padding", "label": "Vertical padding", "min": 0, "max": 128, "step": 4, "unit": "px", "default": 64 }
+  ],
+  "presets": [
+    { "name": "Newsletter" }
+  ],
+  "disabled_on": {
+    "groups": ["header"]
+  }
+}
+{% endschema %}

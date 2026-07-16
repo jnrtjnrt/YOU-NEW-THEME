@@ -1,0 +1,70 @@
+<div class="customer container" style="padding-top: 48px; padding-bottom: 64px;">
+  <div id="LoginForm">
+    <h1>{{ 'customer.login.title' | t }}</h1>
+    {% form 'customer_login' %}
+      {%- if form.errors -%}
+        <div class="form-status form-status--error">
+          <ul>
+            {%- for field in form.errors -%}
+              <li>{{ form.errors.translated_fields[field] | capitalize }} {{ form.errors.messages[field] }}</li>
+            {%- endfor -%}
+          </ul>
+        </div>
+      {%- endif -%}
+      <div class="field">
+        <label for="CustomerEmail">{{ 'customer.fields.email' | t }}</label>
+        <input type="email" name="customer[email]" id="CustomerEmail" autocomplete="email" required>
+      </div>
+      <div class="field">
+        <label for="CustomerPassword">{{ 'customer.fields.password' | t }}</label>
+        <input type="password" name="customer[password]" id="CustomerPassword" autocomplete="current-password" required>
+      </div>
+      <div class="customer__actions">
+        <button type="submit" class="button">{{ 'customer.login.submit' | t }}</button>
+        <a href="#recover" class="link-underline" onclick="document.getElementById('RecoverForm').hidden=false;document.getElementById('LoginForm').hidden=true;return false;">{{ 'customer.login.forgot_password' | t }}</a>
+      </div>
+      <p style="margin-top: 24px; font-size: 14px;">
+        {{ 'customer.login.new_customer' | t }}
+        <a href="{{ routes.account_register_url }}" class="link-underline" style="font-size: 13px;">{{ 'customer.register.title' | t }}</a>
+      </p>
+    {% endform %}
+  </div>
+
+  <div id="RecoverForm" hidden>
+    <h1>{{ 'customer.recover.title' | t }}</h1>
+    <p style="text-align: center; color: var(--color-fg-muted);">{{ 'customer.recover.subtext' | t }}</p>
+    {% form 'recover_customer_password' %}
+      {%- if form.posted_successfully? -%}
+        <p class="form-status form-status--success">{{ 'customer.recover.success' | t }}</p>
+      {%- endif -%}
+      {%- if form.errors -%}
+        <p class="form-status form-status--error">{{ 'customer.recover.error' | t }}</p>
+      {%- endif -%}
+      <div class="field">
+        <label for="RecoverEmail">{{ 'customer.fields.email' | t }}</label>
+        <input type="email" name="email" id="RecoverEmail" autocomplete="email" required>
+      </div>
+      <div class="customer__actions">
+        <button type="submit" class="button">{{ 'customer.recover.submit' | t }}</button>
+        <a href="#login" class="link-underline" onclick="document.getElementById('RecoverForm').hidden=true;document.getElementById('LoginForm').hidden=false;return false;">{{ 'customer.recover.cancel' | t }}</a>
+      </div>
+    {% endform %}
+  </div>
+
+  {%- if shop.checkout.guest_login -%}
+    <div style="margin-top: 48px; text-align: center;">
+      <h2 style="font-size: calc(24px * var(--heading-scale));">{{ 'customer.login.guest_title' | t }}</h2>
+      {% form 'guest_login' %}
+        <button type="submit" class="button button--primary" style="margin-top: 16px;">{{ 'customer.login.guest_continue' | t }}</button>
+      {% endform %}
+    </div>
+  {%- endif -%}
+</div>
+
+{% schema %}
+{
+  "name": "Login",
+  "tag": "section",
+  "settings": []
+}
+{% endschema %}

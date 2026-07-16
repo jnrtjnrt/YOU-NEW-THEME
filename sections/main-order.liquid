@@ -1,0 +1,81 @@
+<div class="customer customer--wide container" style="padding-top: 48px; padding-bottom: 64px;">
+  <h1>{{ 'customer.order.title' | t: name: order.name }}</h1>
+  {%- assign order_date = order.created_at | date: format: 'abbreviated_date' -%}
+  <p style="text-align: center; color: var(--color-fg-muted); margin-bottom: 40px;">
+    {{ 'customer.order.date' | t: date: order_date }}
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>{{ 'customer.order.product' | t }}</th>
+        <th>{{ 'customer.order.price' | t }}</th>
+        <th>{{ 'customer.order.quantity' | t }}</th>
+        <th>{{ 'customer.order.total' | t }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {%- for line_item in order.line_items -%}
+        <tr>
+          <td>
+            {{ line_item.title }}
+            {%- if line_item.variant.title != 'Default Title' -%}
+              <br><span style="color: var(--color-fg-muted); font-size: 13px;">{{ line_item.variant.title }}</span>
+            {%- endif -%}
+          </td>
+          <td>{{ line_item.final_price | money }}</td>
+          <td>{{ line_item.quantity }}</td>
+          <td>{{ line_item.final_line_price | money }}</td>
+        </tr>
+      {%- endfor -%}
+    </tbody>
+  </table>
+
+  <div class="cart-page__totals">
+    <div style="display: flex; justify-content: space-between; font-size: 14px;">
+      <span>{{ 'customer.order.subtotal' | t }}</span>
+      <span>{{ order.line_items_subtotal_price | money }}</span>
+    </div>
+    {%- for shipping_method in order.shipping_methods -%}
+      <div style="display: flex; justify-content: space-between; font-size: 14px;">
+        <span>{{ 'customer.order.shipping' | t }} ({{ shipping_method.title }})</span>
+        <span>{{ shipping_method.price | money }}</span>
+      </div>
+    {%- endfor -%}
+    {%- for tax_line in order.tax_lines -%}
+      <div style="display: flex; justify-content: space-between; font-size: 14px;">
+        <span>{{ 'customer.order.tax' | t }} ({{ tax_line.title }})</span>
+        <span>{{ tax_line.price | money }}</span>
+      </div>
+    {%- endfor -%}
+    <div class="cart-page__subtotal">
+      <span>{{ 'customer.order.total' | t }}</span>
+      <span>{{ order.total_price | money }}</span>
+    </div>
+  </div>
+
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 48px;">
+    <div>
+      <h2 style="font-size: calc(20px * var(--heading-scale)); margin-bottom: 12px;">{{ 'customer.order.billing_address' | t }}</h2>
+      {{ order.billing_address | format_address }}
+    </div>
+    {%- if order.shipping_address -%}
+      <div>
+        <h2 style="font-size: calc(20px * var(--heading-scale)); margin-bottom: 12px;">{{ 'customer.order.shipping_address' | t }}</h2>
+        {{ order.shipping_address | format_address }}
+      </div>
+    {%- endif -%}
+  </div>
+
+  <div style="margin-top: 40px; text-align: center;">
+    <a href="{{ routes.account_url }}" class="link-underline">← {{ 'customer.order.back' | t }}</a>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Order details",
+  "tag": "section",
+  "settings": []
+}
+{% endschema %}

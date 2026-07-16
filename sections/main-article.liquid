@@ -1,0 +1,78 @@
+<article class="container" style="padding-top: 48px; padding-bottom: 64px;">
+  <header style="text-align: center; max-width: 820px; margin: 0 auto 32px auto;">
+    {%- if section.settings.show_date -%}
+      <span class="article-card__meta">{{ article.published_at | date: format: 'abbreviated_date' }}{% if section.settings.show_author %} · {{ article.author }}{% endif %}</span>
+    {%- endif -%}
+    <h1 style="font-size: calc(56px * var(--heading-scale)); margin-top: 8px;">{{ article.title }}</h1>
+  </header>
+
+  {%- if article.image and section.settings.show_image -%}
+    <div style="max-width: 960px; margin: 0 auto 40px auto;">
+      <img src="{{ article.image | image_url: width: 1400 }}" alt="{{ article.image.alt | escape }}" loading="eager" width="{{ article.image.width }}" height="{{ article.image.height }}" style="width: 100%;">
+    </div>
+  {%- endif -%}
+
+  <div class="rte">
+    {{ article.content }}
+  </div>
+
+  <div style="max-width: 720px; margin: 48px auto 0 auto;">
+    <a href="{{ blog.url }}" class="link-underline">← {{ 'blogs.back_to_blog' | t: title: blog.title }}</a>
+  </div>
+
+  {%- if blog.comments_enabled? -%}
+    <div style="max-width: 720px; margin: 64px auto 0 auto;">
+      <h2 style="font-size: calc(28px * var(--heading-scale)); margin-bottom: 24px;">{{ 'blogs.comments_title' | t: count: article.comments_count }}</h2>
+
+      {%- paginate article.comments by 20 -%}
+        {%- for comment in article.comments -%}
+          <div style="border-top: 2px solid var(--color-border-subtle); padding: 20px 0;">
+            <p style="margin: 0 0 8px 0;">{{ comment.content }}</p>
+            <span class="article-card__meta">{{ comment.author }} · {{ comment.created_at | date: format: 'abbreviated_date' }}</span>
+          </div>
+        {%- endfor -%}
+        {% render 'pagination', paginate: paginate %}
+      {%- endpaginate -%}
+
+      {% form 'new_comment', article %}
+        <h3 style="font-size: calc(20px * var(--heading-scale)); margin: 32px 0 16px 0;">{{ 'blogs.comment_form_title' | t }}</h3>
+        {%- if form.posted_successfully? -%}
+          <p class="form-status form-status--success">{{ 'blogs.comment_success' | t }}</p>
+        {%- elsif form.errors -%}
+          <div class="form-status form-status--error">
+            <ul>
+              {%- for field in form.errors -%}
+                <li>{{ form.errors.translated_fields[field] | capitalize }} {{ form.errors.messages[field] }}</li>
+              {%- endfor -%}
+            </ul>
+          </div>
+        {%- endif -%}
+        <div class="field">
+          <label for="CommentAuthor">{{ 'blogs.comment_name' | t }}</label>
+          <input type="text" name="comment[author]" id="CommentAuthor" required value="{{ form.author }}">
+        </div>
+        <div class="field">
+          <label for="CommentEmail">{{ 'blogs.comment_email' | t }}</label>
+          <input type="email" name="comment[email]" id="CommentEmail" required value="{{ form.email }}">
+        </div>
+        <div class="field">
+          <label for="CommentBody">{{ 'blogs.comment_body' | t }}</label>
+          <textarea name="comment[body]" id="CommentBody" rows="5" required>{{ form.body }}</textarea>
+        </div>
+        <button type="submit" class="button">{{ 'blogs.comment_submit' | t }}</button>
+      {% endform %}
+    </div>
+  {%- endif -%}
+</article>
+
+{% schema %}
+{
+  "name": "Blog post",
+  "tag": "section",
+  "settings": [
+    { "type": "checkbox", "id": "show_image", "label": "Show featured image", "default": true },
+    { "type": "checkbox", "id": "show_date", "label": "Show date", "default": true },
+    { "type": "checkbox", "id": "show_author", "label": "Show author", "default": false }
+  ]
+}
+{% endschema %}

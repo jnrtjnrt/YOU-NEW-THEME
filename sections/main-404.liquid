@@ -1,0 +1,20 @@
+<div class="big-statement">
+  <h1>{{ section.settings.heading }}</h1>
+  {%- if section.settings.text != blank -%}
+    <div>{{ section.settings.text }}</div>
+  {%- endif -%}
+  <a href="{{ section.settings.button_link | default: routes.root_url }}" class="button">{{ section.settings.button_label }}</a>
+</div>
+
+{% schema %}
+{
+  "name": "404 page",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Lost, bestie?" },
+    { "type": "richtext", "id": "text", "label": "Text", "default": "<p>This page doesn't exist. The bags do, though.</p>" },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "BACK TO THE GOOD STUFF" },
+    { "type": "url", "id": "button_link", "label": "Button link" }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,205 @@
+{
+  "accessibility": {
+    "close": "Close",
+    "skip_to_content": "Skip to content"
+  },
+  "general": {
+    "meta": {
+      "page": "Page {{ page }}"
+    },
+    "header": {
+      "menu": "Menu"
+    },
+    "pagination": {
+      "label": "Pagination",
+      "previous": "Previous page",
+      "next": "Next page"
+    },
+    "search": {
+      "title": "Search",
+      "placeholder": "Search",
+      "submit": "Search",
+      "no_results": "No results for \"{{ terms }}\". Try something else.",
+      "results_count": {
+        "one": "{{ count }} result for \"{{ terms }}\"",
+        "other": "{{ count }} results for \"{{ terms }}\""
+      },
+      "type_article": "Article",
+      "type_page": "Page"
+    },
+    "password_page": {
+      "placeholder": "Password",
+      "submit": "Enter"
+    }
+  },
+  "sections": {
+    "cart": {
+      "title": "Your bag",
+      "drawer_title": "Your bag",
+      "empty": "Cart's empty. Go find something.",
+      "continue_shopping": "Continue shopping",
+      "subtotal": "Subtotal",
+      "checkout": "Continue to checkout",
+      "view_cart": "View cart",
+      "update": "Update cart",
+      "remove": "Remove",
+      "quantity": "Quantity",
+      "increase": "Increase quantity",
+      "decrease": "Decrease quantity",
+      "note_label": "Order note",
+      "taxes_note": "Taxes and shipping calculated at checkout.",
+      "error": "Something went wrong. Try again.",
+      "free_shipping_remaining": "You're {{ amount }} away from free shipping!",
+      "free_shipping_unlocked": "Free shipping unlocked. Go you."
+    },
+    "hero": {
+      "go_to_slide": "Go to slide {{ number }}"
+    },
+    "newsletter": {
+      "placeholder": "Enter Email*",
+      "success": "You're in. Watch your inbox."
+    },
+    "collection_list": {
+      "shop_now": "Shop now"
+    }
+  },
+  "collections": {
+    "items_count": {
+      "one": "{{ count }} item",
+      "other": "{{ count }} items"
+    },
+    "sort_label": "Sort by",
+    "apply": "Apply",
+    "clear_all": "Clear all",
+    "empty": "Nothing here yet. Check back soon.",
+    "grid_wide": "Show 3 columns",
+    "grid_narrow": "Show 4 columns"
+  },
+  "blogs": {
+    "empty": "No posts yet.",
+    "back_to_blog": "Back to {{ title }}",
+    "comments_title": {
+      "one": "{{ count }} comment",
+      "other": "{{ count }} comments"
+    },
+    "comment_form_title": "Leave a comment",
+    "comment_name": "Name",
+    "comment_email": "Email",
+    "comment_body": "Comment",
+    "comment_submit": "Post comment",
+    "comment_success": "Your comment was posted. If the blog is moderated it will show up shortly."
+  },
+  "products": {
+    "product": {
+      "add_to_cart": "Add to cart",
+      "sold_out": "Sold out",
+      "unavailable": "Unavailable",
+      "on_sale": "Sale",
+      "from_price": "From {{ price }}",
+      "regular_price": "Regular price",
+      "quantity": "Qty",
+      "increase_quantity": "Increase quantity",
+      "decrease_quantity": "Decrease quantity",
+      "previous_image": "Previous photo",
+      "next_image": "Next photo",
+      "view_image": "View photo {{ number }}",
+      "reviews_count": {
+        "one": "{{ count }} review",
+        "other": "{{ count }} reviews"
+      }
+    }
+  },
+  "customer": {
+    "fields": {
+      "first_name": "First name",
+      "last_name": "Last name",
+      "email": "Email",
+      "phone": "Phone",
+      "password": "Password",
+      "password_confirm": "Confirm password"
+    },
+    "login": {
+      "title": "Log in",
+      "submit": "Log in",
+      "forgot_password": "Forgot your password?",
+      "new_customer": "New around here?",
+      "guest_title": "Continue as a guest",
+      "guest_continue": "Continue"
+    },
+    "register": {
+      "title": "Create account",
+      "submit": "Create account"
+    },
+    "recover": {
+      "title": "Reset your password",
+      "subtext": "We'll email you a link to reset it.",
+      "submit": "Send link",
+      "cancel": "Back to log in",
+      "success": "If that email exists, we sent a reset link. Check your inbox.",
+      "error": "Something went wrong. Try again."
+    },
+    "reset_password": {
+      "title": "Set a new password",
+      "submit": "Save password"
+    },
+    "activate": {
+      "title": "Activate your account",
+      "subtext": "Set a password to finish setting up your account.",
+      "submit": "Activate",
+      "decline": "Decline invitation"
+    },
+    "account": {
+      "title": "Your account",
+      "back": "Back to account",
+      "log_out": "Log out"
+    },
+    "orders": {
+      "title": "Order history",
+      "none": "No orders yet. Let's fix that.",
+      "order_number": "Order",
+      "date": "Date",
+      "payment_status": "Payment",
+      "fulfillment_status": "Fulfillment",
+      "total": "Total"
+    },
+    "order": {
+      "title": "Order {{ name }}",
+      "date": "Placed on {{ date }}",
+      "back": "Back to account",
+      "product": "Product",
+      "price": "Price",
+      "quantity": "Qty",
+      "total": "Total",
+      "subtotal": "Subtotal",
+      "shipping": "Shipping",
+      "tax": "Tax",
+      "billing_address": "Billing address",
+      "shipping_address": "Shipping address"
+    },
+    "addresses": {
+      "title": "Addresses",
+      "add_new": "Add address",
+      "edit": "Edit",
+      "delete": "Delete",
+      "delete_confirm": "Delete this address?",
+      "save": "Save address",
+      "default": "Default",
+      "set_default": "Set as default address",
+      "address1": "Address",
+      "address2": "Apartment, suite, etc.",
+      "city": "City",
+      "country": "Country/region",
+      "province": "Province",
+      "zip": "Postal/ZIP code"
+    }
+  },
+  "gift_cards": {
+    "issued": {
+      "title": "Here's your {{ value }} gift card for {{ shop }}",
+      "subtext": "Use this code at checkout.",
+      "expired": "This gift card has expired.",
+      "remaining": "Remaining balance: {{ balance }}",
+      "shop_link": "Start shopping"
+    }
+  }
+}

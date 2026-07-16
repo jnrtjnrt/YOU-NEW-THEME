@@ -1,0 +1,79 @@
+{% comment %}
+  Reusable product card matching the design system
+  (image, swatches, display-font title, muted price, pill badge).
+
+  Usage: {% render 'product-card', card_product: product %}
+  Optional:
+    image_ratio  — 'square' | 'portrait' | 'natural' (defaults to theme setting)
+    show_swatches, show_badges, show_vendor — override theme settings
+    badge_color  — CSS color for the badge background (default accent)
+{% endcomment %}
+{%- liquid
+  assign ratio = image_ratio | default: settings.card_image_ratio
+  if show_swatches == nil
+    assign show_swatches = settings.card_show_swatches
+  endif
+  if show_badges == nil
+    assign show_badges = settings.card_show_badges
+  endif
+  if show_vendor == nil
+    assign show_vendor = settings.card_show_vendor
+  endif
+  assign badge_bg = badge_color | default: settings.color_accent
+
+  assign color_option = blank
+  for option in card_product.options_with_values
+    assign opt_name = option.name | downcase
+    if opt_name == 'color' or opt_name == 'colour'
+      assign color_option = option
+      break
+    endif
+  endfor
+-%}
+
+{%- if card_product and card_product != empty -%}
+<div class="product-card product-card--{{ ratio }}">
+  <a href="{{ card_product.url }}" class="product-card__link" aria-label="{{ card_product.title | escape }}">
+    <div class="product-card__media">
+      {%- if card_product.featured_media -%}
+        <img
+          srcset="{{ card_product.featured_media | image_url: width: 360 }} 360w, {{ card_product.featured_media | image_url: width: 540 }} 540w, {{ card_product.featured_media | image_url: width: 720 }} 720w"
+          src="{{ card_product.featured_media | image_url: width: 540 }}"
+          sizes="(min-width: 990px) 25vw, 50vw"
+          alt="{{ card_product.featured_media.alt | escape | default: card_product.title | escape }}"
+          loading="lazy"
+          width="{{ card_product.featured_media.width }}"
+          height="{{ card_product.featured_media.height }}"
+          class="product-card__image">
+      {%- else -%}
+        <div class="product-card__placeholder">{{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}</div>
+      {%- endif -%}
+
+      {%- if show_badges -%}
+        {%- if card_product.available == false -%}
+          <span class="product-card__badge" style="background: {{ settings.color_text }};">{{ 'products.product.sold_out' | t }}</span>
+        {%- elsif card_product.compare_at_price > card_product.price -%}
+          <span class="product-card__badge" style="background: {{ badge_bg }};">{{ 'products.product.on_sale' | t }}</span>
+        {%- endif -%}
+      {%- endif -%}
+    </div>
+
+    {%- if show_swatches and color_option != blank -%}
+      <div class="product-card__swatches" aria-hidden="true">
+        {%- for value in color_option.values limit: 6 -%}
+          {%- capture swatch_bg %}{% render 'swatch-color', value: value %}{% endcapture -%}
+          <span class="product-card__swatch" style="background: {{ swatch_bg | strip }};" title="{{ value | escape }}"></span>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+    <div class="product-card__info">
+      {%- if show_vendor -%}
+        <span class="product-card__vendor">{{ card_product.vendor }}</span>
+      {%- endif -%}
+      <span class="product-card__title">{{ card_product.title }}</span>
+      {% render 'price', product: card_product, show_range: true, class: 'product-card__price' %}
+    </div>
+  </a>
+</div>
+{%- endif -%}

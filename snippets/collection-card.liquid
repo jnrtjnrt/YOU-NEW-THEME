@@ -1,0 +1,45 @@
+{% comment %}
+  Collection/category card: full-bleed image, bottom gradient overlay,
+  big display-font title, centered button.
+
+  Usage: {% render 'collection-card', card_collection: collection %}
+  Optional:
+    card_image   — image override (defaults to the collection image)
+    card_title   — title override
+    card_link    — url override
+    button_label — button text (default "Shop now"), blank hides the button
+    height       — px height (defaults to theme setting)
+{% endcomment %}
+{%- liquid
+  assign title = card_title | default: card_collection.title
+  assign link = card_link | default: card_collection.url
+  assign image = card_image | default: card_collection.featured_image
+  assign card_height = height | default: settings.collection_card_height
+  assign overlay = settings.collection_card_overlay | divided_by: 100.0
+  if button_label == nil
+    assign button_label = 'sections.collection_list.shop_now' | t
+  endif
+-%}
+
+<a href="{{ link | default: routes.all_products_collection_url }}" class="collection-card{% if settings.collection_card_hover_zoom %} collection-card--zoom{% endif %}" style="height: {{ card_height }}px;">
+  {%- if image -%}
+    <img
+      srcset="{{ image | image_url: width: 550 }} 550w, {{ image | image_url: width: 940 }} 940w, {{ image | image_url: width: 1200 }} 1200w"
+      src="{{ image | image_url: width: 940 }}"
+      sizes="(min-width: 990px) 33vw, 100vw"
+      alt="{{ image.alt | default: title | escape }}"
+      loading="lazy"
+      width="{{ image.width }}"
+      height="{{ image.height }}"
+      class="collection-card__image">
+  {%- else -%}
+    <div class="collection-card__placeholder">{{ 'collection-1' | placeholder_svg_tag: 'placeholder-svg' }}</div>
+  {%- endif -%}
+
+  <div class="collection-card__overlay" style="background: linear-gradient(0deg, rgba(26,26,26,{{ overlay }}) 0%, rgba(26,26,26,{{ overlay | times: 0.6 }}) 55%, rgba(26,26,26,0) 100%);">
+    <h3 class="collection-card__title">{{ title }}</h3>
+    {%- if settings.collection_card_show_button and button_label != blank -%}
+      <span class="button button--secondary">{{ button_label }}</span>
+    {%- endif -%}
+  </div>
+</a>

@@ -1,0 +1,19 @@
+<div class="container" style="padding-top: {{ section.settings.padding }}px; padding-bottom: {{ section.settings.padding }}px;">
+  {%- if section.settings.show_title -%}
+    <h1 class="page-title">{{ page.title }}</h1>
+  {%- endif -%}
+  <div class="rte">
+    {{ page.content }}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Page content",
+  "tag": "section",
+  "settings": [
+    { "type": "checkbox", "id": "show_title", "label": "Show page title", "default": true },
+    { "type": "range", "id": "padding", "label": "Vertical padding", "min": 0, "max": 128, "step": 4, "unit": "px", "default": 64 }
+  ]
+}
+{% endschema %}

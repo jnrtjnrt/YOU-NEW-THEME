@@ -1,0 +1,165 @@
+<div
+  class="hero"
+  data-hero-carousel
+  data-autoplay="{{ section.settings.autoplay }}"
+  data-autoplay-speed="{{ section.settings.autoplay_speed }}"
+  style="position: relative; width: 100%; height: {{ section.settings.height }}px; overflow: hidden;">
+
+  {%- for block in section.blocks -%}
+    <div
+      class="hero__slide{% if forloop.first %} is-active{% endif %}"
+      data-hero-slide
+      aria-hidden="{% if forloop.first %}false{% else %}true{% endif %}"
+      style="position: absolute; inset: 0; opacity: {% if forloop.first %}1{% else %}0{% endif %}; transition: opacity 400ms var(--ease-snap);"
+      {{ block.shopify_attributes }}>
+
+      {%- if block.settings.image != blank -%}
+        <img
+          srcset="{{ block.settings.image | image_url: width: 750 }} 750w, {{ block.settings.image | image_url: width: 1500 }} 1500w, {{ block.settings.image | image_url: width: 2200 }} 2200w"
+          src="{{ block.settings.image | image_url: width: 1500 }}"
+          sizes="100vw"
+          alt="{{ block.settings.image.alt | default: block.settings.heading | escape }}"
+          {% if forloop.first %}fetchpriority="high" loading="eager"{% else %}loading="lazy"{% endif %}
+          width="{{ block.settings.image.width }}"
+          height="{{ block.settings.image.height }}"
+          style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;">
+      {%- else -%}
+        <div style="position: absolute; inset: 0; background: {{ block.settings.fallback_color }};"></div>
+      {%- endif -%}
+
+      <div style="position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: flex-end; padding: 48px var(--gutter); background: linear-gradient(0deg, rgba(26,26,26,{{ section.settings.overlay_opacity | divided_by: 100.0 }}) 0%, rgba(26,26,26,{{ section.settings.overlay_opacity | divided_by: 100.0 | times: 0.65 }}) 60%, rgba(26,26,26,0) 100%);">
+        {%- if block.settings.eyebrow != blank -%}
+          <span class="eyebrow" style="color: {{ block.settings.text_color }}; margin-bottom: 6px;">{{ block.settings.eyebrow }}</span>
+        {%- endif -%}
+        {%- if block.settings.heading != blank -%}
+          <h2 style="font-size: calc({{ section.settings.heading_size }}px * var(--heading-scale)); line-height: 1.1; color: {{ block.settings.text_color }}; margin: 0 0 20px 0; max-width: 900px;">
+            {{- block.settings.heading -}}
+            {%- if block.settings.heading_accent != blank -%}
+              <span style="color: {{ block.settings.accent_color }}; font-style: italic;"> {{ block.settings.heading_accent }}</span>
+            {%- endif -%}
+          </h2>
+        {%- endif -%}
+        {%- if block.settings.button_label != blank -%}
+          <div>
+            <a href="{{ block.settings.button_link | default: routes.all_products_collection_url }}" class="button">{{ block.settings.button_label }}</a>
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  {%- endfor -%}
+
+  {%- if section.settings.show_dots and section.blocks.size > 1 -%}
+    <div style="position: absolute; bottom: 24px; right: var(--gutter); display: flex; gap: 10px; z-index: 2;">
+      {%- for block in section.blocks -%}
+        <button
+          type="button"
+          data-hero-dot
+          class="hero__dot{% if forloop.first %} is-active{% endif %}"
+          aria-label="{{ 'sections.hero.go_to_slide' | t: number: forloop.index }}"
+          style="width: 12px; height: 12px; border-radius: 50%; border: 2px solid var(--color-fg-inverse); background: transparent; cursor: pointer; padding: 0;"></button>
+      {%- endfor -%}
+    </div>
+    <style>
+      #shopify-section-{{ section.id }} .hero__dot.is-active { background: var(--color-fg-inverse) !important; }
+    </style>
+  {%- endif -%}
+</div>
+
+<style>
+  @media (max-width: 749px) {
+    #shopify-section-{{ section.id }} .hero { height: {{ section.settings.height | times: 0.7 | round }}px !important; }
+    #shopify-section-{{ section.id }} .hero h2 { font-size: calc({{ section.settings.heading_size | times: 0.5 | round }}px * var(--heading-scale)) !important; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Hero carousel",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "range",
+      "id": "height",
+      "label": "Height",
+      "min": 400,
+      "max": 900,
+      "step": 20,
+      "unit": "px",
+      "default": 760
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "label": "Headline size",
+      "min": 40,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 76
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Overlay darkness",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 85
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay",
+      "label": "Auto-rotate slides",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "autoplay_speed",
+      "label": "Change slides every",
+      "min": 3,
+      "max": 10,
+      "step": 1,
+      "unit": "s",
+      "default": 5
+    },
+    {
+      "type": "checkbox",
+      "id": "show_dots",
+      "label": "Show navigation dots",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Slide",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "color", "id": "fallback_color", "label": "Background color (no image)", "default": "#1A1A1A" },
+        { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Made By YOU" },
+        { "type": "text", "id": "heading", "label": "Headline", "default": "Unapologetically" },
+        { "type": "text", "id": "heading_accent", "label": "Accented word", "default": "you.", "info": "Rendered italic in the accent color after the headline." },
+        { "type": "color", "id": "accent_color", "label": "Accent color", "default": "#D4E84A" },
+        { "type": "color", "id": "text_color", "label": "Text color", "default": "#FDFEFF" },
+        { "type": "text", "id": "button_label", "label": "Button label", "default": "GO OFF THEN" },
+        { "type": "url", "id": "button_link", "label": "Button link" }
+      ]
+    }
+  ],
+  "max_blocks": 5,
+  "presets": [
+    {
+      "name": "Hero carousel",
+      "blocks": [
+        { "type": "slide" },
+        { "type": "slide", "settings": { "eyebrow": "New", "heading": "Zero effort, all drip.", "heading_accent": "", "button_label": "TAKE MY MONEY" } },
+        { "type": "slide", "settings": { "eyebrow": "Mix & Match", "heading": "Straps for every mood.", "heading_accent": "", "button_label": "I GUESS I'LL LOOK" } }
+      ]
+    }
+  ],
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  }
+}
+{% endschema %}

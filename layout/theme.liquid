@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="{{ settings.color_background }}">
+  <link rel="canonical" href="{{ canonical_url }}">
+
+  {%- if settings.favicon != blank -%}
+    <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
+  {%- endif -%}
+
+  <title>
+    {{ page_title }}
+    {%- if current_tags %} &ndash; {{ current_tags | join: ', ' }}{% endif -%}
+    {%- if current_page != 1 %} &ndash; {{ 'general.meta.page' | t: page: current_page }}{% endif -%}
+    {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
+  </title>
+
+  {% if page_description %}
+    <meta name="description" content="{{ page_description | escape }}">
+  {% endif %}
+
+  {% render 'meta-tags' %}
+  {% render 'css-variables' %}
+
+  {{ 'base.css' | asset_url | stylesheet_tag }}
+  <script src="{{ 'theme.js' | asset_url }}" defer="defer"></script>
+
+  {{ content_for_header }}
+</head>
+
+<body class="template-{{ request.page_type | handle }}" data-cart-type="{{ settings.cart_type }}">
+  <a class="skip-link" href="#MainContent">{{ 'accessibility.skip_to_content' | t }}</a>
+
+  {% sections 'header-group' %}
+
+  <main id="MainContent" role="main" tabindex="-1">
+    {{ content_for_layout }}
+  </main>
+
+  {% sections 'footer-group' %}
+
+  {% section 'cart-drawer' %}
+
+  <script>
+    window.routes = {
+      root_url: '{{ routes.root_url }}',
+      cart_url: '{{ routes.cart_url }}',
+      cart_add_url: '{{ routes.cart_add_url }}',
+      cart_change_url: '{{ routes.cart_change_url }}',
+      cart_update_url: '{{ routes.cart_update_url }}',
+      predictive_search_url: '{{ routes.predictive_search_url }}'
+    };
+    window.themeStrings = {
+      addToCart: {{ 'products.product.add_to_cart' | t | json }},
+      soldOut: {{ 'products.product.sold_out' | t | json }},
+      unavailable: {{ 'products.product.unavailable' | t | json }},
+      cartError: {{ 'sections.cart.error' | t | json }}
+    };
+  </script>
+</body>
+</html>

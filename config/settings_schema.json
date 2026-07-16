@@ -1,0 +1,159 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "YOU",
+    "theme_version": "1.0.0",
+    "theme_author": "YOU",
+    "theme_documentation_url": "https://github.com/jnrtjnrt/YOU-NEW-THEME",
+    "theme_support_url": "https://github.com/jnrtjnrt/YOU-NEW-THEME/issues"
+  },
+  {
+    "name": "Colors",
+    "settings": [
+      { "type": "header", "content": "Base" },
+      { "type": "color", "id": "color_background", "label": "Background", "default": "#FDFEFF", "info": "Brand cream — used instead of pure white." },
+      { "type": "color", "id": "color_surface", "label": "Surface (cards)", "default": "#FFFFFF" },
+      { "type": "color", "id": "color_text", "label": "Text", "default": "#1A1A1A" },
+      { "type": "color", "id": "color_text_muted", "label": "Muted text", "default": "#6B6B6B" },
+      { "type": "color", "id": "color_border_subtle", "label": "Subtle borders", "default": "#D9D6D0" },
+      { "type": "header", "content": "Inverse (dark sections)" },
+      { "type": "color", "id": "color_background_inverse", "label": "Inverse background", "default": "#1A1A1A" },
+      { "type": "color", "id": "color_text_inverse", "label": "Inverse text", "default": "#FDFEFF" },
+      { "type": "header", "content": "Accents" },
+      { "type": "color", "id": "color_accent", "label": "Primary accent (CTAs, sale)", "default": "#E8401C" },
+      { "type": "color", "id": "color_accent_alt", "label": "Alternate accent", "default": "#2B6BE6" },
+      { "type": "color", "id": "color_accent_warm", "label": "Warm accent", "default": "#F5A623" },
+      { "type": "color", "id": "color_accent_wild", "label": "Wild accent", "default": "#E535AB" },
+      { "type": "color", "id": "color_accent_hivis", "label": "Hi-vis accent", "default": "#D4E84A" },
+      { "type": "color", "id": "color_accent_calm", "label": "Calm accent", "default": "#3DBFA0" },
+      { "type": "header", "content": "Feedback" },
+      { "type": "color", "id": "color_success", "label": "Success", "default": "#3DBFA0" },
+      { "type": "color", "id": "color_danger", "label": "Error", "default": "#E8401C" }
+    ]
+  },
+  {
+    "name": "Typography",
+    "settings": [
+      { "type": "checkbox", "id": "use_brand_fonts", "label": "Use YOU brand fonts", "info": "Loads Bricolage Grotesque (display), Cormorant Garamond (serif accents) and Archivo (body) from Google Fonts. Uncheck to use the Shopify font pickers below.", "default": true },
+      { "type": "font_picker", "id": "type_heading_font", "label": "Heading font", "default": "archivo_n7", "info": "Used when brand fonts are disabled." },
+      { "type": "font_picker", "id": "type_body_font", "label": "Body font", "default": "archivo_n4", "info": "Used when brand fonts are disabled." },
+      { "type": "header", "content": "Scale" },
+      { "type": "range", "id": "heading_scale", "label": "Heading size scale", "min": 70, "max": 130, "step": 5, "unit": "%", "default": 100 },
+      { "type": "range", "id": "body_size", "label": "Base body size", "min": 14, "max": 18, "step": 1, "unit": "px", "default": 16 },
+      { "type": "checkbox", "id": "headings_uppercase", "label": "Uppercase headings", "default": true },
+      { "type": "range", "id": "heading_tracking", "label": "Heading letter-spacing", "min": -4, "max": 2, "step": 1, "unit": "px", "default": -1, "info": "Negative values give the tight, poster-like brand look." }
+    ]
+  },
+  {
+    "name": "Layout",
+    "settings": [
+      { "type": "range", "id": "page_width", "label": "Page content width", "min": 1000, "max": 1600, "step": 20, "unit": "px", "default": 1280 },
+      { "type": "range", "id": "page_gutter", "label": "Page side padding", "min": 16, "max": 64, "step": 4, "unit": "px", "default": 40 },
+      { "type": "range", "id": "section_spacing", "label": "Default section vertical padding", "min": 0, "max": 128, "step": 4, "unit": "px", "default": 64 },
+      { "type": "range", "id": "grid_gap", "label": "Grid gap", "min": 4, "max": 48, "step": 2, "unit": "px", "default": 20 }
+    ]
+  },
+  {
+    "name": "Buttons",
+    "settings": [
+      { "type": "select", "id": "button_shape", "label": "Button shape", "options": [
+        { "value": "pill", "label": "Pill" },
+        { "value": "square", "label": "Sharp corners" }
+      ], "default": "pill" },
+      { "type": "checkbox", "id": "button_uppercase", "label": "Uppercase button text", "default": true },
+      { "type": "range", "id": "button_text_size", "label": "Button text size", "min": 12, "max": 18, "step": 1, "unit": "px", "default": 15 },
+      { "type": "select", "id": "button_hover_effect", "label": "Hover effect", "options": [
+        { "value": "lift", "label": "Lift (brand default)" },
+        { "value": "none", "label": "None" }
+      ], "default": "lift" }
+    ]
+  },
+  {
+    "name": "Product cards",
+    "settings": [
+      { "type": "select", "id": "card_image_ratio", "label": "Image aspect ratio", "options": [
+        { "value": "square", "label": "Square (1:1)" },
+        { "value": "portrait", "label": "Portrait (3:4)" },
+        { "value": "natural", "label": "Natural" }
+      ], "default": "portrait" },
+      { "type": "checkbox", "id": "card_show_swatches", "label": "Show color swatches", "default": true },
+      { "type": "checkbox", "id": "card_show_badges", "label": "Show badges (Sale, Sold out)", "default": true },
+      { "type": "checkbox", "id": "card_show_vendor", "label": "Show vendor", "default": false },
+      { "type": "checkbox", "id": "card_hover_zoom", "label": "Zoom image on hover", "default": true },
+      { "type": "select", "id": "card_text_align", "label": "Text alignment", "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" }
+      ], "default": "left" },
+      { "type": "header", "content": "Swatch colors" },
+      { "type": "textarea", "id": "swatch_colors", "label": "Custom swatch colors", "info": "One per line, as Name:Color. Example — Volt:#D4E84A. Option values not listed here fall back to the value as a CSS color.", "default": "Red:#E8401C\nCherry:#E8401C\nOrange:#F5A623\nBlue:#2B6BE6\nBlack:#1A1A1A\nRich Black:#1A1A1A\nBright Orange:#FF7A00\nVolt:#D4E84A\nPink:#E535AB\nSage:#3DBFA0\nCyan:#005F60\nCream:#FDFEFF" }
+    ]
+  },
+  {
+    "name": "Collection cards",
+    "settings": [
+      { "type": "range", "id": "collection_card_height", "label": "Card height", "min": 280, "max": 700, "step": 20, "unit": "px", "default": 520 },
+      { "type": "range", "id": "collection_card_overlay", "label": "Overlay darkness", "min": 0, "max": 100, "step": 5, "unit": "%", "default": 85 },
+      { "type": "checkbox", "id": "collection_card_show_button", "label": "Show button", "default": true },
+      { "type": "checkbox", "id": "collection_card_hover_zoom", "label": "Zoom image on hover", "default": true }
+    ]
+  },
+  {
+    "name": "Header",
+    "settings": [
+      { "type": "checkbox", "id": "header_sticky", "label": "Sticky header", "default": true },
+      { "type": "checkbox", "id": "header_show_search", "label": "Show search icon", "default": true },
+      { "type": "checkbox", "id": "header_show_account", "label": "Show account icon", "default": true },
+      { "type": "color", "id": "header_background", "label": "Header background", "default": "#FDFEFF" },
+      { "type": "color", "id": "header_cart_bubble", "label": "Cart count bubble", "default": "#E8401C" }
+    ]
+  },
+  {
+    "name": "Footer",
+    "settings": [
+      { "type": "color", "id": "footer_background", "label": "Footer background", "default": "#1A1A1A" },
+      { "type": "color", "id": "footer_text", "label": "Footer text", "default": "#FDFEFF" },
+      { "type": "color", "id": "footer_heading", "label": "Footer column headings", "default": "#D4E84A" }
+    ]
+  },
+  {
+    "name": "Animations",
+    "settings": [
+      { "type": "checkbox", "id": "animations_enabled", "label": "Enable animations", "default": true, "info": "Respects the visitor's reduced-motion preference automatically." },
+      { "type": "select", "id": "animations_speed", "label": "Speed", "options": [
+        { "value": "fast", "label": "Snappy (brand default)" },
+        { "value": "normal", "label": "Normal" },
+        { "value": "slow", "label": "Relaxed" }
+      ], "default": "fast" },
+      { "type": "checkbox", "id": "animations_hover_lift", "label": "Lift buttons on hover", "default": true },
+      { "type": "checkbox", "id": "animations_image_zoom", "label": "Zoom images on hover", "default": true }
+    ]
+  },
+  {
+    "name": "Cart",
+    "settings": [
+      { "type": "select", "id": "cart_type", "label": "Cart type", "options": [
+        { "value": "drawer", "label": "Drawer" },
+        { "value": "page", "label": "Page" }
+      ], "default": "drawer" },
+      { "type": "checkbox", "id": "cart_show_free_shipping_bar", "label": "Show free shipping progress", "default": true },
+      { "type": "range", "id": "cart_free_shipping_threshold", "label": "Free shipping threshold", "min": 0, "max": 10000, "step": 100, "unit": "₱", "default": 2000, "info": "In your store currency. Set to 0 to hide." }
+    ]
+  },
+  {
+    "name": "Social media",
+    "settings": [
+      { "type": "text", "id": "social_facebook_label", "label": "Facebook label", "default": "Facebook · YOU Bags" },
+      { "type": "url", "id": "social_facebook_link", "label": "Facebook link" },
+      { "type": "text", "id": "social_instagram_label", "label": "Instagram label", "default": "Instagram · @youofficialstore" },
+      { "type": "url", "id": "social_instagram_link", "label": "Instagram link" },
+      { "type": "text", "id": "social_tiktok_label", "label": "TikTok label", "default": "TikTok · @youofficialstore" },
+      { "type": "url", "id": "social_tiktok_link", "label": "TikTok link" }
+    ]
+  },
+  {
+    "name": "Favicon",
+    "settings": [
+      { "type": "image_picker", "id": "favicon", "label": "Favicon image", "info": "Will be scaled down to 32 x 32px" }
+    ]
+  }
+]

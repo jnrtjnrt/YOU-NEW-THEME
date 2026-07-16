@@ -1,0 +1,35 @@
+<div class="customer container" style="padding-top: 48px; padding-bottom: 64px;">
+  <h1>{{ 'customer.activate.title' | t }}</h1>
+  <p style="text-align: center; color: var(--color-fg-muted);">{{ 'customer.activate.subtext' | t }}</p>
+  {% form 'activate_customer_password' %}
+    {%- if form.errors -%}
+      <div class="form-status form-status--error">
+        <ul>
+          {%- for field in form.errors -%}
+            <li>{{ form.errors.translated_fields[field] | capitalize }} {{ form.errors.messages[field] }}</li>
+          {%- endfor -%}
+        </ul>
+      </div>
+    {%- endif -%}
+    <div class="field">
+      <label for="ActivatePassword">{{ 'customer.fields.password' | t }}</label>
+      <input type="password" name="customer[password]" id="ActivatePassword" autocomplete="new-password" required>
+    </div>
+    <div class="field">
+      <label for="ActivatePasswordConfirm">{{ 'customer.fields.password_confirm' | t }}</label>
+      <input type="password" name="customer[password_confirmation]" id="ActivatePasswordConfirm" autocomplete="new-password" required>
+    </div>
+    <div class="customer__actions">
+      <button type="submit" class="button">{{ 'customer.activate.submit' | t }}</button>
+      <button type="submit" class="button button--secondary" name="decline" style="border: 2px solid var(--color-fg);">{{ 'customer.activate.decline' | t }}</button>
+    </div>
+  {% endform %}
+</div>
+
+{% schema %}
+{
+  "name": "Activate account",
+  "tag": "section",
+  "settings": []
+}
+{% endschema %}

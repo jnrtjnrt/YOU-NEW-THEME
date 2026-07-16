@@ -1,0 +1,23 @@
+<div class="container" style="padding-top: 48px; padding-bottom: 64px;">
+  <h1 class="page-title">{{ section.settings.heading }}</h1>
+
+  {%- paginate collections by 12 -%}
+    <div class="grid grid--3">
+      {%- for collection in collections -%}
+        {% render 'collection-card', card_collection: collection, height: section.settings.card_height %}
+      {%- endfor -%}
+    </div>
+    {% render 'pagination', paginate: paginate %}
+  {%- endpaginate -%}
+</div>
+
+{% schema %}
+{
+  "name": "Collections list",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Collections" },
+    { "type": "range", "id": "card_height", "label": "Card height", "min": 240, "max": 640, "step": 20, "unit": "px", "default": 400 }
+  ]
+}
+{% endschema %}

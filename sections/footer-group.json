@@ -1,0 +1,38 @@
+{
+  "type": "footer",
+  "name": "Footer group",
+  "sections": {
+    "footer": {
+      "type": "footer",
+      "blocks": {
+        "shop_menu": {
+          "type": "menu",
+          "settings": {
+            "heading": "Shop",
+            "menu": "footer"
+          }
+        },
+        "help_menu": {
+          "type": "menu",
+          "settings": {
+            "heading": "Need Help?",
+            "menu": "footer"
+          }
+        },
+        "social": {
+          "type": "social",
+          "settings": {
+            "heading": "Follow"
+          }
+        }
+      },
+      "block_order": ["shop_menu", "help_menu", "social"],
+      "settings": {
+        "tagline": "A bag is more than something you wear — it's a part of your everyday story.",
+        "hashtags": "#MadeByYOU #YOUBags",
+        "padding_top": 64
+      }
+    }
+  },
+  "order": ["footer"]
+}

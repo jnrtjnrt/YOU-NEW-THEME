@@ -1,0 +1,99 @@
+<div style="padding: {{ section.settings.gap }}px {{ section.settings.gap }}px 0 {{ section.settings.gap }}px;">
+  <div class="grid category-cards__grid" style="grid-template-columns: repeat({{ section.settings.columns }}, 1fr); gap: {{ section.settings.gap }}px;">
+    {%- for block in section.blocks -%}
+      <div {{ block.shopify_attributes }}>
+        {%- liquid
+          assign card_title = block.settings.title
+          if card_title == blank
+            assign card_title = block.settings.collection.title
+          endif
+          assign card_image = block.settings.image
+          if card_image == blank
+            assign card_image = block.settings.collection.featured_image
+          endif
+        -%}
+        {% render 'collection-card',
+          card_collection: block.settings.collection,
+          card_image: card_image,
+          card_title: card_title,
+          button_label: block.settings.button_label,
+          height: section.settings.height
+        %}
+      </div>
+    {%- endfor -%}
+  </div>
+</div>
+
+<style>
+  @media (max-width: 989px) {
+    #shopify-section-{{ section.id }} .category-cards__grid { grid-template-columns: 1fr !important; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Category cards",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "range",
+      "id": "columns",
+      "label": "Columns",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "height",
+      "label": "Card height",
+      "min": 280,
+      "max": 700,
+      "step": 20,
+      "unit": "px",
+      "default": 520
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "label": "Gap between cards",
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 5
+    },
+    {
+      "type": "paragraph",
+      "content": "Card height, overlay and hover behaviour also follow Theme settings > Collection cards."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "card",
+      "name": "Category card",
+      "settings": [
+        { "type": "collection", "id": "collection", "label": "Collection" },
+        { "type": "image_picker", "id": "image", "label": "Image override", "info": "Defaults to the collection image." },
+        { "type": "text", "id": "title", "label": "Title override", "info": "Defaults to the collection title." },
+        { "type": "text", "id": "button_label", "label": "Button label", "default": "SHOP NOW" }
+      ]
+    }
+  ],
+  "max_blocks": 8,
+  "presets": [
+    {
+      "name": "Category cards",
+      "blocks": [
+        { "type": "card", "settings": { "button_label": "OBVIOUSLY" } },
+        { "type": "card", "settings": { "button_label": "PICK YOUR MOOD" } },
+        { "type": "card", "settings": { "button_label": "THE EXTRAS" } }
+      ]
+    }
+  ],
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  }
+}
+{% endschema %}

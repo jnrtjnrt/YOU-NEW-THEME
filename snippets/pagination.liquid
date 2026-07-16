@@ -1,0 +1,23 @@
+{% comment %}
+  Renders pagination controls for a paginate object.
+  Usage inside {% paginate %}: {% render 'pagination', paginate: paginate %}
+{% endcomment %}
+{%- if paginate.pages > 1 -%}
+<nav class="pagination" role="navigation" aria-label="{{ 'general.pagination.label' | t }}">
+  {%- if paginate.previous -%}
+    <a href="{{ paginate.previous.url }}" class="pagination__item pagination__arrow" aria-label="{{ 'general.pagination.previous' | t }}">{% render 'icon', icon: 'arrow-left', size: 16 %}</a>
+  {%- endif -%}
+  {%- for part in paginate.parts -%}
+    {%- if part.is_link -%}
+      <a href="{{ part.url }}" class="pagination__item">{{ part.title }}</a>
+    {%- elsif part.title == paginate.current_page -%}
+      <span class="pagination__item pagination__item--current" aria-current="page">{{ part.title }}</span>
+    {%- else -%}
+      <span class="pagination__item pagination__item--gap">{{ part.title }}</span>
+    {%- endif -%}
+  {%- endfor -%}
+  {%- if paginate.next -%}
+    <a href="{{ paginate.next.url }}" class="pagination__item pagination__arrow" aria-label="{{ 'general.pagination.next' | t }}">{% render 'icon', icon: 'arrow-right', size: 16 %}</a>
+  {%- endif -%}
+</nav>
+{%- endif -%}

@@ -1,0 +1,48 @@
+<div class="customer customer--wide container" style="padding-top: 48px; padding-bottom: 64px;">
+  <h1>{{ 'customer.account.title' | t }}</h1>
+  <div class="customer__actions" style="justify-content: center; margin-bottom: 40px;">
+    <span style="font-size: 14px;">{{ customer.email }}</span>
+    <a href="{{ routes.account_addresses_url }}" class="link-underline">{{ 'customer.addresses.title' | t }} ({{ customer.addresses_count }})</a>
+    <a href="{{ routes.account_logout_url }}" class="link-underline">{{ 'customer.account.log_out' | t }}</a>
+  </div>
+
+  <h2 style="font-size: calc(24px * var(--heading-scale)); margin-bottom: 16px;">{{ 'customer.orders.title' | t }}</h2>
+
+  {%- paginate customer.orders by 20 -%}
+    {%- if customer.orders.size > 0 -%}
+      <table>
+        <thead>
+          <tr>
+            <th>{{ 'customer.orders.order_number' | t }}</th>
+            <th>{{ 'customer.orders.date' | t }}</th>
+            <th>{{ 'customer.orders.payment_status' | t }}</th>
+            <th>{{ 'customer.orders.fulfillment_status' | t }}</th>
+            <th>{{ 'customer.orders.total' | t }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {%- for order in customer.orders -%}
+            <tr>
+              <td><a href="{{ order.customer_url }}" class="link-underline" style="font-size: 13px;">{{ order.name }}</a></td>
+              <td>{{ order.created_at | date: format: 'abbreviated_date' }}</td>
+              <td>{{ order.financial_status_label }}</td>
+              <td>{{ order.fulfillment_status_label }}</td>
+              <td>{{ order.total_price | money }}</td>
+            </tr>
+          {%- endfor -%}
+        </tbody>
+      </table>
+    {%- else -%}
+      <p style="color: var(--color-fg-muted);">{{ 'customer.orders.none' | t }}</p>
+    {%- endif -%}
+    {% render 'pagination', paginate: paginate %}
+  {%- endpaginate -%}
+</div>
+
+{% schema %}
+{
+  "name": "Account",
+  "tag": "section",
+  "settings": []
+}
+{% endschema %}

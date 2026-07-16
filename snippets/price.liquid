@@ -1,0 +1,36 @@
+{% comment %}
+  Renders price for a product or variant.
+  Usage: {% render 'price', product: product %}
+         {% render 'price', variant: variant %}
+  Optional: class (extra CSS class), show_range (true on cards for price ranges)
+{% endcomment %}
+{%- liquid
+  if variant
+    assign price = variant.price
+    assign compare_at = variant.compare_at_price
+    assign price_varies = false
+  else
+    assign target = product
+    assign price = target.price
+    assign compare_at = target.compare_at_price
+    assign price_varies = target.price_varies
+  endif
+  assign on_sale = false
+  if compare_at > price
+    assign on_sale = true
+  endif
+-%}
+<span class="price {{ class }}{% if on_sale %} price--on-sale{% endif %}">
+  {%- if price_varies and show_range -%}
+    {%- assign from_price = price | money -%}
+    <span class="price__current">{{ 'products.product.from_price' | t: price: from_price }}</span>
+  {%- else -%}
+    <span class="price__current">{{ price | money }}</span>
+    {%- if on_sale -%}
+      <s class="price__compare">
+        <span class="visually-hidden">{{ 'products.product.regular_price' | t }}</span>
+        {{ compare_at | money }}
+      </s>
+    {%- endif -%}
+  {%- endif -%}
+</span>

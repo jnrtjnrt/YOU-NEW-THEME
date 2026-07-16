@@ -1,0 +1,135 @@
+<div class="header-wrapper{% if settings.header_sticky %} header-wrapper--sticky{% endif %}">
+  <header class="header">
+    {%- if section.settings.menu != blank -%}
+      <button class="icon-button header__menu-toggle" data-menu-toggle aria-expanded="false" aria-controls="MenuDrawer" aria-label="{{ 'general.header.menu' | t }}">
+        {% render 'icon', icon: 'hamburger' %}
+      </button>
+    {%- endif -%}
+
+    <a href="{{ routes.root_url }}" class="header__logo">
+      {%- if section.settings.logo != blank -%}
+        {%- assign logo_height = section.settings.logo_height -%}
+        <img
+          src="{{ section.settings.logo | image_url: height: logo_height }}"
+          srcset="{{ section.settings.logo | image_url: height: logo_height }} 1x, {{ section.settings.logo | image_url: height: logo_height, scale: 2 }} 2x"
+          alt="{{ shop.name | escape }}"
+          loading="eager"
+          style="height: {{ logo_height }}px; width: auto;"
+          width="{{ section.settings.logo.width }}"
+          height="{{ logo_height }}">
+      {%- else -%}
+        <span class="header__logo-text">{{ shop.name }}</span>
+      {%- endif -%}
+    </a>
+
+    <nav class="header__nav" aria-label="{{ 'general.header.menu' | t }}">
+      {%- for link in section.settings.menu.links -%}
+        <a href="{{ link.url }}" class="header__nav-link"{% if link.current %} aria-current="page"{% endif %}>{{ link.title }}</a>
+      {%- endfor -%}
+      {%- if section.settings.pill_label != blank -%}
+        <a href="{{ section.settings.pill_link | default: routes.root_url }}" class="header__nav-pill" style="background: {{ section.settings.pill_color }}; color: {{ section.settings.pill_text_color }};">{{ section.settings.pill_label }}</a>
+      {%- endif -%}
+    </nav>
+
+    <div class="header__icons">
+      {%- if settings.header_show_search -%}
+        <button class="icon-button" data-search-toggle aria-expanded="false" aria-controls="HeaderSearch" aria-label="{{ 'general.search.title' | t }}">
+          {% render 'icon', icon: 'search' %}
+        </button>
+      {%- endif -%}
+      {%- if settings.header_show_account and shop.customer_accounts_enabled -%}
+        <a class="icon-button" href="{{ routes.account_url }}" aria-label="{{ 'customer.account.title' | t }}">
+          {% render 'icon', icon: 'account' %}
+        </a>
+      {%- endif -%}
+      <a class="icon-button header__cart" href="{{ routes.cart_url }}" data-cart-drawer-open aria-label="{{ 'sections.cart.title' | t }}">
+        {% render 'icon', icon: 'bag' %}
+        <span class="header__cart-bubble" data-cart-bubble data-count="{{ cart.item_count }}">{{ cart.item_count }}</span>
+      </a>
+    </div>
+  </header>
+
+  {%- if settings.header_show_search -%}
+    <div class="header-search" id="HeaderSearch">
+      <form action="{{ routes.search_url }}" method="get" role="search">
+        <input class="input" type="search" name="q" value="{{ search.terms | escape }}" placeholder="{{ 'general.search.placeholder' | t }}" aria-label="{{ 'general.search.title' | t }}">
+        <input type="hidden" name="options[prefix]" value="last">
+        <button type="submit" class="button button--md">{{ 'general.search.submit' | t }}</button>
+      </form>
+    </div>
+  {%- endif -%}
+</div>
+
+{%- if section.settings.menu != blank -%}
+  <button class="scrim" data-scrim="menu" data-menu-close aria-label="{{ 'accessibility.close' | t }}" tabindex="-1"></button>
+  <nav class="menu-drawer" id="MenuDrawer" aria-label="{{ 'general.header.menu' | t }}">
+    <button class="icon-button menu-drawer__close" data-menu-close aria-label="{{ 'accessibility.close' | t }}">
+      {% render 'icon', icon: 'close' %}
+    </button>
+    <div class="menu-drawer__nav">
+      {%- for link in section.settings.menu.links -%}
+        <a href="{{ link.url }}" class="menu-drawer__link">{{ link.title }}</a>
+      {%- endfor -%}
+      {%- if section.settings.pill_label != blank -%}
+        <a href="{{ section.settings.pill_link | default: routes.root_url }}" class="header__nav-pill" style="background: {{ section.settings.pill_color }}; color: {{ section.settings.pill_text_color }}; align-self: flex-start;">{{ section.settings.pill_label }}</a>
+      {%- endif -%}
+    </div>
+  </nav>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Header",
+  "tag": "section",
+  "class": "section-header",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo",
+      "info": "Falls back to the store name in the display font."
+    },
+    {
+      "type": "range",
+      "id": "logo_height",
+      "label": "Logo height",
+      "min": 20,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Menu",
+      "default": "main-menu"
+    },
+    { "type": "header", "content": "Highlight pill" },
+    {
+      "type": "text",
+      "id": "pill_label",
+      "label": "Pill label",
+      "default": "YOU STYLE LAB",
+      "info": "Leave blank to hide."
+    },
+    {
+      "type": "url",
+      "id": "pill_link",
+      "label": "Pill link"
+    },
+    {
+      "type": "color",
+      "id": "pill_color",
+      "label": "Pill background",
+      "default": "#D4E84A"
+    },
+    {
+      "type": "color",
+      "id": "pill_text_color",
+      "label": "Pill text",
+      "default": "#1A1A1A"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,141 @@
+{% comment %}
+  Maps global theme settings to CSS custom properties.
+  Rendered in the <head> of every layout so all sections/snippets
+  can consume settings through var(--*) instead of hardcoding values.
+{% endcomment %}
+
+{%- if settings.use_brand_fonts -%}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
+{%- else -%}
+  <style>
+    {{ settings.type_heading_font | font_face: font_display: 'swap' }}
+    {{ settings.type_body_font | font_face: font_display: 'swap' }}
+  </style>
+{%- endif -%}
+
+{%- liquid
+  case settings.animations_speed
+    when 'fast'
+      assign dur_fast = '120ms'
+      assign dur_med = '200ms'
+    when 'normal'
+      assign dur_fast = '180ms'
+      assign dur_med = '300ms'
+    else
+      assign dur_fast = '260ms'
+      assign dur_med = '420ms'
+  endcase
+  unless settings.animations_enabled
+    assign dur_fast = '0ms'
+    assign dur_med = '0ms'
+  endunless
+
+  if settings.button_shape == 'pill'
+    assign button_radius = '999px'
+  else
+    assign button_radius = '0px'
+  endif
+
+  if settings.button_uppercase
+    assign button_case = 'uppercase'
+  else
+    assign button_case = 'none'
+  endif
+
+  if settings.headings_uppercase
+    assign heading_case = 'uppercase'
+  else
+    assign heading_case = 'none'
+  endif
+
+  assign heading_scale = settings.heading_scale | divided_by: 100.0
+-%}
+
+<style>
+  :root {
+    /* Colors */
+    --color-bg: {{ settings.color_background }};
+    --color-bg-inverse: {{ settings.color_background_inverse }};
+    --color-surface: {{ settings.color_surface }};
+    --color-fg: {{ settings.color_text }};
+    --color-fg-inverse: {{ settings.color_text_inverse }};
+    --color-fg-muted: {{ settings.color_text_muted }};
+    --color-accent: {{ settings.color_accent }};
+    --color-accent-alt: {{ settings.color_accent_alt }};
+    --color-accent-warm: {{ settings.color_accent_warm }};
+    --color-accent-wild: {{ settings.color_accent_wild }};
+    --color-accent-hivis: {{ settings.color_accent_hivis }};
+    --color-accent-calm: {{ settings.color_accent_calm }};
+    --color-border-subtle: {{ settings.color_border_subtle }};
+    --color-success: {{ settings.color_success }};
+    --color-danger: {{ settings.color_danger }};
+    --color-focus-ring: {{ settings.color_accent_alt }};
+
+    /* Typography */
+    {%- if settings.use_brand_fonts %}
+    --font-display: 'Bricolage Grotesque', ui-sans-serif, system-ui, sans-serif;
+    --font-serif: 'Cormorant Garamond', ui-serif, Georgia, serif;
+    --font-body: 'Archivo', ui-sans-serif, system-ui, sans-serif;
+    --font-heading-weight: 700;
+    --font-body-weight: 400;
+    {%- else %}
+    --font-display: {{ settings.type_heading_font.family }}, {{ settings.type_heading_font.fallback_families }};
+    --font-serif: ui-serif, Georgia, serif;
+    --font-body: {{ settings.type_body_font.family }}, {{ settings.type_body_font.fallback_families }};
+    --font-heading-weight: {{ settings.type_heading_font.weight }};
+    --font-body-weight: {{ settings.type_body_font.weight }};
+    {%- endif %}
+    --heading-scale: {{ heading_scale }};
+    --heading-case: {{ heading_case }};
+    --heading-tracking: {{ settings.heading_tracking }}px;
+    --text-body-size: {{ settings.body_size }}px;
+    --text-micro-track: 0.3em;
+
+    /* Layout */
+    --container-max: {{ settings.page_width }}px;
+    --gutter: {{ settings.page_gutter }}px;
+    --section-pad: {{ settings.section_spacing }}px;
+    --grid-gap: {{ settings.grid_gap }}px;
+
+    /* Buttons */
+    --button-radius: {{ button_radius }};
+    --button-case: {{ button_case }};
+    --button-text-size: {{ settings.button_text_size }}px;
+    {%- if settings.button_hover_effect == 'lift' and settings.animations_hover_lift and settings.animations_enabled %}
+    --button-hover-transform: translateY(-2px);
+    {%- else %}
+    --button-hover-transform: none;
+    {%- endif %}
+
+    /* Cards */
+    {%- if settings.card_hover_zoom and settings.animations_image_zoom and settings.animations_enabled %}
+    --card-hover-scale: 1.04;
+    {%- else %}
+    --card-hover-scale: 1;
+    {%- endif %}
+    --card-text-align: {{ settings.card_text_align }};
+
+    /* Header / footer */
+    --header-bg: {{ settings.header_background }};
+    --header-bubble: {{ settings.header_cart_bubble }};
+    --footer-bg: {{ settings.footer_background }};
+    --footer-fg: {{ settings.footer_text }};
+    --footer-heading: {{ settings.footer_heading }};
+
+    /* Motion */
+    --ease-snap: cubic-bezier(.2, .8, .2, 1);
+    --dur-fast: {{ dur_fast }};
+    --dur-med: {{ dur_med }};
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :root {
+      --dur-fast: 0ms;
+      --dur-med: 0ms;
+      --button-hover-transform: none;
+      --card-hover-scale: 1;
+    }
+  }
+</style>

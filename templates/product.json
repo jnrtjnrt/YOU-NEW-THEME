@@ -1,0 +1,64 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "eyebrow": { "type": "eyebrow" },
+        "title": { "type": "title" },
+        "rating": { "type": "rating" },
+        "price": { "type": "price" },
+        "divider": { "type": "divider" },
+        "variant_picker": { "type": "variant_picker" },
+        "quantity": { "type": "quantity" },
+        "buy_buttons": { "type": "buy_buttons" },
+        "trust": { "type": "trust_badges" },
+        "description": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "Description",
+            "use_description": true,
+            "open_by_default": true
+          }
+        },
+        "care": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "Care",
+            "content": "<p>Spot clean with mild soap and cold water. Air dry away from direct sunlight.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "eyebrow",
+        "title",
+        "rating",
+        "price",
+        "divider",
+        "variant_picker",
+        "quantity",
+        "buy_buttons",
+        "trust",
+        "description",
+        "care"
+      ]
+    },
+    "related": {
+      "type": "related-products"
+    },
+    "reviews": {
+      "type": "testimonials",
+      "settings": {
+        "heading": "They Won't Shut Up About It",
+        "columns": 3,
+        "show_stars": true
+      },
+      "blocks": {
+        "review_1": { "type": "review", "settings": { "author": "a*****n" } },
+        "review_2": { "type": "review", "settings": { "author": "j*****v" } },
+        "review_3": { "type": "review", "settings": { "author": "m*****z" } }
+      },
+      "block_order": ["review_1", "review_2", "review_3"]
+    }
+  },
+  "order": ["main", "related", "reviews"]
+}
