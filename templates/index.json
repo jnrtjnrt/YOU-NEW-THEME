@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "hero": {
@@ -6,35 +15,59 @@
         "slide_1": {
           "type": "slide",
           "settings": {
+            "image": "shopify://shop_images/ChatGPT_Image_Jun_17_2026_08_57_00_AM.png",
+            "fallback_color": "#1a1a1a",
             "eyebrow": "Made By YOU",
             "heading": "Unapologetically",
             "heading_accent": "you.",
-            "accent_color": "#D4E84A",
-            "button_label": "GO OFF THEN"
+            "accent_color": "#d4e84a",
+            "text_color": "#fdfeff",
+            "button_label": "GO OFF THEN",
+            "button_link": "shopify://collections/bundle-sale"
           }
         },
         "slide_2": {
           "type": "slide",
+          "disabled": true,
           "settings": {
+            "fallback_color": "#e8401c",
             "eyebrow": "New",
             "heading": "Zero effort, all drip.",
             "heading_accent": "",
-            "fallback_color": "#E8401C",
-            "button_label": "TAKE MY MONEY"
+            "accent_color": "#d4e84a",
+            "text_color": "#fdfeff",
+            "button_label": "TAKE MY MONEY",
+            "button_link": ""
           }
         },
         "slide_3": {
           "type": "slide",
+          "disabled": true,
           "settings": {
+            "fallback_color": "#2b6be6",
             "eyebrow": "Mix & Match",
             "heading": "Straps for every mood.",
             "heading_accent": "",
-            "fallback_color": "#2B6BE6",
-            "button_label": "I GUESS I'LL LOOK"
+            "accent_color": "#d4e84a",
+            "text_color": "#fdfeff",
+            "button_label": "I GUESS I'LL LOOK",
+            "button_link": ""
           }
         }
       },
-      "block_order": ["slide_1", "slide_2", "slide_3"]
+      "block_order": [
+        "slide_1",
+        "slide_2",
+        "slide_3"
+      ],
+      "settings": {
+        "height": 760,
+        "heading_size": 76,
+        "overlay_opacity": 85,
+        "autoplay": true,
+        "autoplay_speed": 5,
+        "show_dots": true
+      }
     },
     "how_it_works": {
       "type": "how-it-works",
@@ -42,6 +75,7 @@
         "step_1": {
           "type": "step",
           "settings": {
+            "number": "",
             "title": "Pick a bag",
             "text": "<p>Every bag is sold on its own. No strap included, so it doesn't come with one you'll never use.</p>"
           }
@@ -49,6 +83,7 @@
         "step_2": {
           "type": "step",
           "settings": {
+            "number": "",
             "title": "Pick a strap",
             "text": "<p>Swap it whenever you're bored. Different mood, different strap, same bag.</p>"
           }
@@ -56,37 +91,78 @@
         "step_3": {
           "type": "step",
           "settings": {
+            "number": "",
             "title": "Or skip the thinking",
             "text": "<p>Grab a bundle. We already matched a bag and strap so you don't have to.</p>"
           }
         }
       },
-      "block_order": ["step_1", "step_2", "step_3"]
+      "block_order": [
+        "step_1",
+        "step_2",
+        "step_3"
+      ],
+      "settings": {
+        "background": "#d4e84a",
+        "text_color": "#1a1a1a",
+        "eyebrow": "HEADS UP",
+        "heading": "Bags and straps come separate.",
+        "text": "<p>Mix and match so you're never stuck with one look. Too lazy to pick two things yourself? Grab a bundle, we did it for you.</p>",
+        "button_label": "JUST GIVE ME A BUNDLE",
+        "button_link": "",
+        "padding": 64
+      }
     },
     "categories": {
       "type": "category-cards",
       "blocks": {
         "card_1": {
           "type": "card",
-          "settings": { "title": "Bags", "button_label": "OBVIOUSLY" }
+          "settings": {
+            "collection": "",
+            "title": "Bags",
+            "button_label": "OBVIOUSLY"
+          }
         },
         "card_2": {
           "type": "card",
-          "settings": { "title": "Straps", "button_label": "PICK YOUR MOOD" }
+          "settings": {
+            "collection": "",
+            "title": "Straps",
+            "button_label": "PICK YOUR MOOD"
+          }
         },
         "card_3": {
           "type": "card",
-          "settings": { "title": "Accessories", "button_label": "THE EXTRAS" }
+          "settings": {
+            "collection": "",
+            "title": "Accessories",
+            "button_label": "THE EXTRAS"
+          }
         }
       },
-      "block_order": ["card_1", "card_2", "card_3"]
+      "block_order": [
+        "card_1",
+        "card_2",
+        "card_3"
+      ],
+      "settings": {
+        "columns": 3,
+        "height": 520,
+        "gap": 5
+      }
     },
     "bestsellers": {
       "type": "featured-products",
       "settings": {
         "heading": "Y'all Can't Stop Buying",
+        "collection": "",
+        "products_count": 8,
         "layout": "carousel",
-        "image_ratio": "square"
+        "image_ratio": "square",
+        "show_view_all": true,
+        "view_all_label": "VIEW ALL →",
+        "padding": 40
       }
     },
     "reviews": {
@@ -96,49 +172,120 @@
           "type": "review",
           "settings": {
             "quote": "<p>Sobrang sturdy ng straps and the color is exactly like the photos. Been using it every single day since it arrived, still looks brand new.</p>",
-            "author": "a*****n"
+            "author": "a*****n",
+            "label": "Verified Buyer"
           }
         },
         "review_2": {
           "type": "review",
           "settings": {
             "quote": "<p>Best purchase this year. The zippers feel premium and it fits my laptop plus everything else I hoard. Buying another for my brother next.</p>",
-            "author": "j*****v"
+            "author": "j*****v",
+            "label": "Verified Buyer"
           }
         },
         "review_3": {
           "type": "review",
           "settings": {
             "quote": "<p>Ang bilis ng delivery, well packaged pa. Quality feels way above the price. Customer service answered all my questions kaagad.</p>",
-            "author": "m*****z"
+            "author": "m*****z",
+            "label": "Verified Buyer"
           }
         },
         "review_4": {
           "type": "review",
           "settings": {
             "quote": "<p>Finally a bag that doesn't scream corporate. Gets compliments every time I wear it out. Definitely getting another colorway soon.</p>",
-            "author": "r*****t"
+            "author": "r*****t",
+            "label": "Verified Buyer"
           }
         }
       },
-      "block_order": ["review_1", "review_2", "review_3", "review_4"],
+      "block_order": [
+        "review_1",
+        "review_2",
+        "review_3",
+        "review_4"
+      ],
       "settings": {
-        "heading": "They Won't Shut Up About It"
+        "heading": "They Won't Shut Up About It",
+        "background": "#e535ab",
+        "heading_color": "#1a1a1a",
+        "card_background": "#fdfeff",
+        "card_text_color": "#1a1a1a",
+        "show_stars": false,
+        "columns": 4,
+        "padding": 64
       }
     },
     "ugc": {
       "type": "ugc-gallery",
       "blocks": {
-        "photo_1": { "type": "photo", "settings": { "handle": "@aya.dlc", "caption": "wears VERSA in Rich Black" } },
-        "photo_2": { "type": "photo", "settings": { "handle": "@kimverso", "caption": "wears FLIP in Cherry" } },
-        "photo_3": { "type": "photo", "settings": { "handle": "@juliennearrr", "caption": "wears MINIGO in Volt" } },
-        "photo_4": { "type": "photo", "settings": { "handle": "@therealbea", "caption": "wears PIXIE in Bright Orange" } },
-        "photo_5": { "type": "photo", "settings": { "handle": "@notmarco", "caption": "wears STRAPPY in Cyan" } },
-        "photo_6": { "type": "photo", "settings": { "handle": "@camz.txt", "caption": "wears ROAM in Sage" } }
+        "photo_1": {
+          "type": "photo",
+          "settings": {
+            "handle": "@aya.dlc",
+            "caption": "wears VERSA in Rich Black",
+            "link": ""
+          }
+        },
+        "photo_2": {
+          "type": "photo",
+          "settings": {
+            "handle": "@kimverso",
+            "caption": "wears FLIP in Cherry",
+            "link": ""
+          }
+        },
+        "photo_3": {
+          "type": "photo",
+          "settings": {
+            "handle": "@juliennearrr",
+            "caption": "wears MINIGO in Volt",
+            "link": ""
+          }
+        },
+        "photo_4": {
+          "type": "photo",
+          "settings": {
+            "handle": "@therealbea",
+            "caption": "wears PIXIE in Bright Orange",
+            "link": ""
+          }
+        },
+        "photo_5": {
+          "type": "photo",
+          "settings": {
+            "handle": "@notmarco",
+            "caption": "wears STRAPPY in Cyan",
+            "link": ""
+          }
+        },
+        "photo_6": {
+          "type": "photo",
+          "settings": {
+            "handle": "@camz.txt",
+            "caption": "wears ROAM in Sage",
+            "link": ""
+          }
+        }
       },
-      "block_order": ["photo_1", "photo_2", "photo_3", "photo_4", "photo_5", "photo_6"],
+      "block_order": [
+        "photo_1",
+        "photo_2",
+        "photo_3",
+        "photo_4",
+        "photo_5",
+        "photo_6"
+      ],
       "settings": {
-        "heading": "Wearing It Better Than Us"
+        "heading": "Wearing It Better Than Us",
+        "background": "#1a1a1a",
+        "heading_color": "#fdfeff",
+        "handle_color": "#fdfeff",
+        "caption_color": "#d4e84a",
+        "columns": 6,
+        "padding": 64
       }
     },
     "promos": {
@@ -147,30 +294,53 @@
         "banner_1": {
           "type": "banner",
           "settings": {
-            "overlay_color": "#2B6BE6",
+            "overlay_color": "#2b6be6",
+            "text_color": "#fdfeff",
             "heading": "Straps? Pick a bag first.",
-            "button_label": "MIX IT UP THEN"
+            "button_label": "MIX IT UP THEN",
+            "button_link": ""
           }
         },
         "banner_2": {
           "type": "banner",
           "settings": {
-            "overlay_color": "#E535AB",
+            "overlay_color": "#e535ab",
+            "text_color": "#fdfeff",
             "heading": "Too Lazy? Bundle It.",
-            "button_label": "STOP OVERTHINKING IT"
+            "button_label": "STOP OVERTHINKING IT",
+            "button_link": ""
           }
         }
       },
-      "block_order": ["banner_1", "banner_2"]
+      "block_order": [
+        "banner_1",
+        "banner_2"
+      ],
+      "settings": {
+        "height": 480,
+        "heading_size": 38
+      }
     },
     "newsletter": {
       "type": "newsletter",
       "settings": {
-        "heading": "Miss The Drop, That's On You.",
+        "heading": "No Excuses. Join YOU.",
         "text": "<p>Just put your email in. We'll handle the rest.</p>",
-        "button_label": "SUBSCRIBE"
+        "button_label": "SUBSCRIBE",
+        "background": "#1a1a1a",
+        "text_color": "#fdfeff",
+        "padding": 64
       }
     }
   },
-  "order": ["hero", "how_it_works", "categories", "bestsellers", "reviews", "ugc", "promos", "newsletter"]
+  "order": [
+    "hero",
+    "how_it_works",
+    "categories",
+    "bestsellers",
+    "reviews",
+    "ugc",
+    "promos",
+    "newsletter"
+  ]
 }

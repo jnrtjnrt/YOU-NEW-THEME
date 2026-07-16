@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "type": "header",
   "name": "Header group",
@@ -5,12 +14,17 @@
     "header": {
       "type": "header",
       "settings": {
-        "logo_height": 40,
+        "logo": "shopify://shop_images/you_logo.png",
+        "logo_height": 42,
+        "menu": "main-menu",
         "pill_label": "YOU STYLE LAB",
-        "pill_color": "#D4E84A",
-        "pill_text_color": "#1A1A1A"
+        "pill_link": "",
+        "pill_color": "#d4e84a",
+        "pill_text_color": "#1a1a1a"
       }
     }
   },
-  "order": ["header"]
+  "order": [
+    "header"
+  ]
 }
