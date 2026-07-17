@@ -120,9 +120,10 @@
         "design"
       ],
       "settings": {
-        "image_ratio": "square",
+        "image_ratio": "tall",
         "show_thumbnails": true,
-        "show_gallery_arrows": false
+        "show_gallery_arrows": false,
+        "group_media_by_color": true
       }
     },
     "sticky": {
