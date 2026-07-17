@@ -1,0 +1,212 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "eyebrow": {
+          "type": "eyebrow",
+          "settings": {
+            "text": "Straps",
+            "color": "#2b6be6"
+          }
+        },
+        "title": {
+          "type": "title",
+          "settings": {}
+        },
+        "rating": {
+          "type": "rating",
+          "settings": {
+            "placeholder_text": "64 reviews"
+          }
+        },
+        "price": {
+          "type": "price",
+          "settings": {}
+        },
+        "divider": {
+          "type": "divider",
+          "settings": {}
+        },
+        "variant_picker": {
+          "type": "variant_picker",
+          "settings": {
+            "color_swatches": true
+          }
+        },
+        "quantity": {
+          "type": "quantity",
+          "settings": {}
+        },
+        "compatibility_note": {
+          "type": "compatibility_note",
+          "settings": {
+            "text": "Needs a bag to attach to — this strap doesn't come with one.",
+            "icon": "none",
+            "background": "#005f60",
+            "text_color": "#fdfeff"
+          }
+        },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": true
+          }
+        },
+        "trust": {
+          "type": "trust_badges",
+          "settings": {
+            "item_1": "Free shipping over ₱2,000",
+            "item_2": "7-day easy returns",
+            "item_3": "Secure checkout",
+            "item_4": "6-month warranty"
+          }
+        },
+        "description": {
+          "type": "collapsible_tab",
+          "disabled": true,
+          "settings": {
+            "heading": "Description",
+            "use_description": true,
+            "metafield_namespace": "",
+            "metafield_key": "",
+            "content": "",
+            "page": "",
+            "open_by_default": true
+          }
+        },
+        "care": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "Care",
+            "use_description": false,
+            "metafield_namespace": "custom",
+            "metafield_key": "care_instructions",
+            "content": "<p>Wipe clean with a damp cloth. Avoid prolonged direct sunlight to keep the color from fading.</p>",
+            "page": "",
+            "open_by_default": false
+          }
+        },
+        "design": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "Design",
+            "use_description": false,
+            "metafield_namespace": "custom",
+            "metafield_key": "design_notes",
+            "content": "<p>Nylon webbing, reinforced stitching, quick-release clips. Fits all current YOU bag models.</p>",
+            "page": "",
+            "open_by_default": false
+          }
+        }
+      },
+      "block_order": [
+        "eyebrow",
+        "title",
+        "rating",
+        "price",
+        "divider",
+        "variant_picker",
+        "quantity",
+        "compatibility_note",
+        "buy_buttons",
+        "trust",
+        "description",
+        "care",
+        "design"
+      ],
+      "settings": {
+        "image_ratio": "square",
+        "show_thumbnails": true,
+        "show_gallery_arrows": true
+      }
+    },
+    "sticky": {
+      "type": "sticky-add-to-cart",
+      "settings": {
+        "watch_selector": "[data-product-info]",
+        "reveal_offset": 80
+      }
+    },
+    "pairs_well": {
+      "type": "product-cross-sell-grid",
+      "settings": {
+        "heading": "Pairs Well With",
+        "subheading": "Bags that go with this strap. You still need one of these.",
+        "button_label": "QUICK ADD",
+        "products": [],
+        "collection": "",
+        "products_count": 4,
+        "padding": 80
+      }
+    },
+    "reviews": {
+      "type": "testimonials",
+      "blocks": {
+        "review_1": {
+          "type": "review",
+          "settings": {
+            "quote": "<p>Adjustable enough for cross-body or shoulder. Switched it between three bags already.</p>",
+            "author": "k*****n",
+            "label": "Verified Buyer"
+          }
+        },
+        "review_2": {
+          "type": "review",
+          "settings": {
+            "quote": "<p>The clip hardware feels solid, not flimsy like the cheap ones. Worth it.</p>",
+            "author": "d*****z",
+            "label": "Verified Buyer"
+          }
+        },
+        "review_3": {
+          "type": "review",
+          "settings": {
+            "quote": "<p>Bought this to switch up my Versa. Feels like a completely different bag now.</p>",
+            "author": "r*****t",
+            "label": "Verified Buyer"
+          }
+        }
+      },
+      "block_order": [
+        "review_1",
+        "review_2",
+        "review_3"
+      ],
+      "settings": {
+        "heading": "They Won't Shut Up About It",
+        "background": "#e535ab",
+        "heading_color": "#1a1a1a",
+        "card_background": "#fdfeff",
+        "card_text_color": "#1a1a1a",
+        "show_stars": true,
+        "columns": 3,
+        "padding": 64
+      }
+    },
+    "recently_viewed": {
+      "type": "recently-viewed",
+      "settings": {
+        "heading": "Recently Viewed",
+        "max_items": 4,
+        "padding": 64
+      }
+    }
+  },
+  "order": [
+    "main",
+    "sticky",
+    "pairs_well",
+    "reviews",
+    "recently_viewed"
+  ]
+}
