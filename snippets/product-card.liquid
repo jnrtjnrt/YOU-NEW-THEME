@@ -1,12 +1,22 @@
 {% comment %}
   Reusable product card matching the design system
-  (image, swatches, display-font title, muted price, pill badge).
+  (media gallery, interactive swatches, display-font title, muted price, pill badge).
+
+  The media box is a swipeable, snap-scrolling gallery of the product's media
+  in Shopify order (variant images and unassigned lifestyle/detail shots alike —
+  product.media naturally contains each image once). Arrows appear on hover on
+  desktop; touch users swipe natively.
+
+  Color swatches are interactive: selecting one instantly previews that
+  variant's featured media (Shopify variant media, no custom mappings) and
+  re-points the card's links at the variant's URL.
 
   Usage: {% render 'product-card', card_product: product %}
   Optional:
-    image_ratio  — 'square' | 'portrait' | 'natural' (defaults to theme setting)
+    image_ratio    — 'square' | 'portrait' | 'natural' (defaults to theme setting)
     show_swatches, show_badges, show_vendor — override theme settings
-    badge_color  — CSS color for the badge background (default accent)
+    enable_gallery — override the theme's card gallery setting
+    badge_color    — CSS color for the badge background (default accent)
 {% endcomment %}
 {%- liquid
   assign ratio = image_ratio | default: settings.card_image_ratio
@@ -19,7 +29,14 @@
   if show_vendor == nil
     assign show_vendor = settings.card_show_vendor
   endif
+  if enable_gallery == nil
+    assign enable_gallery = settings.card_enable_gallery
+  endif
   assign badge_bg = badge_color | default: settings.color_accent
+  assign gallery_limit = settings.card_gallery_max | default: 4
+  unless enable_gallery
+    assign gallery_limit = 1
+  endunless
 
   assign color_option = blank
   for option in card_product.options_with_values
@@ -29,44 +46,93 @@
       break
     endif
   endfor
+
+  assign first_media = card_product.featured_media
 -%}
 
 {%- if card_product and card_product != empty -%}
-<div class="product-card product-card--{{ ratio }}">
-  <a href="{{ card_product.url }}" class="product-card__link" aria-label="{{ card_product.title | escape }}">
-    <div class="product-card__media">
-      {%- if card_product.featured_media -%}
-        <img
-          srcset="{{ card_product.featured_media | image_url: width: 360 }} 360w, {{ card_product.featured_media | image_url: width: 540 }} 540w, {{ card_product.featured_media | image_url: width: 720 }} 720w"
-          src="{{ card_product.featured_media | image_url: width: 540 }}"
-          sizes="(min-width: 990px) 25vw, 50vw"
-          alt="{{ card_product.featured_media.alt | escape | default: card_product.title | escape }}"
-          loading="lazy"
-          width="{{ card_product.featured_media.width }}"
-          height="{{ card_product.featured_media.height }}"
-          class="product-card__image">
-      {%- else -%}
-        <div class="product-card__placeholder">{{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}</div>
+<div class="product-card product-card--{{ ratio }}" data-product-card>
+  <div class="product-card__media{% if card_product.media.size > 1 and enable_gallery %} product-card__media--gallery{% endif %}"
+    {%- if ratio == 'natural' -%}
+      {%- if first_media %} style="aspect-ratio: {{ first_media.width }} / {{ first_media.height }};"
+      {%- else %} style="aspect-ratio: 1 / 1;"
       {%- endif -%}
-
-      {%- if show_badges -%}
-        {%- if card_product.available == false -%}
-          <span class="product-card__badge" style="background: {{ settings.color_text }};">{{ 'products.product.sold_out' | t }}</span>
-        {%- elsif card_product.compare_at_price > card_product.price -%}
-          <span class="product-card__badge" style="background: {{ badge_bg }};">{{ 'products.product.on_sale' | t }}</span>
+    {%- endif -%}>
+    <a href="{{ card_product.url }}" data-card-url class="product-card__media-link" aria-label="{{ card_product.title | escape }}" tabindex="-1">
+      <div class="product-card__track" data-card-track>
+        {%- if card_product.media.size > 0 -%}
+          {%- for media in card_product.media limit: gallery_limit -%}
+            <img
+              class="product-card__image"
+              data-media-id="{{ media.id }}"
+              srcset="{{ media | image_url: width: 360 }} 360w, {{ media | image_url: width: 540 }} 540w, {{ media | image_url: width: 720 }} 720w, {{ media | image_url: width: 900 }} 900w"
+              src="{{ media | image_url: width: 540 }}"
+              sizes="(min-width: 990px) 25vw, 50vw"
+              alt="{{ media.alt | escape | default: card_product.title | escape }}"
+              loading="lazy"
+              width="{{ media.width }}"
+              height="{{ media.height }}">
+          {%- endfor -%}
+        {%- else -%}
+          <div class="product-card__placeholder">{{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}</div>
         {%- endif -%}
-      {%- endif -%}
-    </div>
-
-    {%- if show_swatches and color_option != blank -%}
-      <div class="product-card__swatches" aria-hidden="true">
-        {%- for value in color_option.values limit: 6 -%}
-          {%- capture swatch_bg %}{% render 'swatch-style', value: value %}{% endcapture -%}
-          <span class="product-card__swatch" style="background: {{ swatch_bg | strip }};" title="{{ value | escape }}"></span>
-        {%- endfor -%}
       </div>
+    </a>
+
+    {%- if card_product.media.size > 1 and enable_gallery -%}
+      <button type="button" class="product-card__arrow product-card__arrow--prev" data-card-prev aria-label="{{ 'products.product.previous_image' | t }}">{% render 'icon', icon: 'arrow-left', size: 14 %}</button>
+      <button type="button" class="product-card__arrow product-card__arrow--next" data-card-next aria-label="{{ 'products.product.next_image' | t }}">{% render 'icon', icon: 'arrow-right', size: 14 %}</button>
     {%- endif -%}
 
+    {%- if show_badges -%}
+      {%- if card_product.available == false -%}
+        <span class="product-card__badge" style="background: {{ settings.color_text }};">{{ 'products.product.sold_out' | t }}</span>
+      {%- elsif card_product.compare_at_price > card_product.price -%}
+        <span class="product-card__badge" style="background: {{ badge_bg }};">{{ 'products.product.on_sale' | t }}</span>
+      {%- endif -%}
+    {%- endif -%}
+  </div>
+
+  {%- if show_swatches and color_option != blank -%}
+    {%- assign color_pos = color_option.position | minus: 1 -%}
+    <div class="product-card__swatches">
+      {%- for value in color_option.values limit: 6 -%}
+        {%- liquid
+          capture value_title
+            echo value
+          endcapture
+          capture swatch_bg
+            render 'swatch-style', value: value
+          endcapture
+          assign matched_variant = blank
+          for variant in card_product.variants
+            if variant.options[color_pos] == value_title
+              assign matched_variant = variant
+              break
+            endif
+          endfor
+        -%}
+        <button
+          type="button"
+          class="product-card__swatch{% if color_option.selected_value == value_title %} is-active{% endif %}"
+          data-card-swatch
+          {% if matched_variant != blank %}
+            data-variant-url="{{ matched_variant.url }}"
+            {% if matched_variant.featured_media %}
+              data-media-id="{{ matched_variant.featured_media.id }}"
+              data-image-src="{{ matched_variant.featured_media | image_url: width: 540 }}"
+              data-image-srcset="{{ matched_variant.featured_media | image_url: width: 360 }} 360w, {{ matched_variant.featured_media | image_url: width: 540 }} 540w, {{ matched_variant.featured_media | image_url: width: 720 }} 720w, {{ matched_variant.featured_media | image_url: width: 900 }} 900w"
+            {% endif %}
+          {% endif %}
+          style="background: {{ swatch_bg | strip }};"
+          title="{{ value_title | escape }}"
+          aria-label="{{ value_title | escape }}"
+          aria-pressed="{% if color_option.selected_value == value_title %}true{% else %}false{% endif %}"></button>
+      {%- endfor -%}
+    </div>
+  {%- endif -%}
+
+  <a href="{{ card_product.url }}" data-card-url class="product-card__link">
     <div class="product-card__info">
       {%- if show_vendor -%}
         <span class="product-card__vendor">{{ card_product.vendor }}</span>

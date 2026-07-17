@@ -258,6 +258,10 @@
           mainImg.src = thumb.getAttribute('data-full-src');
           mainImg.srcset = thumb.getAttribute('data-full-srcset') || '';
           mainImg.alt = img.alt;
+          // Keep intrinsic dimensions in sync so "adapt to image" mode
+          // reserves the right space and never causes layout shift.
+          if (thumb.getAttribute('data-full-width')) mainImg.setAttribute('width', thumb.getAttribute('data-full-width'));
+          if (thumb.getAttribute('data-full-height')) mainImg.setAttribute('height', thumb.getAttribute('data-full-height'));
         }
         thumbs.forEach(function (t, ti) { t.classList.toggle('is-active', ti === index); });
       }
@@ -451,6 +455,68 @@
         } else {
           addBtn.setAttribute('disabled', 'disabled');
           if (label) label.textContent = window.themeStrings.soldOut;
+        }
+      }
+    });
+  }
+
+  /* Product cards: media carousel + variant image preview swatches -------------------- */
+  function bindProductCards() {
+    if (bindProductCards._bound) return;
+    bindProductCards._bound = true;
+
+    // Delegated so cards injected later (recommendations, recently viewed,
+    // filtered collection re-renders) work without rebinding.
+    document.addEventListener('click', function (e) {
+      var arrow = e.target.closest('[data-card-prev], [data-card-next]');
+      if (arrow) {
+        e.preventDefault();
+        var card = arrow.closest('[data-product-card]');
+        var track = card && qs('[data-card-track]', card);
+        if (track) {
+          var direction = arrow.hasAttribute('data-card-prev') ? -1 : 1;
+          var width = track.clientWidth;
+          var max = track.scrollWidth - width;
+          var next = track.scrollLeft + direction * width;
+          // Wrap around at the ends so the arrows always do something.
+          if (next < -1) next = max;
+          if (next > max + 1) next = 0;
+          track.scrollTo({ left: next, behavior: 'smooth' });
+        }
+        return;
+      }
+
+      var swatch = e.target.closest('[data-card-swatch]');
+      if (swatch) {
+        e.preventDefault();
+        var swatchCard = swatch.closest('[data-product-card]');
+        if (!swatchCard) return;
+
+        qsa('[data-card-swatch]', swatchCard).forEach(function (s) {
+          s.classList.toggle('is-active', s === swatch);
+          s.setAttribute('aria-pressed', s === swatch ? 'true' : 'false');
+        });
+
+        var variantUrl = swatch.getAttribute('data-variant-url');
+        if (variantUrl) {
+          qsa('[data-card-url]', swatchCard).forEach(function (a) { a.href = variantUrl; });
+        }
+
+        var cardTrack = qs('[data-card-track]', swatchCard);
+        if (!cardTrack) return;
+        var mediaId = swatch.getAttribute('data-media-id');
+        var target = mediaId ? qs('[data-media-id="' + mediaId + '"]', cardTrack) : null;
+        if (target) {
+          cardTrack.scrollTo({ left: target.offsetLeft, behavior: 'smooth' });
+        } else if (swatch.getAttribute('data-image-src')) {
+          // Variant media beyond the card's image limit: swap the first slide.
+          var firstImg = qs('.product-card__image', cardTrack);
+          if (firstImg) {
+            firstImg.src = swatch.getAttribute('data-image-src');
+            firstImg.srcset = swatch.getAttribute('data-image-srcset') || '';
+            if (mediaId) firstImg.setAttribute('data-media-id', mediaId);
+            cardTrack.scrollTo({ left: 0, behavior: 'smooth' });
+          }
         }
       }
     });
@@ -901,6 +967,7 @@
     bindVariantPickers();
     bindQtySteppers();
     bindStickyAtc();
+    bindProductCards();
     bindQuickAddCards();
     bindCrossSellModal();
     bindRecentlyViewed();
