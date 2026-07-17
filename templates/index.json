@@ -284,7 +284,7 @@
             "text_color": "#fdfeff",
             "heading": "Straps? Pick a bag first.",
             "button_label": "MIX IT UP THEN",
-            "button_link": ""
+            "button_link": "shopify://collections/frontpage"
           }
         },
         "banner_2": {
@@ -294,7 +294,7 @@
             "text_color": "#fdfeff",
             "heading": "Too Lazy? Bundle It.",
             "button_label": "STOP OVERTHINKING IT",
-            "button_link": ""
+            "button_link": "shopify://collections/bundle-sale"
           }
         }
       },

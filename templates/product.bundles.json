@@ -49,6 +49,7 @@
         },
         "compatibility_note": {
           "type": "compatibility_note",
+          "disabled": true,
           "settings": {
             "text": "Needs a bag to attach to — this strap doesn't come with one.",
             "icon": "none",
