@@ -152,6 +152,7 @@
       "settings": {
         "columns": 3,
         "height": 520,
+        "mobile_height": 340,
         "gap": 5
       }
     },
@@ -161,7 +162,7 @@
         "heading": "Y'all Can't Stop Buying",
         "collection": "frontpage",
         "products_count": 8,
-        "layout": "carousel",
+        "layout": "grid",
         "image_ratio": "square",
         "show_view_all": true,
         "view_all_label": "VIEW ALL →",
