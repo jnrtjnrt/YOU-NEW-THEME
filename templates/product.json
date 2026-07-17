@@ -57,10 +57,10 @@
           "type": "trust_badges",
           "disabled": true,
           "settings": {
-            "item_1": "Free shipping over ₱2,000",
-            "item_2": "7-day easy returns",
-            "item_3": "Secure checkout",
-            "item_4": "6-month warranty"
+            "item_1": "",
+            "item_2": "",
+            "item_3": "",
+            "item_4": ""
           }
         },
         "divider_3PCiEj": {

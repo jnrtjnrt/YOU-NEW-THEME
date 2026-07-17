@@ -63,8 +63,13 @@
             "show_dynamic_checkout": true
           }
         },
+        "divider_qCb6Et": {
+          "type": "divider",
+          "settings": {}
+        },
         "trust": {
           "type": "trust_badges",
+          "disabled": true,
           "settings": {
             "item_1": "Free shipping over ₱2,000",
             "item_2": "7-day easy returns",
@@ -120,6 +125,7 @@
         "quantity",
         "compatibility_note",
         "buy_buttons",
+        "divider_qCb6Et",
         "trust",
         "description",
         "care",
