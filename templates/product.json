@@ -72,6 +72,10 @@
           "settings": {
             "heading": "Description",
             "use_description": true,
+            "metafield_namespace": "",
+            "metafield_key": "",
+            "content": "",
+            "page": "",
             "open_by_default": true
           }
         },
@@ -79,18 +83,24 @@
           "type": "collapsible_tab",
           "settings": {
             "heading": "Care",
+            "use_description": false,
             "metafield_namespace": "custom",
             "metafield_key": "care_instructions",
-            "content": "<p>Spot clean with mild soap and cold water. Air dry away from direct sunlight.</p>"
+            "content": "<p>Spot clean with mild soap and cold water. Air dry away from direct sunlight.</p>",
+            "page": "",
+            "open_by_default": false
           }
         },
         "design": {
           "type": "collapsible_tab",
           "settings": {
             "heading": "Design",
+            "use_description": false,
             "metafield_namespace": "custom",
             "metafield_key": "design_notes",
-            "content": "<p>Water-resistant nylon shell, matte hardware, reinforced base. Strap sold separately — that's the whole point.</p>"
+            "content": "<p>Water-resistant nylon shell, matte hardware, reinforced base. Strap sold separately — that's the whole point.</p>",
+            "page": "",
+            "open_by_default": false
           }
         }
       },
@@ -117,13 +127,27 @@
     },
     "sticky": {
       "type": "sticky-add-to-cart",
-      "settings": {}
+      "settings": {
+        "watch_selector": "[data-product-info]",
+        "reveal_offset": 80
+      }
     },
     "cross_sell": {
       "type": "product-cross-sell-modal",
       "settings": {
         "heading": "It's Not Complete Without A Strap!",
         "subheading": "Your bag's in the cart. It just needs something to hang from.",
+        "products": [
+          "twist-strappy",
+          "yswirl",
+          "short-strappy",
+          "multicolor-strappy",
+          "link-strappy",
+          "knot-strappy",
+          "dna-strappy",
+          "cloud-strappy",
+          "braided-strappy"
+        ],
         "dismiss_label": "Nah, just the bag",
         "auto_open": true
       }
@@ -134,7 +158,14 @@
         "heading": "Too Lazy To Pick A Strap?",
         "text": "<p>Some bags already come matched with a strap in a bundle. Check if this one's in there.</p>",
         "button_label": "SEE BUNDLES",
-        "background": "#D4E84A"
+        "button_link": "",
+        "background": "#d4e84a",
+        "text_color": "#1a1a1a",
+        "button_background": "#1a1a1a",
+        "button_text_color": "#fdfeff",
+        "padding_top": 80,
+        "padding_bottom": 96,
+        "padding_side": 40
       }
     },
     "related": {
@@ -192,7 +223,11 @@
     },
     "recently_viewed": {
       "type": "recently-viewed",
-      "settings": {}
+      "settings": {
+        "heading": "Recently Viewed",
+        "max_items": 4,
+        "padding": 64
+      }
     }
   },
   "order": [
