@@ -103,8 +103,9 @@ for rg in required_groups:
 
 # settings_data current values reference real setting ids
 settings_data = load_json(ROOT / "config" / "settings_data.json") or {}
+SHOPIFY_MANAGED_KEYS = {"sections", "content_for_index", "blocks", "platform_customizations"}
 for key in settings_data.get("current", {}):
-    if key not in global_setting_ids and key != "sections":
+    if key not in global_setting_ids and key not in SHOPIFY_MANAGED_KEYS:
         warnings.append(f"settings_data.json: '{key}' not defined in settings_schema")
 
 for name, schema in section_schemas.items():
