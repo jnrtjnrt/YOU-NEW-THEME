@@ -125,7 +125,7 @@
         "design"
       ],
       "settings": {
-        "image_ratio": "tall",
+        "image_ratio": "square",
         "show_thumbnails": true,
         "show_gallery_arrows": true
       }
