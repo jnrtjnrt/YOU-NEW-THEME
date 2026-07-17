@@ -1,0 +1,59 @@
+{% comment %}
+  Product image gallery: large image with prev/next arrows + thumbnail row.
+  Usage: {% render 'product-gallery', product: product, image_ratio: 'tall', show_thumbnails: true, show_arrows: true %}
+  image_ratio: 'square' (1:1) | 'portrait' (3:4) | 'tall' (4:5) | 'natural' (image's own ratio)
+{% endcomment %}
+{%- liquid
+  case image_ratio
+    when 'square'
+      assign ratio_css = '1 / 1'
+    when 'portrait'
+      assign ratio_css = '3 / 4'
+    when 'tall'
+      assign ratio_css = '4 / 5'
+    else
+      assign ratio_css = 'auto'
+  endcase
+
+  assign featured = product.selected_or_first_available_variant.featured_media | default: product.featured_media
+-%}
+<div data-product-gallery>
+  <div class="product__gallery-main">
+    {%- if featured -%}
+      <img
+        data-gallery-main
+        src="{{ featured | image_url: width: 1200 }}"
+        srcset="{{ featured | image_url: width: 750 }} 750w, {{ featured | image_url: width: 1200 }} 1200w, {{ featured | image_url: width: 1600 }} 1600w"
+        sizes="(min-width: 990px) 55vw, 100vw"
+        alt="{{ featured.alt | escape }}"
+        loading="eager"
+        width="{{ featured.width }}"
+        height="{{ featured.height }}"
+        style="aspect-ratio: {{ ratio_css }};">
+    {%- else -%}
+      <div style="aspect-ratio: {{ ratio_css }};">{{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}</div>
+    {%- endif -%}
+
+    {%- if product.media.size > 1 and show_arrows -%}
+      <button type="button" class="product__gallery-arrow product__gallery-arrow--prev" data-gallery-prev aria-label="{{ 'products.product.previous_image' | t }}">{% render 'icon', icon: 'arrow-left', size: 18 %}</button>
+      <button type="button" class="product__gallery-arrow product__gallery-arrow--next" data-gallery-next aria-label="{{ 'products.product.next_image' | t }}">{% render 'icon', icon: 'arrow-right', size: 18 %}</button>
+    {%- endif -%}
+  </div>
+
+  {%- if product.media.size > 1 and show_thumbnails -%}
+    <div class="product__thumbs">
+      {%- for media in product.media -%}
+        <button
+          type="button"
+          class="product__thumb{% if media.id == featured.id %} is-active{% endif %}"
+          data-gallery-thumb
+          data-media-id="{{ media.id }}"
+          data-full-src="{{ media | image_url: width: 1200 }}"
+          data-full-srcset="{{ media | image_url: width: 750 }} 750w, {{ media | image_url: width: 1200 }} 1200w, {{ media | image_url: width: 1600 }} 1600w"
+          aria-label="{{ 'products.product.view_image' | t: number: forloop.index }}">
+          <img src="{{ media | image_url: width: 144 }}" alt="{{ media.alt | escape }}" width="72" height="72" loading="lazy">
+        </button>
+      {%- endfor -%}
+    </div>
+  {%- endif -%}
+</div>

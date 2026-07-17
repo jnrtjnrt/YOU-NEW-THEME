@@ -38,9 +38,24 @@ Brand fonts (Bricolage Grotesque / Cormorant Garamond / Archivo) load from Googl
 | `ugc-gallery` | Black "worn by" photo grid |
 | `promo-banners` | Split color-washed promo pair |
 | `newsletter` | Black email capture band |
-| `main-product` | Block-based PDP (gallery, swatches, qty, trust row, accordions, sticky ATC) |
+| `main-product` | Block-based PDP (gallery, swatches, qty, trust row, accordions, compatibility note) |
+| `sticky-add-to-cart` | Independent sticky ATC bar, synced to the variant picker via events |
+| `product-cross-sell-modal` | "Complete the look" pop-up after add to cart (Bag → Strap upsell) |
+| `product-cross-sell-grid` | "Pairs Well With" quick-add grid (curated list or collection) |
+| `product-upsell-banner` | Volt bundle-reminder CTA band |
+| `recently-viewed` | localStorage-driven recently viewed products (no app needed) |
 | `main-collection` | Collection page with storefront filtering, sorting, grid toggle |
 | `cart-drawer` | AJAX cart drawer with free-shipping progress |
+| `legal-content` | Policy page layout with auto-generated sticky table of contents |
+| `style-lab-builder` | Interactive bag + strap set builder with running total and add-set-to-cart |
+| `style-lab-bundles-carousel` | Staff-picked pairings that jump the builder to that set |
+
+## Product & page templates
+
+- `templates/product.json` — primary PDP (Bag layout: cross-sell modal + bundle banner + reviews + recently viewed)
+- `templates/product.strap.json` — alternate PDP (Strap layout: compatibility note + "Pairs Well With" grid)
+- `templates/page.legal.json` — Terms of Service / Refund Policy layout (assign in the page's Theme template picker)
+- `templates/page.style-lab.json` — the YOU Style Lab mix & match page
 
 ## Development
 

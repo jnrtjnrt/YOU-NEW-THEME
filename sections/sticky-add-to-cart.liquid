@@ -1,0 +1,60 @@
+{% comment %}
+  Independent sticky add-to-cart bar for product templates.
+  Reads the initial variant server-side, then stays in sync with the
+  variant picker (in the main-product section) via the `you:variant:change`
+  custom event so it works correctly even though it's a separate section.
+{% endcomment %}
+{%- assign current_variant = product.selected_or_first_available_variant -%}
+<div
+  class="sticky-atc"
+  data-sticky-atc
+  data-watch="{{ section.settings.watch_selector | default: '[data-product-info]' }}"
+  data-reveal-offset="{{ section.settings.reveal_offset }}">
+  <div class="sticky-atc__inner">
+    <div class="sticky-atc__product">
+      {%- if product.featured_media -%}
+        <img class="sticky-atc__image" data-sticky-image src="{{ product.featured_media | image_url: width: 96 }}" alt="{{ product.featured_media.alt | escape }}" width="48" height="48" loading="lazy">
+      {%- else -%}
+        <div class="sticky-atc__image"></div>
+      {%- endif -%}
+      <div style="min-width: 0;">
+        <div class="sticky-atc__title">{{ product.title }}</div>
+        <div class="sticky-atc__price" data-sticky-price>{{ current_variant.price | money }}</div>
+      </div>
+    </div>
+    <button type="button" class="button button--md" data-sticky-add {% unless current_variant.available %}disabled{% endunless %}>
+      <span data-sticky-add-label>
+        {%- if current_variant.available -%}{{ 'products.product.add_to_cart' | t }}{%- else -%}{{ 'products.product.sold_out' | t }}{%- endif -%}
+      </span>
+    </button>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Sticky add to cart",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "watch_selector",
+      "label": "Reveal after element (CSS selector)",
+      "default": "[data-product-info]",
+      "info": "The bar appears once this element scrolls out of view. Leave as the default unless you've customized the product template."
+    },
+    {
+      "type": "range",
+      "id": "reveal_offset",
+      "label": "Reveal offset",
+      "min": 0,
+      "max": 200,
+      "step": 10,
+      "unit": "px",
+      "default": 80
+    }
+  ],
+  "enabled_on": {
+    "templates": ["product"]
+  }
+}
+{% endschema %}

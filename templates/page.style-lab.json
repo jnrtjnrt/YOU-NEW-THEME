@@ -1,0 +1,50 @@
+{
+  "sections": {
+    "hero": {
+      "type": "rich-text",
+      "settings": {
+        "alignment": "center",
+        "padding": 56
+      },
+      "blocks": {
+        "eyebrow": {
+          "type": "eyebrow",
+          "settings": {
+            "text": "YOU STYLE LAB"
+          }
+        },
+        "heading": {
+          "type": "heading",
+          "settings": {
+            "text": "Mix It. Match It. Make It You.",
+            "size": 64
+          }
+        },
+        "text": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Pick a bag. Pick a strap. See the set. Toss it in your cart before you overthink it.</p>"
+          }
+        }
+      },
+      "block_order": ["eyebrow", "heading", "text"]
+    },
+    "builder": {
+      "type": "style-lab-builder"
+    },
+    "extras": {
+      "type": "product-cross-sell-grid",
+      "settings": {
+        "heading": "Complete The Fit",
+        "subheading": "Small stuff. Big difference. Add it while you're here.",
+        "button_label": "ADD +",
+        "products_count": 4,
+        "padding": 64
+      }
+    },
+    "bundles": {
+      "type": "style-lab-bundles-carousel"
+    }
+  },
+  "order": ["hero", "builder", "extras", "bundles"]
+}

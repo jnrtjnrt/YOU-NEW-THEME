@@ -1,0 +1,53 @@
+{% comment %}
+  "Pairs well with" grid: heading + subtext + a grid of products with quick-add
+  buttons (no color swatches — just a fast add of the default variant).
+  Source is a curated product list if set, otherwise a collection.
+{% endcomment %}
+{%- liquid
+  assign grid_products = section.settings.products
+  if grid_products.size == 0 and section.settings.collection != blank
+    assign grid_products = section.settings.collection.products
+  endif
+-%}
+{%- if grid_products.size > 0 -%}
+  <div style="padding: {{ section.settings.padding }}px 0;">
+    <div class="container">
+      {%- if section.settings.heading != blank -%}
+        <h2 class="section-heading" style="font-size: calc(36px * var(--heading-scale)); margin-bottom: 8px;">{{ section.settings.heading }}</h2>
+      {%- endif -%}
+      {%- if section.settings.subheading != blank -%}
+        <p class="section-subtext" style="margin-bottom: 32px;">{{ section.settings.subheading }}</p>
+      {%- endif -%}
+
+      <div class="grid grid--4">
+        {%- for grid_product in grid_products limit: section.settings.products_count -%}
+          {% render 'quick-add-card', card_product: grid_product, show_swatches: false, button_label: section.settings.button_label %}
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Product cross-sell grid",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Pairs Well With" },
+    { "type": "text", "id": "subheading", "label": "Subheading", "default": "Bags that go with this strap. You still need one of these." },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "QUICK ADD" },
+    { "type": "header", "content": "Products" },
+    { "type": "paragraph", "content": "A curated list takes priority. Leave it empty to pull from a collection instead." },
+    { "type": "product_list", "id": "products", "label": "Curated products", "limit": 12 },
+    { "type": "collection", "id": "collection", "label": "Fallback collection" },
+    { "type": "range", "id": "products_count", "label": "Products to show", "min": 2, "max": 12, "step": 1, "default": 4 },
+    { "type": "range", "id": "padding", "label": "Vertical padding", "min": 0, "max": 128, "step": 4, "unit": "px", "default": 80 }
+  ],
+  "presets": [
+    { "name": "Product cross-sell grid" }
+  ],
+  "enabled_on": {
+    "templates": ["product", "page", "index"]
+  }
+}
+{% endschema %}

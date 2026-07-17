@@ -1,0 +1,95 @@
+{% comment %}
+  Compact product card with an AJAX "quick add" button, optionally with
+  color swatches that resolve to the matching variant client-side.
+  Used by: product-cross-sell-modal, product-cross-sell-grid, recently-viewed,
+  and the Style Lab bundles carousel.
+
+  Usage:
+    {% render 'quick-add-card', card_product: product, show_swatches: true, button_label: 'Add to cart' %}
+
+  Params:
+    card_product   — required, a product object
+    show_swatches  — optional, default true. Shows color-option swatches when the product has a Color/Colour option.
+    button_label   — optional text override for the button (defaults to the "Add to cart" translation)
+    card_width     — optional CSS width for use in horizontal scroll rows (e.g. "200px")
+{% endcomment %}
+{%- if card_product and card_product != empty -%}
+  {%- liquid
+    if show_swatches == nil
+      assign show_swatches = true
+    endif
+    assign default_variant = card_product.selected_or_first_available_variant
+
+    assign color_option = blank
+    for option in card_product.options_with_values
+      assign opt_name = option.name | downcase
+      if opt_name == 'color' or opt_name == 'colour'
+        assign color_option = option
+        break
+      endif
+    endfor
+  -%}
+  <div class="quick-add-card" data-quick-add-card style="{% if card_width %}width: {{ card_width }}; flex: 0 0 {{ card_width }};{% endif %}">
+    <a href="{{ card_product.url }}" class="quick-add-card__media">
+      {%- if card_product.featured_media -%}
+        <img
+          data-quick-add-image
+          src="{{ card_product.featured_media | image_url: width: 400 }}"
+          alt="{{ card_product.featured_media.alt | escape | default: card_product.title | escape }}"
+          loading="lazy"
+          width="{{ card_product.featured_media.width }}"
+          height="{{ card_product.featured_media.height }}">
+      {%- else -%}
+        {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+      {%- endif -%}
+    </a>
+    <div class="quick-add-card__info">
+      <a href="{{ card_product.url }}" class="quick-add-card__title">{{ card_product.title }}</a>
+      <div class="quick-add-card__price" data-quick-add-price>{% render 'price', variant: default_variant %}</div>
+    </div>
+
+    {%- if show_swatches and color_option != blank -%}
+      <div class="quick-add-card__swatches" data-quick-add-swatches data-option-position="{{ color_option.position }}">
+        {%- for value in color_option.values -%}
+          {%- capture swatch_bg %}{% render 'swatch-color', value: value %}{% endcapture -%}
+          <button
+            type="button"
+            class="quick-add-card__swatch{% if value == color_option.selected_value %} is-active{% endif %}"
+            data-swatch-value="{{ value | escape }}"
+            style="background: {{ swatch_bg | strip }};"
+            aria-label="{{ value | escape }}"
+            aria-pressed="{% if value == color_option.selected_value %}true{% else %}false{% endif %}"></button>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+    <button
+      type="button"
+      class="button button--md quick-add-card__button"
+      data-quick-add-button
+      data-variant-id="{{ default_variant.id }}"
+      {% unless default_variant.available %}disabled{% endunless %}>
+      <span data-quick-add-label>
+        {%- if default_variant.available -%}
+          {{ button_label | default: 'products.product.add_to_cart' | t }}
+        {%- else -%}
+          {{ 'products.product.sold_out' | t }}
+        {%- endif -%}
+      </span>
+    </button>
+
+    <script type="application/json" data-quick-add-variants>
+      [
+        {%- for variant in card_product.variants -%}
+          {
+            "id": {{ variant.id }},
+            "available": {{ variant.available }},
+            "options": {{ variant.options | json }},
+            "price_formatted": {{ variant.price | money | json }},
+            "featured_media_id": {{ variant.featured_media.id | json }}
+          }{% unless forloop.last %},{% endunless %}
+        {%- endfor -%}
+      ]
+    </script>
+  </div>
+{%- endif -%}

@@ -1,0 +1,8 @@
+{
+  "sections": {
+    "main": {
+      "type": "legal-content"
+    }
+  },
+  "order": ["main"]
+}

@@ -3,7 +3,7 @@
     {%- for block in section.blocks -%}
       {%- case block.type -%}
         {%- when 'eyebrow' -%}
-          <span class="eyebrow" {{ block.shopify_attributes }}>{{ block.settings.text }}</span>
+          <span class="eyebrow" style="color: {{ block.settings.color }};" {{ block.shopify_attributes }}>{{ block.settings.text }}</span>
         {%- when 'heading' -%}
           <h2 style="font-size: calc({{ block.settings.size }}px * var(--heading-scale)); margin: 8px 0 0 0;" {{ block.shopify_attributes }}>{{ block.settings.text }}</h2>
         {%- when 'text' -%}
@@ -42,7 +42,8 @@
       "name": "Eyebrow",
       "limit": 1,
       "settings": [
-        { "type": "text", "id": "text", "label": "Text", "default": "MADE BY YOU" }
+        { "type": "text", "id": "text", "label": "Text", "default": "MADE BY YOU" },
+        { "type": "color", "id": "color", "label": "Color", "default": "#E8401C" }
       ]
     },
     {

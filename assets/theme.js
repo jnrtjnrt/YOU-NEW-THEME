@@ -10,6 +10,29 @@
   function qs(sel, ctx) { return (ctx || document).querySelector(sel); }
   function qsa(sel, ctx) { return Array.prototype.slice.call((ctx || document).querySelectorAll(sel)); }
 
+  /* Money formatting, mirroring Shopify's shop.money_format placeholders ------------- */
+  function formatMoney(cents) {
+    var format = window.themeMoneyFormat || '${{amount}}';
+    var value = (cents / 100);
+    function withDelimiters(num, decimals, thousands, decimalSep) {
+      var fixed = num.toFixed(decimals);
+      var parts = fixed.split('.');
+      parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, thousands);
+      return parts.join(decimalSep);
+    }
+    var replacements = {
+      amount: withDelimiters(value, 2, ',', '.'),
+      amount_no_decimals: withDelimiters(value, 0, ',', '.'),
+      amount_with_comma_separator: withDelimiters(value, 2, '.', ','),
+      amount_no_decimals_with_comma_separator: withDelimiters(value, 0, '.', ','),
+      amount_with_space_separator: withDelimiters(value, 2, ' ', ','),
+      amount_no_decimals_with_space_separator: withDelimiters(value, 0, ' ', '')
+    };
+    return format.replace(/\{\{\s*(\w+)\s*\}\}/g, function (m, key) {
+      return replacements[key] !== undefined ? replacements[key] : m;
+    });
+  }
+
   /* Cart drawer -------------------------------------------------------------- */
   var CartDrawer = {
     open: function () {
@@ -105,7 +128,9 @@
           .then(function (r) { return r.json(); })
           .then(function (item) {
             if (item.status && item.status !== 200) throw new Error(item.description || window.themeStrings.cartError);
-            return CartDrawer.refresh(true);
+            document.dispatchEvent(new CustomEvent('you:cart:added', { detail: { item: item } }));
+            var claimed = document.dispatchEvent(new CustomEvent('you:cart:added:claimable', { detail: { item: item }, cancelable: true }));
+            return CartDrawer.refresh(claimed);
           })
           .catch(function (err) {
             var status = qs('[data-form-status]', form);
@@ -166,7 +191,7 @@
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape') {
         CartDrawer.close();
-        qsa('.menu-drawer.is-open, .header-search.is-open').forEach(function (el) { el.classList.remove('is-open'); });
+        qsa('.menu-drawer.is-open, .header-search.is-open, [data-cross-sell-modal].is-open').forEach(function (el) { el.classList.remove('is-open'); });
         qsa('.scrim.is-open').forEach(function (el) { el.classList.remove('is-open'); });
         document.body.style.overflow = '';
       }
@@ -305,6 +330,9 @@
           url.searchParams.set('variant', match.id);
           window.history.replaceState({}, '', url.toString());
         }
+        document.dispatchEvent(new CustomEvent('you:variant:change', {
+          detail: { variant: match, productId: form.closest('[data-product-id]') ? form.closest('[data-product-id]').getAttribute('data-product-id') : null }
+        }));
       }
 
       picker.addEventListener('change', onChange);
@@ -329,14 +357,413 @@
   /* Sticky add-to-cart bar --------------------------------------------------------- */
   function bindStickyAtc() {
     var bar = qs('[data-sticky-atc]');
-    var anchor = qs('[data-product-info]');
-    if (!bar || !anchor) return;
-    var onScroll = function () {
-      var rect = anchor.getBoundingClientRect();
-      bar.classList.toggle('is-visible', rect.bottom < 80);
-    };
-    window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
+    if (!bar) return;
+    var anchor = qs(bar.getAttribute('data-watch') || '[data-product-info]');
+    var offset = parseInt(bar.getAttribute('data-reveal-offset'), 10) || 80;
+
+    if (anchor) {
+      var onScroll = function () {
+        var rect = anchor.getBoundingClientRect();
+        bar.classList.toggle('is-visible', rect.bottom < offset);
+      };
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+    }
+
+    var addBtn = qs('[data-sticky-add]', bar);
+    if (addBtn) {
+      addBtn.addEventListener('click', function () {
+        var realSubmit = qs('form[data-product-form] [name="add"]');
+        if (realSubmit) realSubmit.click();
+      });
+    }
+
+    document.addEventListener('you:variant:change', function (e) {
+      var variant = e.detail && e.detail.variant;
+      if (!variant) return;
+      var priceEl = qs('[data-sticky-price]', bar);
+      if (priceEl && variant.price_formatted) priceEl.innerHTML = variant.price_formatted;
+      if (addBtn) {
+        var label = qs('[data-sticky-add-label]', addBtn);
+        if (variant.available) {
+          addBtn.removeAttribute('disabled');
+          if (label) label.textContent = window.themeStrings.addToCart;
+        } else {
+          addBtn.setAttribute('disabled', 'disabled');
+          if (label) label.textContent = window.themeStrings.soldOut;
+        }
+      }
+    });
+  }
+
+  /* Quick-add cards (cross-sell modal / grid / recently viewed) ---------------------- */
+  function findQuickAddVariant(card, colorValue) {
+    var jsonEl = qs('[data-quick-add-variants]', card);
+    if (!jsonEl) return null;
+    var variants;
+    try { variants = JSON.parse(jsonEl.textContent); } catch (err) { return null; }
+    var swatches = qs('[data-quick-add-swatches]', card);
+    var position = swatches ? parseInt(swatches.getAttribute('data-option-position'), 10) - 1 : -1;
+    if (position < 0) return variants[0] || null;
+    var matches = variants.filter(function (v) { return v.options[position] === colorValue; });
+    var available = matches.filter(function (v) { return v.available; });
+    return available[0] || matches[0] || null;
+  }
+
+  function bindQuickAddCards() {
+    if (bindQuickAddCards._bound) return;
+    bindQuickAddCards._bound = true;
+    document.addEventListener('click', function (e) {
+      var swatch = e.target.closest('[data-quick-add-swatches] .quick-add-card__swatch');
+      if (swatch) {
+        var card = swatch.closest('[data-quick-add-card]');
+        var swatchesWrap = swatch.closest('[data-quick-add-swatches]');
+        qsa('.quick-add-card__swatch', swatchesWrap).forEach(function (s) {
+          s.classList.toggle('is-active', s === swatch);
+          s.setAttribute('aria-pressed', s === swatch ? 'true' : 'false');
+        });
+        var variant = findQuickAddVariant(card, swatch.getAttribute('data-swatch-value'));
+        var button = qs('[data-quick-add-button]', card);
+        var priceEl = qs('[data-quick-add-price]', card);
+        if (variant && button) {
+          button.setAttribute('data-variant-id', variant.id);
+          var label = qs('[data-quick-add-label]', button);
+          if (variant.available) {
+            button.removeAttribute('disabled');
+            if (label && label.getAttribute('data-original-label')) label.textContent = label.getAttribute('data-original-label');
+          } else {
+            button.setAttribute('disabled', 'disabled');
+            if (label) {
+              if (!label.getAttribute('data-original-label')) label.setAttribute('data-original-label', label.textContent);
+              label.textContent = window.themeStrings.soldOut;
+            }
+          }
+          if (priceEl && variant.price_formatted) priceEl.innerHTML = variant.price_formatted;
+        }
+        return;
+      }
+
+      var addBtn = e.target.closest('[data-quick-add-button]');
+      if (addBtn) {
+        if (addBtn.hasAttribute('disabled')) return;
+        var variantId = addBtn.getAttribute('data-variant-id');
+        if (!variantId) return;
+        addBtn.setAttribute('disabled', 'disabled');
+        fetch(window.routes.cart_add_url + '.js', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id: variantId, quantity: 1 })
+        })
+          .then(function (r) { return r.json(); })
+          .then(function (item) {
+            if (item.status && item.status !== 200) throw new Error(item.description || window.themeStrings.cartError);
+            document.dispatchEvent(new CustomEvent('you:cart:added', { detail: { item: item } }));
+            var modal = addBtn.closest('[data-cross-sell-modal]');
+            if (modal) {
+              document.body.style.overflow = '';
+              modal.classList.remove('is-open');
+              modal.setAttribute('aria-hidden', 'true');
+            }
+            // Quick add is intentionally silent — it only refreshes the cart count,
+            // it doesn't pop the drawer open (matches the source designs).
+            return CartDrawer.refresh(false);
+          })
+          .catch(function () { /* silent: card stays interactive, drawer just won't update */ })
+          .then(function () { addBtn.removeAttribute('disabled'); });
+      }
+    });
+  }
+
+  /* Cross-sell modal (e.g. "complete the look" after add to cart) -------------------- */
+  function bindCrossSellModal() {
+    var modal = qs('[data-cross-sell-modal]');
+    if (!modal) return;
+    var scroller = qs('[data-cross-sell-scroll]', modal);
+
+    function open() {
+      modal.classList.add('is-open');
+      modal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+    function close() {
+      modal.classList.remove('is-open');
+      modal.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+
+    qsa('[data-cross-sell-close]', modal).forEach(function (el) {
+      el.addEventListener('click', close);
+    });
+    var prev = qs('[data-cross-sell-prev]', modal);
+    var next = qs('[data-cross-sell-next]', modal);
+    if (prev && scroller) prev.addEventListener('click', function () { scroller.scrollBy({ left: -420, behavior: 'smooth' }); });
+    if (next && scroller) next.addEventListener('click', function () { scroller.scrollBy({ left: 420, behavior: 'smooth' }); });
+
+    if (modal.getAttribute('data-auto-open') === 'true') {
+      // Only the main product form's submit dispatches this (quick-add buttons inside
+      // the modal itself use a plain fetch and never fire it), so there's no risk of
+      // the modal re-claiming its own quick-add clicks.
+      document.addEventListener('you:cart:added:claimable', function (e) {
+        e.preventDefault();
+        open();
+      });
+    }
+  }
+
+  /* Recently viewed (localStorage, no app required) ----------------------------------- */
+  function bindRecentlyViewed() {
+    var STORAGE_KEY = 'you:recently-viewed';
+    var section = qs('[data-recently-viewed]');
+
+    function readHandles() {
+      try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; } catch (err) { return []; }
+    }
+    function writeHandles(handles) {
+      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(handles.slice(0, 20))); } catch (err) { /* private mode */ }
+    }
+
+    var currentHandle = section ? section.getAttribute('data-current-handle') : null;
+    if (currentHandle) {
+      var handles = readHandles().filter(function (h) { return h !== currentHandle; });
+      handles.unshift(currentHandle);
+      writeHandles(handles);
+    }
+
+    if (!section) return;
+    var row = qs('[data-recently-viewed-row]', section);
+    var max = parseInt(section.getAttribute('data-max-items'), 10) || 4;
+    var toShow = readHandles().filter(function (h) { return h !== currentHandle; }).slice(0, max);
+    if (!toShow.length) return;
+
+    Promise.all(toShow.map(function (handle) {
+      return fetch('/products/' + handle + '.js').then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; });
+    })).then(function (products) {
+      products.filter(Boolean).forEach(function (product) {
+        var variant = product.variants[0];
+        if (!variant) return;
+        var card = document.createElement('div');
+        card.className = 'quick-add-card';
+        card.innerHTML =
+          '<a href="' + product.url + '" class="quick-add-card__media">' +
+            (product.featured_image ? '<img src="' + product.featured_image.replace(/(\.[a-z]+)(\?|$)/i, '_400x$1$2') + '" alt="" loading="lazy">' : '') +
+          '</a>' +
+          '<div class="quick-add-card__info">' +
+            '<a href="' + product.url + '" class="quick-add-card__title">' + product.title + '</a>' +
+            '<div class="quick-add-card__price">' + formatMoney(variant.price) + '</div>' +
+          '</div>' +
+          '<button type="button" class="button button--md quick-add-card__button" data-quick-add-button data-variant-id="' + variant.id + '"' + (variant.available ? '' : ' disabled') + '>' +
+            '<span data-quick-add-label>' + (variant.available ? window.themeStrings.addToCart : window.themeStrings.soldOut) + '</span>' +
+          '</button>';
+        row.appendChild(card);
+      });
+      if (row.children.length) section.hidden = false;
+    });
+  }
+
+  /* Style Lab: bag + strap set builder ------------------------------------------------ */
+  function bindStyleLab() {
+    var builder = qs('[data-style-lab-builder]');
+    if (!builder) return;
+
+    var pickers = {};
+
+    function variantFor(product, colorIdx) {
+      if (!product.variants.length) return null;
+      if (!product.colors.length || product.colorPosition < 1) return product.variants[0];
+      var value = product.colors[colorIdx] ? product.colors[colorIdx].value : null;
+      var pos = product.colorPosition - 1;
+      var matches = product.variants.filter(function (v) { return v.options[pos] === value; });
+      var available = matches.filter(function (v) { return v.available; });
+      return available[0] || matches[0] || product.variants[0];
+    }
+
+    qsa('[data-style-lab-picker]', builder).forEach(function (el) {
+      var jsonEl = qs('[data-style-lab-data]', el);
+      var products;
+      try { products = JSON.parse(jsonEl.textContent); } catch (err) { products = []; }
+      if (!products.length) return;
+
+      var state = { index: 0, colorIdx: 0, products: products, el: el };
+      pickers[el.getAttribute('data-style-lab-picker')] = state;
+      el.hidden = false;
+
+      function render() {
+        var product = state.products[state.index];
+        var variant = variantFor(product, state.colorIdx);
+        var img = qs('[data-style-lab-image]', el);
+        if (img) {
+          if (product.image) { img.src = product.image; img.alt = product.title; }
+          else { img.removeAttribute('src'); }
+        }
+        var nameEl = qs('[data-style-lab-name]', el);
+        if (nameEl) nameEl.textContent = product.title;
+        var priceEl = qs('[data-style-lab-price]', el);
+        if (priceEl && variant) priceEl.textContent = variant.price_formatted;
+
+        var swatches = qs('[data-style-lab-swatches]', el);
+        if (swatches) {
+          swatches.innerHTML = '';
+          product.colors.forEach(function (c, ci) {
+            var btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'style-lab-swatch' + (ci === state.colorIdx ? ' is-active' : '');
+            btn.style.background = c.hex;
+            btn.setAttribute('aria-label', c.value);
+            btn.setAttribute('aria-pressed', ci === state.colorIdx ? 'true' : 'false');
+            btn.addEventListener('click', function () {
+              state.colorIdx = ci;
+              render();
+              renderSummary();
+            });
+            swatches.appendChild(btn);
+          });
+        }
+      }
+
+      var prev = qs('[data-style-lab-prev]', el);
+      var next = qs('[data-style-lab-next]', el);
+      if (prev) prev.addEventListener('click', function () {
+        state.index = (state.index - 1 + state.products.length) % state.products.length;
+        state.colorIdx = 0;
+        render();
+        renderSummary();
+      });
+      if (next) next.addEventListener('click', function () {
+        state.index = (state.index + 1) % state.products.length;
+        state.colorIdx = 0;
+        render();
+        renderSummary();
+      });
+
+      state.render = render;
+      render();
+    });
+
+    var summary = qs('[data-style-lab-summary]');
+    function renderSummary() {
+      if (!summary || !pickers.bag || !pickers.strap) return;
+      var bag = pickers.bag.products[pickers.bag.index];
+      var strap = pickers.strap.products[pickers.strap.index];
+      var bagVariant = variantFor(bag, pickers.bag.colorIdx);
+      var strapVariant = variantFor(strap, pickers.strap.colorIdx);
+      var bagImg = qs('[data-style-lab-summary-image="bag"]', summary);
+      var strapImg = qs('[data-style-lab-summary-image="strap"]', summary);
+      if (bagImg && bag.image) { bagImg.src = bag.image; bagImg.alt = bag.title; }
+      if (strapImg && strap.image) { strapImg.src = strap.image; strapImg.alt = strap.title; }
+      var nameEl = qs('[data-style-lab-summary-name]', summary);
+      if (nameEl) nameEl.textContent = bag.title + ' + ' + strap.title;
+      var totalEl = qs('[data-style-lab-summary-total]', summary);
+      if (totalEl && bagVariant && strapVariant) totalEl.textContent = formatMoney(bagVariant.price + strapVariant.price);
+      summary.hidden = false;
+    }
+    renderSummary();
+
+    var addSet = qs('[data-style-lab-add-set]');
+    if (addSet) {
+      addSet.addEventListener('click', function () {
+        if (!pickers.bag || !pickers.strap) return;
+        var bagVariant = variantFor(pickers.bag.products[pickers.bag.index], pickers.bag.colorIdx);
+        var strapVariant = variantFor(pickers.strap.products[pickers.strap.index], pickers.strap.colorIdx);
+        if (!bagVariant || !strapVariant) return;
+        addSet.setAttribute('disabled', 'disabled');
+        fetch(window.routes.cart_add_url + '.js', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ items: [
+            { id: bagVariant.id, quantity: 1 },
+            { id: strapVariant.id, quantity: 1 }
+          ] })
+        })
+          .then(function (r) { return r.json(); })
+          .then(function (result) {
+            if (result.status && result.status !== 200) throw new Error(result.description || window.themeStrings.cartError);
+            return CartDrawer.refresh(true);
+          })
+          .catch(function () { /* leave the builder usable */ })
+          .then(function () { addSet.removeAttribute('disabled'); });
+      });
+    }
+
+    // "Use this set" cards: jump both pickers to the referenced products.
+    qsa('[data-style-lab-set]').forEach(function (card) {
+      var btn = qs('[data-style-lab-use-set]', card);
+      if (!btn) return;
+      btn.addEventListener('click', function () {
+        var bagId = card.getAttribute('data-bag-id');
+        var strapId = card.getAttribute('data-strap-id');
+        ['bag', 'strap'].forEach(function (kind) {
+          var picker = pickers[kind];
+          if (!picker) return;
+          var targetId = kind === 'bag' ? bagId : strapId;
+          var idx = picker.products.findIndex(function (p) { return String(p.id) === targetId; });
+          if (idx >= 0) {
+            picker.index = idx;
+            picker.colorIdx = 0;
+            picker.render();
+          }
+        });
+        renderSummary();
+        builder.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+
+    // Bundled-sets carousel arrows.
+    var setsRow = qs('[data-style-lab-sets-scroll]');
+    var setsPrev = qs('[data-style-lab-sets-prev]');
+    var setsNext = qs('[data-style-lab-sets-next]');
+    if (setsPrev && setsRow) setsPrev.addEventListener('click', function () { setsRow.scrollBy({ left: -460, behavior: 'smooth' }); });
+    if (setsNext && setsRow) setsNext.addEventListener('click', function () { setsRow.scrollBy({ left: 460, behavior: 'smooth' }); });
+  }
+
+  /* Legal page: auto-generate a sticky TOC from <h2> headings in page.content -------- */
+  function slugify(text) {
+    return text.toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') || 'section';
+  }
+
+  function bindLegalToc() {
+    var body = qs('[data-legal-body]');
+    var toc = qs('[data-legal-toc]');
+    var nav = qs('[data-legal-toc-nav]');
+    var grid = qs('[data-legal-grid]');
+    if (!body || !toc || !nav) return;
+
+    var headings = qsa('h2', body);
+    if (!headings.length) {
+      if (grid) grid.classList.add('legal-grid--no-toc');
+      return;
+    }
+
+    nav.innerHTML = '';
+    var used = {};
+    var links = headings.map(function (h) {
+      if (!h.id) {
+        var base = slugify(h.textContent);
+        var id = base;
+        var i = 1;
+        while (used[id]) { id = base + '-' + (++i); }
+        h.id = id;
+      }
+      used[h.id] = true;
+      var a = document.createElement('a');
+      a.href = '#' + h.id;
+      a.textContent = h.textContent;
+      nav.appendChild(a);
+      return { link: a, heading: h };
+    });
+    toc.hidden = false;
+
+    if ('IntersectionObserver' in window) {
+      var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          var match = links.find(function (l) { return l.heading === entry.target; });
+          if (match && entry.isIntersecting) {
+            links.forEach(function (l) { l.link.classList.remove('is-active'); });
+            match.link.classList.add('is-active');
+          }
+        });
+      }, { rootMargin: '-20% 0px -70% 0px' });
+      headings.forEach(function (h) { observer.observe(h); });
+    }
   }
 
   /* Collection: auto-submit filters + grid toggle ------------------------------------ */
@@ -395,6 +822,11 @@
     bindVariantPickers();
     bindQtySteppers();
     bindStickyAtc();
+    bindQuickAddCards();
+    bindCrossSellModal();
+    bindRecentlyViewed();
+    bindStyleLab();
+    bindLegalToc();
     bindCollectionControls();
     loadRecommendations();
   }

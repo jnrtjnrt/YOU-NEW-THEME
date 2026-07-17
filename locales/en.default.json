@@ -10,6 +10,10 @@
     "header": {
       "menu": "Menu"
     },
+    "legal": {
+      "on_this_page": "On This Page",
+      "last_updated": "Last updated: {{ date }}"
+    },
     "pagination": {
       "label": "Pagination",
       "previous": "Previous page",
@@ -61,6 +65,9 @@
     },
     "collection_list": {
       "shop_now": "Shop now"
+    },
+    "style_lab": {
+      "no_products": "Assign a bags collection and a straps collection in the Theme Editor to activate the builder."
     }
   },
   "collections": {

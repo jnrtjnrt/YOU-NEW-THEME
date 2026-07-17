@@ -1,0 +1,130 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "settings": {
+        "image_ratio": "tall",
+        "show_thumbnails": true,
+        "show_gallery_arrows": true
+      },
+      "blocks": {
+        "eyebrow": {
+          "type": "eyebrow",
+          "settings": {
+            "text": "Straps",
+            "color": "#2B6BE6"
+          }
+        },
+        "title": { "type": "title" },
+        "rating": {
+          "type": "rating",
+          "settings": {
+            "placeholder_text": "64 reviews"
+          }
+        },
+        "price": { "type": "price" },
+        "divider": { "type": "divider" },
+        "variant_picker": {
+          "type": "variant_picker",
+          "settings": {
+            "color_swatches": true
+          }
+        },
+        "quantity": { "type": "quantity" },
+        "compatibility_note": {
+          "type": "compatibility_note",
+          "settings": {
+            "text": "Needs a bag to attach to — this strap doesn't come with one.",
+            "icon": "none",
+            "background": "#005F60",
+            "text_color": "#FDFEFF"
+          }
+        },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": true
+          }
+        },
+        "trust": { "type": "trust_badges" },
+        "description": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "Description",
+            "use_description": true,
+            "open_by_default": true
+          }
+        },
+        "care": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "Care",
+            "metafield_namespace": "custom",
+            "metafield_key": "care_instructions",
+            "content": "<p>Wipe clean with a damp cloth. Avoid prolonged direct sunlight to keep the color from fading.</p>"
+          }
+        },
+        "design": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "Design",
+            "metafield_namespace": "custom",
+            "metafield_key": "design_notes",
+            "content": "<p>Nylon webbing, reinforced stitching, quick-release clips. Fits all current YOU bag models.</p>"
+          }
+        }
+      },
+      "block_order": ["eyebrow", "title", "rating", "price", "divider", "variant_picker", "quantity", "compatibility_note", "buy_buttons", "trust", "description", "care", "design"]
+    },
+    "sticky": {
+      "type": "sticky-add-to-cart"
+    },
+    "pairs_well": {
+      "type": "product-cross-sell-grid",
+      "settings": {
+        "heading": "Pairs Well With",
+        "subheading": "Bags that go with this strap. You still need one of these.",
+        "button_label": "QUICK ADD",
+        "products_count": 4
+      }
+    },
+    "reviews": {
+      "type": "testimonials",
+      "settings": {
+        "heading": "They Won't Shut Up About It",
+        "background": "#E535AB",
+        "columns": 3,
+        "show_stars": true,
+        "padding": 64
+      },
+      "blocks": {
+        "review_1": {
+          "type": "review",
+          "settings": {
+            "quote": "<p>Adjustable enough for cross-body or shoulder. Switched it between three bags already.</p>",
+            "author": "k*****n"
+          }
+        },
+        "review_2": {
+          "type": "review",
+          "settings": {
+            "quote": "<p>The clip hardware feels solid, not flimsy like the cheap ones. Worth it.</p>",
+            "author": "d*****z"
+          }
+        },
+        "review_3": {
+          "type": "review",
+          "settings": {
+            "quote": "<p>Bought this to switch up my Versa. Feels like a completely different bag now.</p>",
+            "author": "r*****t"
+          }
+        }
+      },
+      "block_order": ["review_1", "review_2", "review_3"]
+    },
+    "recently_viewed": {
+      "type": "recently-viewed"
+    }
+  },
+  "order": ["main", "sticky", "pairs_well", "reviews", "recently_viewed"]
+}

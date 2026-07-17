@@ -1,16 +1,12 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "sections": {
     "main": {
       "type": "main-product",
+      "settings": {
+        "image_ratio": "tall",
+        "show_thumbnails": true,
+        "show_gallery_arrows": false
+      },
       "blocks": {
         "eyebrow": {
           "type": "eyebrow",
@@ -19,34 +15,22 @@
             "color": "#e8401c"
           }
         },
-        "title": {
-          "type": "title",
-          "settings": {}
-        },
+        "title": { "type": "title" },
         "rating": {
           "type": "rating",
           "settings": {
             "placeholder_text": ""
           }
         },
-        "price": {
-          "type": "price",
-          "settings": {}
-        },
-        "divider": {
-          "type": "divider",
-          "settings": {}
-        },
+        "price": { "type": "price" },
+        "divider": { "type": "divider" },
         "variant_picker": {
           "type": "variant_picker",
           "settings": {
             "color_swatches": true
           }
         },
-        "quantity": {
-          "type": "quantity",
-          "settings": {}
-        },
+        "quantity": { "type": "quantity" },
         "buy_buttons": {
           "type": "buy_buttons",
           "settings": {
@@ -72,8 +56,6 @@
           "settings": {
             "heading": "Description",
             "use_description": true,
-            "content": "",
-            "page": "",
             "open_by_default": true
           }
         },
@@ -81,10 +63,18 @@
           "type": "collapsible_tab",
           "settings": {
             "heading": "Care",
-            "use_description": false,
-            "content": "<p>Spot clean with mild soap and cold water. Air dry away from direct sunlight.</p>",
-            "page": "",
-            "open_by_default": false
+            "metafield_namespace": "custom",
+            "metafield_key": "care_instructions",
+            "content": "<p>Spot clean with mild soap and cold water. Air dry away from direct sunlight.</p>"
+          }
+        },
+        "design": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "Design",
+            "metafield_namespace": "custom",
+            "metafield_key": "design_notes",
+            "content": "<p>Water-resistant nylon shell, matte hardware, reinforced base. Strap sold separately — that's the whole point.</p>"
           }
         }
       },
@@ -100,12 +90,29 @@
         "trust",
         "divider_3PCiEj",
         "description",
-        "care"
-      ],
+        "care",
+        "design"
+      ]
+    },
+    "sticky": {
+      "type": "sticky-add-to-cart"
+    },
+    "cross_sell": {
+      "type": "product-cross-sell-modal",
       "settings": {
-        "show_thumbnails": true,
-        "show_gallery_arrows": false,
-        "enable_sticky_atc": true
+        "heading": "It's Not Complete Without A Strap!",
+        "subheading": "Your bag's in the cart. It just needs something to hang from.",
+        "dismiss_label": "Nah, just the bag",
+        "auto_open": true
+      }
+    },
+    "bundle_banner": {
+      "type": "product-upsell-banner",
+      "settings": {
+        "heading": "Too Lazy To Pick A Strap?",
+        "text": "<p>Some bags already come matched with a strap in a bundle. Check if this one's in there.</p>",
+        "button_label": "SEE BUNDLES",
+        "background": "#D4E84A"
       }
     },
     "related": {
@@ -123,7 +130,7 @@
         "review_1": {
           "type": "review",
           "settings": {
-            "quote": "<p>Write a real customer review here.</p>",
+            "quote": "<p>Sobrang sturdy and the color's exactly like the photos. Used it every day since it arrived, still looks new.</p>",
             "author": "a*****n",
             "label": "Verified Buyer"
           }
@@ -131,7 +138,7 @@
         "review_2": {
           "type": "review",
           "settings": {
-            "quote": "<p>Write a real customer review here.</p>",
+            "quote": "<p>Fits my laptop plus everything else I hoard. Getting another one for my brother.</p>",
             "author": "j*****v",
             "label": "Verified Buyer"
           }
@@ -139,17 +146,13 @@
         "review_3": {
           "type": "review",
           "settings": {
-            "quote": "<p>Write a real customer review here.</p>",
+            "quote": "<p>Delivery was fast, quality feels way above the price. No notes.</p>",
             "author": "m*****z",
             "label": "Verified Buyer"
           }
         }
       },
-      "block_order": [
-        "review_1",
-        "review_2",
-        "review_3"
-      ],
+      "block_order": ["review_1", "review_2", "review_3"],
       "settings": {
         "heading": "They Won't Shut Up About It",
         "background": "#e535ab",
@@ -160,11 +163,10 @@
         "columns": 3,
         "padding": 64
       }
+    },
+    "recently_viewed": {
+      "type": "recently-viewed"
     }
   },
-  "order": [
-    "main",
-    "related",
-    "reviews"
-  ]
+  "order": ["main", "sticky", "cross_sell", "bundle_banner", "related", "reviews", "recently_viewed"]
 }

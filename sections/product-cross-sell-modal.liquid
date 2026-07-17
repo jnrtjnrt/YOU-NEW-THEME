@@ -1,0 +1,59 @@
+{% comment %}
+  "Complete the look" modal: opens automatically after a successful add to
+  cart on this product page, offering a curated, scrollable row of related
+  products (with color swatches + quick add) — e.g. suggesting a strap right
+  after a bag is added. Reusable for any pairing, not bag-specific.
+{% endcomment %}
+{%- assign cross_sell_products = section.settings.products -%}
+{%- if cross_sell_products.size > 0 -%}
+  <div
+    data-cross-sell-modal
+    data-auto-open="{{ section.settings.auto_open }}"
+    aria-hidden="true">
+    <button type="button" class="scrim" data-cross-sell-close aria-label="{{ 'accessibility.close' | t }}" tabindex="-1"></button>
+    <div class="cross-sell-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="CrossSellModalTitle-{{ section.id }}">
+      <div class="cross-sell-modal__header">
+        <h2 id="CrossSellModalTitle-{{ section.id }}" class="cross-sell-modal__title">{{ section.settings.heading }}</h2>
+        <button type="button" class="cross-sell-modal__close" data-cross-sell-close aria-label="{{ 'accessibility.close' | t }}">
+          {% render 'icon', icon: 'close', size: 22 %}
+        </button>
+      </div>
+      {%- if section.settings.subheading != blank -%}
+        <p class="cross-sell-modal__subheading">{{ section.settings.subheading }}</p>
+      {%- endif -%}
+
+      <div class="cross-sell-modal__row-wrap">
+        <div class="cross-sell-modal__row" data-cross-sell-scroll>
+          {%- for cross_product in cross_sell_products -%}
+            {% render 'quick-add-card', card_product: cross_product, show_swatches: true, card_width: '200px' %}
+          {%- endfor -%}
+        </div>
+        <button type="button" class="cross-sell-modal__arrow cross-sell-modal__arrow--prev" data-cross-sell-prev aria-label="{{ 'general.pagination.previous' | t }}">{% render 'icon', icon: 'arrow-left', size: 16 %}</button>
+        <button type="button" class="cross-sell-modal__arrow cross-sell-modal__arrow--next" data-cross-sell-next aria-label="{{ 'general.pagination.next' | t }}">{% render 'icon', icon: 'arrow-right', size: 16 %}</button>
+      </div>
+
+      {%- if section.settings.dismiss_label != blank -%}
+        <div class="cross-sell-modal__dismiss-wrap">
+          <button type="button" class="cross-sell-modal__dismiss" data-cross-sell-close>{{ section.settings.dismiss_label }}</button>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Cross-sell modal",
+  "settings": [
+    { "type": "paragraph", "content": "Opens automatically after a shopper adds this product to their cart. Add this section only to product templates where the pop-up should appear." },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "It's Not Complete Without A Strap!" },
+    { "type": "text", "id": "subheading", "label": "Subheading", "default": "Your bag's in the cart. It just needs something to hang from." },
+    { "type": "product_list", "id": "products", "label": "Suggested products", "limit": 10 },
+    { "type": "text", "id": "dismiss_label", "label": "Dismiss link text", "default": "Nah, I'm good" },
+    { "type": "checkbox", "id": "auto_open", "label": "Open automatically after add to cart", "default": true }
+  ],
+  "enabled_on": {
+    "templates": ["product"]
+  }
+}
+{% endschema %}

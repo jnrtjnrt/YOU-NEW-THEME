@@ -22,8 +22,12 @@ warnings = []
 
 
 def load_json(path):
+    text = path.read_text()
+    # Shopify's GitHub integration prepends an auto-generated /* ... */ banner
+    # to JSON templates it writes back; strip it before parsing.
+    stripped = re.sub(r"^\s*/\*.*?\*/\s*", "", text, count=1, flags=re.S)
     try:
-        return json.loads(path.read_text())
+        return json.loads(stripped)
     except json.JSONDecodeError as e:
         errors.append(f"{path.relative_to(ROOT)}: invalid JSON — {e}")
         return None
