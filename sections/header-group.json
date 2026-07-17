@@ -18,7 +18,7 @@
         "logo_height": 42,
         "menu": "main-menu",
         "pill_label": "YOU STYLE LAB",
-        "pill_link": "",
+        "pill_link": "shopify://pages/you-style-lab",
         "pill_color": "#d4e84a",
         "pill_text_color": "#1a1a1a"
       }
