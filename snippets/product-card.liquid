@@ -2,10 +2,13 @@
   Reusable product card matching the design system
   (media gallery, interactive swatches, display-font title, muted price, pill badge).
 
-  The media box is a swipeable, snap-scrolling gallery of the product's media
-  in Shopify order (variant images and unassigned lifestyle/detail shots alike —
-  product.media naturally contains each image once). Arrows appear on hover on
-  desktop; touch users swipe natively.
+  The media box is a swipeable, snap-scrolling gallery of the product's
+  COMPLETE media collection in Shopify admin order — variant images and
+  unassigned lifestyle/detail/marketing shots alike; product.media naturally
+  contains each image exactly once, so there are no duplicates and no cap on
+  how many variants or images a product has. Arrows appear on hover on
+  desktop; touch users swipe natively. Non-first slides lazy-load at low
+  priority so long galleries stay cheap.
 
   Color swatches are interactive: selecting one instantly previews that
   variant's featured media (Shopify variant media, no custom mappings) and
@@ -33,9 +36,14 @@
     assign enable_gallery = settings.card_enable_gallery
   endif
   assign badge_bg = badge_color | default: settings.color_accent
-  assign gallery_limit = settings.card_gallery_max | default: 4
+  comment
+    Every media item renders — never truncate, or products whose variant
+    images come first in the media order would hide their lifestyle shots.
+    When the gallery is disabled we show only the first image.
+  endcomment
+  assign media_limit = card_product.media.size
   unless enable_gallery
-    assign gallery_limit = 1
+    assign media_limit = 1
   endunless
 
   assign color_option = blank
@@ -61,7 +69,7 @@
     <a href="{{ card_product.url }}" data-card-url class="product-card__media-link" aria-label="{{ card_product.title | escape }}" tabindex="-1">
       <div class="product-card__track" data-card-track>
         {%- if card_product.media.size > 0 -%}
-          {%- for media in card_product.media limit: gallery_limit -%}
+          {%- for media in card_product.media limit: media_limit -%}
             <img
               class="product-card__image"
               data-media-id="{{ media.id }}"
@@ -70,6 +78,7 @@
               sizes="(min-width: 990px) 25vw, 50vw"
               alt="{{ media.alt | escape | default: card_product.title | escape }}"
               loading="lazy"
+              {% unless forloop.first %}fetchpriority="low"{% endunless %}
               width="{{ media.width }}"
               height="{{ media.height }}">
           {%- endfor -%}

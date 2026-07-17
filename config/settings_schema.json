@@ -78,8 +78,7 @@
         { "value": "natural", "label": "Natural" }
       ], "default": "portrait" },
       { "type": "checkbox", "id": "card_show_swatches", "label": "Show color swatches", "default": true, "info": "Swatches are interactive: selecting one previews that variant's image and links straight to the variant." },
-      { "type": "checkbox", "id": "card_enable_gallery", "label": "Browse all product images on the card", "default": true, "info": "Swipe (mobile) or hover arrows (desktop) through the product's media — variant photos and unassigned lifestyle/detail shots alike — without opening the product page." },
-      { "type": "range", "id": "card_gallery_max", "label": "Max images per card", "min": 2, "max": 8, "step": 1, "default": 4 },
+      { "type": "checkbox", "id": "card_enable_gallery", "label": "Browse all product images on the card", "default": true, "info": "Swipe (mobile) or hover arrows (desktop) through every image in the product's media — variant photos and unassigned lifestyle/detail shots alike — without opening the product page. Images beyond the first lazy-load only when browsed." },
       { "type": "checkbox", "id": "card_show_badges", "label": "Show badges (Sale, Sold out)", "default": true },
       { "type": "checkbox", "id": "card_show_vendor", "label": "Show vendor", "default": false },
       { "type": "checkbox", "id": "card_hover_zoom", "label": "Zoom image on hover", "default": true },
