@@ -11,7 +11,13 @@
   "sections": {
     "main": {
       "type": "legal-content",
-      "settings": {}
+      "settings": {
+        "eyebrow": "Need Help?",
+        "eyebrow_color": "#e8401c",
+        "heading": "",
+        "show_last_updated": false,
+        "last_updated_override": ""
+      }
     }
   },
   "order": [
