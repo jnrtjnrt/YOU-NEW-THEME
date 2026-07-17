@@ -1,12 +1,16 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main": {
       "type": "main-product",
-      "settings": {
-        "image_ratio": "tall",
-        "show_thumbnails": true,
-        "show_gallery_arrows": true
-      },
       "blocks": {
         "eyebrow": {
           "type": "eyebrow",
@@ -15,22 +19,34 @@
             "color": "#2B6BE6"
           }
         },
-        "title": { "type": "title" },
+        "title": {
+          "type": "title",
+          "settings": {}
+        },
         "rating": {
           "type": "rating",
           "settings": {
             "placeholder_text": "64 reviews"
           }
         },
-        "price": { "type": "price" },
-        "divider": { "type": "divider" },
+        "price": {
+          "type": "price",
+          "settings": {}
+        },
+        "divider": {
+          "type": "divider",
+          "settings": {}
+        },
         "variant_picker": {
           "type": "variant_picker",
           "settings": {
             "color_swatches": true
           }
         },
-        "quantity": { "type": "quantity" },
+        "quantity": {
+          "type": "quantity",
+          "settings": {}
+        },
         "compatibility_note": {
           "type": "compatibility_note",
           "settings": {
@@ -46,7 +62,10 @@
             "show_dynamic_checkout": true
           }
         },
-        "trust": { "type": "trust_badges" },
+        "trust": {
+          "type": "trust_badges",
+          "settings": {}
+        },
         "description": {
           "type": "collapsible_tab",
           "settings": {
@@ -74,10 +93,30 @@
           }
         }
       },
-      "block_order": ["eyebrow", "title", "rating", "price", "divider", "variant_picker", "quantity", "compatibility_note", "buy_buttons", "trust", "description", "care", "design"]
+      "block_order": [
+        "eyebrow",
+        "title",
+        "rating",
+        "price",
+        "divider",
+        "variant_picker",
+        "quantity",
+        "compatibility_note",
+        "buy_buttons",
+        "trust",
+        "description",
+        "care",
+        "design"
+      ],
+      "settings": {
+        "image_ratio": "tall",
+        "show_thumbnails": true,
+        "show_gallery_arrows": true
+      }
     },
     "sticky": {
-      "type": "sticky-add-to-cart"
+      "type": "sticky-add-to-cart",
+      "settings": {}
     },
     "pairs_well": {
       "type": "product-cross-sell-grid",
@@ -90,13 +129,6 @@
     },
     "reviews": {
       "type": "testimonials",
-      "settings": {
-        "heading": "They Won't Shut Up About It",
-        "background": "#E535AB",
-        "columns": 3,
-        "show_stars": true,
-        "padding": 64
-      },
       "blocks": {
         "review_1": {
           "type": "review",
@@ -120,11 +152,29 @@
           }
         }
       },
-      "block_order": ["review_1", "review_2", "review_3"]
+      "block_order": [
+        "review_1",
+        "review_2",
+        "review_3"
+      ],
+      "settings": {
+        "heading": "They Won't Shut Up About It",
+        "background": "#E535AB",
+        "show_stars": true,
+        "columns": 3,
+        "padding": 64
+      }
     },
     "recently_viewed": {
-      "type": "recently-viewed"
+      "type": "recently-viewed",
+      "settings": {}
     }
   },
-  "order": ["main", "sticky", "pairs_well", "reviews", "recently_viewed"]
+  "order": [
+    "main",
+    "sticky",
+    "pairs_well",
+    "reviews",
+    "recently_viewed"
+  ]
 }

@@ -1,16 +1,22 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "hero": {
       "type": "rich-text",
-      "settings": {
-        "alignment": "center",
-        "padding": 56
-      },
       "blocks": {
         "eyebrow": {
           "type": "eyebrow",
           "settings": {
-            "text": "YOU STYLE LAB"
+            "text": "YOU STYLE LAB",
+            "color": "#e8401c"
           }
         },
         "heading": {
@@ -27,24 +33,45 @@
           }
         }
       },
-      "block_order": ["eyebrow", "heading", "text"]
+      "block_order": [
+        "eyebrow",
+        "heading",
+        "text"
+      ],
+      "settings": {
+        "background": "#fdfeff",
+        "text_color": "#1a1a1a",
+        "alignment": "center",
+        "padding": 56
+      }
     },
     "builder": {
-      "type": "style-lab-builder"
+      "type": "style-lab-builder",
+      "settings": {
+        "bags_collection": "frontpage",
+        "straps_collection": "ropes",
+        "max_products": 8,
+        "bag_label": "Choose Your Bag",
+        "strap_label": "Choose Your Strap",
+        "add_set_label": "ADD SET TO CART"
+      }
     },
     "extras": {
       "type": "product-cross-sell-grid",
       "settings": {
         "heading": "Complete The Fit",
         "subheading": "Small stuff. Big difference. Add it while you're here.",
-        "button_label": "ADD +",
+        "button_label": "",
+        "products": [],
+        "collection": "frontpage",
         "products_count": 4,
         "padding": 64
       }
-    },
-    "bundles": {
-      "type": "style-lab-bundles-carousel"
     }
   },
-  "order": ["hero", "builder", "extras", "bundles"]
+  "order": [
+    "hero",
+    "builder",
+    "extras"
+  ]
 }

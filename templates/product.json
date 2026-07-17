@@ -1,12 +1,16 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main": {
       "type": "main-product",
-      "settings": {
-        "image_ratio": "tall",
-        "show_thumbnails": true,
-        "show_gallery_arrows": false
-      },
       "blocks": {
         "eyebrow": {
           "type": "eyebrow",
@@ -15,22 +19,34 @@
             "color": "#e8401c"
           }
         },
-        "title": { "type": "title" },
+        "title": {
+          "type": "title",
+          "settings": {}
+        },
         "rating": {
           "type": "rating",
           "settings": {
             "placeholder_text": ""
           }
         },
-        "price": { "type": "price" },
-        "divider": { "type": "divider" },
+        "price": {
+          "type": "price",
+          "settings": {}
+        },
+        "divider": {
+          "type": "divider",
+          "settings": {}
+        },
         "variant_picker": {
           "type": "variant_picker",
           "settings": {
             "color_swatches": true
           }
         },
-        "quantity": { "type": "quantity" },
+        "quantity": {
+          "type": "quantity",
+          "settings": {}
+        },
         "buy_buttons": {
           "type": "buy_buttons",
           "settings": {
@@ -92,10 +108,16 @@
         "description",
         "care",
         "design"
-      ]
+      ],
+      "settings": {
+        "image_ratio": "tall",
+        "show_thumbnails": true,
+        "show_gallery_arrows": false
+      }
     },
     "sticky": {
-      "type": "sticky-add-to-cart"
+      "type": "sticky-add-to-cart",
+      "settings": {}
     },
     "cross_sell": {
       "type": "product-cross-sell-modal",
@@ -152,7 +174,11 @@
           }
         }
       },
-      "block_order": ["review_1", "review_2", "review_3"],
+      "block_order": [
+        "review_1",
+        "review_2",
+        "review_3"
+      ],
       "settings": {
         "heading": "They Won't Shut Up About It",
         "background": "#e535ab",
@@ -165,8 +191,17 @@
       }
     },
     "recently_viewed": {
-      "type": "recently-viewed"
+      "type": "recently-viewed",
+      "settings": {}
     }
   },
-  "order": ["main", "sticky", "cross_sell", "bundle_banner", "related", "reviews", "recently_viewed"]
+  "order": [
+    "main",
+    "sticky",
+    "cross_sell",
+    "bundle_banner",
+    "related",
+    "reviews",
+    "recently_viewed"
+  ]
 }
