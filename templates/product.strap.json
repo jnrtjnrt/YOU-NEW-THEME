@@ -16,7 +16,7 @@
           "type": "eyebrow",
           "settings": {
             "text": "Straps",
-            "color": "#2B6BE6"
+            "color": "#2b6be6"
           }
         },
         "title": {
@@ -52,8 +52,8 @@
           "settings": {
             "text": "Needs a bag to attach to — this strap doesn't come with one.",
             "icon": "none",
-            "background": "#005F60",
-            "text_color": "#FDFEFF"
+            "background": "#005f60",
+            "text_color": "#fdfeff"
           }
         },
         "buy_buttons": {
@@ -64,13 +64,23 @@
         },
         "trust": {
           "type": "trust_badges",
-          "settings": {}
+          "settings": {
+            "item_1": "Free shipping over ₱2,000",
+            "item_2": "7-day easy returns",
+            "item_3": "Secure checkout",
+            "item_4": "6-month warranty"
+          }
         },
         "description": {
           "type": "collapsible_tab",
+          "disabled": true,
           "settings": {
             "heading": "Description",
             "use_description": true,
+            "metafield_namespace": "",
+            "metafield_key": "",
+            "content": "",
+            "page": "",
             "open_by_default": true
           }
         },
@@ -78,18 +88,24 @@
           "type": "collapsible_tab",
           "settings": {
             "heading": "Care",
+            "use_description": false,
             "metafield_namespace": "custom",
             "metafield_key": "care_instructions",
-            "content": "<p>Wipe clean with a damp cloth. Avoid prolonged direct sunlight to keep the color from fading.</p>"
+            "content": "<p>Wipe clean with a damp cloth. Avoid prolonged direct sunlight to keep the color from fading.</p>",
+            "page": "",
+            "open_by_default": false
           }
         },
         "design": {
           "type": "collapsible_tab",
           "settings": {
             "heading": "Design",
+            "use_description": false,
             "metafield_namespace": "custom",
             "metafield_key": "design_notes",
-            "content": "<p>Nylon webbing, reinforced stitching, quick-release clips. Fits all current YOU bag models.</p>"
+            "content": "<p>Nylon webbing, reinforced stitching, quick-release clips. Fits all current YOU bag models.</p>",
+            "page": "",
+            "open_by_default": false
           }
         }
       },
@@ -116,7 +132,10 @@
     },
     "sticky": {
       "type": "sticky-add-to-cart",
-      "settings": {}
+      "settings": {
+        "watch_selector": "[data-product-info]",
+        "reveal_offset": 80
+      }
     },
     "pairs_well": {
       "type": "product-cross-sell-grid",
@@ -124,7 +143,10 @@
         "heading": "Pairs Well With",
         "subheading": "Bags that go with this strap. You still need one of these.",
         "button_label": "QUICK ADD",
-        "products_count": 4
+        "products": [],
+        "collection": "",
+        "products_count": 4,
+        "padding": 80
       }
     },
     "reviews": {
@@ -134,21 +156,24 @@
           "type": "review",
           "settings": {
             "quote": "<p>Adjustable enough for cross-body or shoulder. Switched it between three bags already.</p>",
-            "author": "k*****n"
+            "author": "k*****n",
+            "label": "Verified Buyer"
           }
         },
         "review_2": {
           "type": "review",
           "settings": {
             "quote": "<p>The clip hardware feels solid, not flimsy like the cheap ones. Worth it.</p>",
-            "author": "d*****z"
+            "author": "d*****z",
+            "label": "Verified Buyer"
           }
         },
         "review_3": {
           "type": "review",
           "settings": {
             "quote": "<p>Bought this to switch up my Versa. Feels like a completely different bag now.</p>",
-            "author": "r*****t"
+            "author": "r*****t",
+            "label": "Verified Buyer"
           }
         }
       },
@@ -159,7 +184,10 @@
       ],
       "settings": {
         "heading": "They Won't Shut Up About It",
-        "background": "#E535AB",
+        "background": "#e535ab",
+        "heading_color": "#1a1a1a",
+        "card_background": "#fdfeff",
+        "card_text_color": "#1a1a1a",
         "show_stars": true,
         "columns": 3,
         "padding": 64
@@ -167,7 +195,11 @@
     },
     "recently_viewed": {
       "type": "recently-viewed",
-      "settings": {}
+      "settings": {
+        "heading": "Recently Viewed",
+        "max_items": 4,
+        "padding": 64
+      }
     }
   },
   "order": [
