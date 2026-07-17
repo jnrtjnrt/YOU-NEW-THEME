@@ -130,6 +130,13 @@
     --dur-med: {{ dur_med }};
   }
 
+  @media (max-width: 749px) {
+    :root {
+      --gutter: {{ settings.page_gutter_mobile | default: 20 }}px;
+      --section-pad: {{ settings.section_spacing | times: 0.75 | round }}px;
+    }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     :root {
       --dur-fast: 0ms;

@@ -5,7 +5,8 @@
       product: product,
       image_ratio: section.settings.image_ratio,
       show_thumbnails: section.settings.show_thumbnails,
-      show_arrows: section.settings.show_gallery_arrows
+      show_arrows: section.settings.show_gallery_arrows,
+      group_by_color: section.settings.group_media_by_color
     %}
 
     {%- comment -%} INFO {%- endcomment -%}
@@ -67,28 +68,33 @@
                         assign is_color = true
                       endif
                     -%}
-                    <fieldset style="border: none; padding: 0; margin: 0 0 24px 0;">
+                    <fieldset style="border: none; padding: 0; margin: 0 0 24px 0;"{% if is_color %} data-option-is-color{% endif %}>
                       <legend style="padding: 0;">
                         <span class="product__option-label">{{ option.name }}</span>
                         <span class="product__option-value" data-option-selected>{{ option.selected_value }}</span>
                       </legend>
                       <div class="{% if is_color and block.settings.color_swatches %}product__swatches{% else %}option-pills{% endif %}">
                         {%- for value in option.values -%}
-                          {%- assign input_id = section.id | append: '-' | append: option.position | append: '-' | append: forloop.index -%}
+                          {%- liquid
+                            assign input_id = section.id | append: '-' | append: option.position | append: '-' | append: forloop.index
+                            capture value_title
+                              echo value
+                            endcapture
+                          -%}
                           <input
                             type="radio"
                             class="swatch-input"
                             id="{{ input_id }}"
                             name="{{ section.id }}-option-{{ option.position }}"
-                            value="{{ value | escape }}"
-                            {% if option.selected_value == value %}checked{% endif %}>
+                            value="{{ value_title | escape }}"
+                            {% if option.selected_value == value_title %}checked{% endif %}>
                           {%- if is_color and block.settings.color_swatches -%}
-                            {%- capture swatch_bg %}{% render 'swatch-color', value: value %}{% endcapture -%}
-                            <label class="swatch-label" for="{{ input_id }}" style="background: {{ swatch_bg | strip }};" title="{{ value | escape }}">
-                              <span class="visually-hidden">{{ value }}</span>
+                            {%- capture swatch_bg %}{% render 'swatch-style', value: value %}{% endcapture -%}
+                            <label class="swatch-label" for="{{ input_id }}" style="background: {{ swatch_bg | strip }};" title="{{ value_title | escape }}">
+                              <span class="visually-hidden">{{ value_title }}</span>
                             </label>
                           {%- else -%}
-                            <label class="option-pill-label" for="{{ input_id }}">{{ value }}</label>
+                            <label class="option-pill-label" for="{{ input_id }}">{{ value_title }}</label>
                           {%- endif -%}
                         {%- endfor -%}
                       </div>
@@ -195,7 +201,8 @@
         "available": {{ variant.available }},
         "options": {{ variant.options | json }},
         "price_formatted": {{ variant.price | money | json }},
-        "featured_media_id": {{ variant.featured_media.id | json }}
+        "featured_media_id": {{ variant.featured_media.id | json }},
+        "featured_media_url": {{ variant.featured_media | image_url: width: 96 | json }}
       }{% unless forloop.last %},{% endunless %}
     {%- endfor -%}
   ]
@@ -220,7 +227,8 @@
       "default": "tall"
     },
     { "type": "checkbox", "id": "show_thumbnails", "label": "Show thumbnails", "default": true },
-    { "type": "checkbox", "id": "show_gallery_arrows", "label": "Show arrows", "default": true }
+    { "type": "checkbox", "id": "show_gallery_arrows", "label": "Show arrows", "default": true },
+    { "type": "checkbox", "id": "group_media_by_color", "label": "Show only the selected color's images", "default": true, "info": "Matches each image's alt text against the color option value (e.g. alt \"Versa — Volt\" shows for the Volt swatch). Images whose alt mentions no color stay visible for every variant. Set alt text in the product's media editor in admin." }
   ],
   "blocks": [
     {

@@ -49,6 +49,7 @@
     "settings": [
       { "type": "range", "id": "page_width", "label": "Page content width", "min": 1000, "max": 1600, "step": 20, "unit": "px", "default": 1280 },
       { "type": "range", "id": "page_gutter", "label": "Page side padding", "min": 16, "max": 64, "step": 4, "unit": "px", "default": 40 },
+      { "type": "range", "id": "page_gutter_mobile", "label": "Page side padding (mobile)", "min": 12, "max": 40, "step": 2, "unit": "px", "default": 20 },
       { "type": "range", "id": "section_spacing", "label": "Default section vertical padding", "min": 0, "max": 128, "step": 4, "unit": "px", "default": 64 },
       { "type": "range", "id": "grid_gap", "label": "Grid gap", "min": 4, "max": 48, "step": 2, "unit": "px", "default": 20 }
     ]
@@ -85,7 +86,8 @@
         { "value": "center", "label": "Center" }
       ], "default": "left" },
       { "type": "header", "content": "Swatch colors" },
-      { "type": "textarea", "id": "swatch_colors", "label": "Custom swatch colors", "info": "One per line, as Name:Color. Example — Volt:#D4E84A. Option values not listed here fall back to the value as a CSS color.", "default": "Red:#E8401C\nCherry:#E8401C\nOrange:#F5A623\nBlue:#2B6BE6\nBlack:#1A1A1A\nRich Black:#1A1A1A\nBright Orange:#FF7A00\nVolt:#D4E84A\nPink:#E535AB\nSage:#3DBFA0\nCyan:#005F60\nCream:#FDFEFF" }
+      { "type": "paragraph", "content": "Swatches use Shopify's native color taxonomy first: set each product's category (or the shopify.color-pattern metafield on the Color option) in the admin and the correct swatch color or pattern image appears automatically, everywhere colors are shown." },
+      { "type": "textarea", "id": "swatch_colors", "label": "Fallback swatch colors", "info": "Used only when a color value has no taxonomy swatch. One per line, as Name:Color (e.g. Volt:#D4E84A). Values not listed fall back to the name as a CSS color.", "default": "Red:#E8401C\nCherry:#E8401C\nOrange:#F5A623\nBlue:#2B6BE6\nBlack:#1A1A1A\nRich Black:#1A1A1A\nBright Orange:#FF7A00\nVolt:#D4E84A\nPink:#E535AB\nSage:#3DBFA0\nCyan:#005F60\nCream:#FDFEFF" }
     ]
   },
   {

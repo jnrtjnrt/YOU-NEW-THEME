@@ -23,6 +23,13 @@
                     {% render 'icon', icon: 'chevron', size: 12 %}
                   </summary>
                   <div class="filter-dropdown__panel">
+                    {%- liquid
+                      assign filter_label_down = filter.label | downcase
+                      assign is_color_filter = false
+                      if filter_label_down == 'color' or filter_label_down == 'colour'
+                        assign is_color_filter = true
+                      endif
+                    -%}
                     {%- case filter.type -%}
                       {%- when 'boolean', 'list' -%}
                         {%- for value in filter.values -%}
@@ -33,6 +40,14 @@
                               value="{{ value.value }}"
                               {% if value.active %}checked{% endif %}
                               {% if value.count == 0 and value.active == false %}disabled{% endif %}>
+                            {%- if value.display.type == 'colors' -%}
+                              <span class="filter-swatch" style="background: {{ value.display.value | first }};" aria-hidden="true"></span>
+                            {%- elsif value.display.type == 'image' -%}
+                              <span class="filter-swatch" style="background: url({{ value.display.value | image_url: width: 40 }}) center / cover no-repeat;" aria-hidden="true"></span>
+                            {%- elsif is_color_filter -%}
+                              {%- capture filter_swatch_bg %}{% render 'swatch-style', value: value.label %}{% endcapture -%}
+                              <span class="filter-swatch" style="background: {{ filter_swatch_bg | strip }};" aria-hidden="true"></span>
+                            {%- endif -%}
                             <span>{{ value.label }} ({{ value.count }})</span>
                           </label>
                         {%- endfor -%}

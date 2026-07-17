@@ -244,6 +244,12 @@
       if (!mainImg || !thumbs.length) return;
       var index = 0;
 
+      function visibleIndexes() {
+        var out = [];
+        thumbs.forEach(function (t, ti) { if (!t.hidden) out.push(ti); });
+        return out.length ? out : thumbs.map(function (_, ti) { return ti; });
+      }
+
       function show(i) {
         index = (i + thumbs.length) % thumbs.length;
         var thumb = thumbs[index];
@@ -256,17 +262,56 @@
         thumbs.forEach(function (t, ti) { t.classList.toggle('is-active', ti === index); });
       }
 
+      function step(direction) {
+        var visible = visibleIndexes();
+        var pos = visible.indexOf(index);
+        if (pos < 0) pos = 0;
+        show(visible[(pos + direction + visible.length) % visible.length]);
+      }
+
       thumbs.forEach(function (t, ti) {
         t.addEventListener('click', function () { show(ti); });
       });
       var prev = qs('[data-gallery-prev]', gallery);
       var next = qs('[data-gallery-next]', gallery);
-      if (prev) prev.addEventListener('click', function () { show(index - 1); });
-      if (next) next.addEventListener('click', function () { show(index + 1); });
+      if (prev) prev.addEventListener('click', function () { step(-1); });
+      if (next) next.addEventListener('click', function () { step(1); });
 
       gallery.showMediaById = function (mediaId) {
         var ti = thumbs.findIndex(function (t) { return t.getAttribute('data-media-id') === String(mediaId); });
         if (ti >= 0) show(ti);
+      };
+
+      // Filter the gallery to the selected color's media, matching image alt
+      // text against the color option value. Media whose alt mentions no color
+      // at all is treated as shared and stays visible for every variant.
+      gallery.filterByColor = function (selectedValue, allValues) {
+        if (!gallery.hasAttribute('data-group-by-color') || !selectedValue) return;
+        var selected = selectedValue.toLowerCase();
+        var others = (allValues || [])
+          .map(function (v) { return v.toLowerCase(); })
+          .filter(function (v) { return v !== selected; });
+
+        var anyColorMentioned = thumbs.some(function (t) {
+          var alt = (t.getAttribute('data-media-alt') || '').toLowerCase();
+          if (alt.indexOf(selected) !== -1) return true;
+          return others.some(function (v) { return alt.indexOf(v) !== -1; });
+        });
+        if (!anyColorMentioned) {
+          thumbs.forEach(function (t) { t.hidden = false; });
+          return;
+        }
+
+        thumbs.forEach(function (t) {
+          var alt = (t.getAttribute('data-media-alt') || '').toLowerCase();
+          var mentionsSelected = alt.indexOf(selected) !== -1;
+          var mentionsOther = others.some(function (v) { return alt.indexOf(v) !== -1; });
+          t.hidden = !mentionsSelected && mentionsOther;
+        });
+
+        if (thumbs[index] && thumbs[index].hidden) {
+          show(visibleIndexes()[0]);
+        }
       };
     });
   }
@@ -286,6 +331,17 @@
           var checked = qs('input:checked', fs);
           return checked ? checked.value : null;
         });
+      }
+
+      function applyMediaFilter() {
+        var colorFs = qs('fieldset[data-option-is-color]', picker);
+        if (!colorFs) return;
+        var checked = qs('input:checked', colorFs);
+        var allValues = qsa('input', colorFs).map(function (i) { return i.value; });
+        var gallery = qs('[data-product-gallery]', section);
+        if (gallery && gallery.filterByColor && checked) {
+          gallery.filterByColor(checked.value, allValues);
+        }
       }
 
       function onChange() {
@@ -321,6 +377,7 @@
           priceEl.innerHTML = match.price_formatted;
           if (stickyPrice) stickyPrice.innerHTML = match.price_formatted;
         }
+        applyMediaFilter();
         if (match.featured_media_id) {
           var gallery = qs('[data-product-gallery]', section);
           if (gallery && gallery.showMediaById) gallery.showMediaById(match.featured_media_id);
@@ -336,6 +393,7 @@
       }
 
       picker.addEventListener('change', onChange);
+      applyMediaFilter();
     });
   }
 
@@ -383,6 +441,8 @@
       if (!variant) return;
       var priceEl = qs('[data-sticky-price]', bar);
       if (priceEl && variant.price_formatted) priceEl.innerHTML = variant.price_formatted;
+      var imgEl = qs('[data-sticky-image]', bar);
+      if (imgEl && variant.featured_media_url) imgEl.src = variant.featured_media_url;
       if (addBtn) {
         var label = qs('[data-sticky-add-label]', addBtn);
         if (variant.available) {
@@ -766,6 +826,25 @@
     }
   }
 
+  /* Cart page: apply quantity changes automatically ----------------------------------- */
+  function bindCartPage() {
+    var form = qs('[data-cart-page-form]');
+    if (!form) return;
+    qsa('[data-cart-page-qty]', form).forEach(function (input) {
+      input.addEventListener('change', function () {
+        // Submit through the "update" button so the POST applies quantities
+        // without the checkout parameter (checkout redirects are reserved for
+        // the actual "Continue to checkout" click).
+        var updateBtn = qs('[name="update"]', form);
+        if (updateBtn && form.requestSubmit) {
+          form.requestSubmit(updateBtn);
+        } else {
+          form.submit();
+        }
+      });
+    });
+  }
+
   /* Collection: auto-submit filters + grid toggle ------------------------------------ */
   function bindCollectionControls() {
     var form = qs('[data-filter-form]');
@@ -827,6 +906,7 @@
     bindRecentlyViewed();
     bindStyleLab();
     bindLegalToc();
+    bindCartPage();
     bindCollectionControls();
     loadRecommendations();
   }

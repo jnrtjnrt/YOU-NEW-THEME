@@ -27,6 +27,7 @@
 <style>
   @media (max-width: 989px) {
     #shopify-section-{{ section.id }} .category-cards__grid { grid-template-columns: 1fr !important; }
+    #shopify-section-{{ section.id }} .collection-card { height: {{ section.settings.mobile_height }}px !important; }
   }
 </style>
 
@@ -53,6 +54,16 @@
       "step": 20,
       "unit": "px",
       "default": 520
+    },
+    {
+      "type": "range",
+      "id": "mobile_height",
+      "label": "Card height (mobile)",
+      "min": 200,
+      "max": 560,
+      "step": 20,
+      "unit": "px",
+      "default": 340
     },
     {
       "type": "range",

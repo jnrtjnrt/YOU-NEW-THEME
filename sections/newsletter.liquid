@@ -33,6 +33,11 @@
 <style>
   #shopify-section-{{ section.id }} .newsletter-form { width: 100%; }
   #shopify-section-{{ section.id }} input::placeholder { color: {{ section.settings.text_color | color_modify: 'alpha', 0.6 }}; }
+  @media (max-width: 749px) {
+    #shopify-section-{{ section.id }} > div { padding: {{ section.settings.padding | times: 0.75 | round }}px 0 !important; }
+    #shopify-section-{{ section.id }} h2 { font-size: calc(28px * var(--heading-scale)) !important; }
+    #shopify-section-{{ section.id }} .newsletter-form .button { width: 100%; }
+  }
 </style>
 
 {% schema %}

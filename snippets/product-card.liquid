@@ -61,7 +61,7 @@
     {%- if show_swatches and color_option != blank -%}
       <div class="product-card__swatches" aria-hidden="true">
         {%- for value in color_option.values limit: 6 -%}
-          {%- capture swatch_bg %}{% render 'swatch-color', value: value %}{% endcapture -%}
+          {%- capture swatch_bg %}{% render 'swatch-style', value: value %}{% endcapture -%}
           <span class="product-card__swatch" style="background: {{ swatch_bg | strip }};" title="{{ value | escape }}"></span>
         {%- endfor -%}
       </div>

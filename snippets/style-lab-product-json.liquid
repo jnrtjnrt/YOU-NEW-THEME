@@ -24,8 +24,15 @@
   "colors": [
     {%- if color_option != blank -%}
       {%- for value in color_option.values -%}
-        {%- capture hex %}{% render 'swatch-color', value: value %}{% endcapture -%}
-        { "value": {{ value | json }}, "hex": {{ hex | strip | json }} }{% unless forloop.last %},{% endunless %}
+        {%- liquid
+          capture value_title
+            echo value
+          endcapture
+          capture hex
+            render 'swatch-style', value: value
+          endcapture
+        -%}
+        { "value": {{ value_title | json }}, "hex": {{ hex | strip | json }} }{% unless forloop.last %},{% endunless %}
       {%- endfor -%}
     {%- endif -%}
   ],

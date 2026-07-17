@@ -1,0 +1,51 @@
+{% comment %}
+  Resolves an option value to a CSS background for color swatches.
+  Single source of truth for swatch colors across the theme (product cards,
+  variant picker, quick-add cards, Style Lab, collection filters).
+
+  Priority:
+    1. The value's native taxonomy swatch — populated by Shopify from the
+       `shopify.color-pattern` category metafield (image, then color).
+       Manage these in Admin > Settings > Custom data, or by setting the
+       product's category so the Color metafield maps automatically.
+    2. The legacy "Fallback swatch colors" mapping in Theme settings >
+       Product cards (Name:Color lines).
+    3. The raw value itself as a CSS color (works for names like "black").
+
+  Usage:
+    {% render 'swatch-style', value: value %}
+  where `value` is a product_option_value object (preferred) or a string.
+  Outputs a CSS background value.
+{% endcomment %}
+{%- liquid
+  assign resolved = ''
+
+  if value.swatch.image
+    assign swatch_image_url = value.swatch.image | image_url: width: 64
+    assign resolved = 'url(' | append: swatch_image_url | append: ') center / cover no-repeat'
+  elsif value.swatch.color
+    assign resolved = '' | append: value.swatch.color
+  endif
+
+  if resolved == ''
+    capture value_name
+      if value.title
+        echo value.title
+      else
+        echo value
+      endif
+    endcapture
+    assign resolved = value_name | strip | downcase
+    assign rows = settings.swatch_colors | newline_to_br | split: '<br />'
+    for row in rows
+      assign parts = row | strip | split: ':'
+      assign row_name = parts[0] | strip | downcase
+      if row_name == resolved and parts.size > 1
+        assign resolved = parts[1] | strip
+        break
+      endif
+    endfor
+  endif
+
+  echo resolved
+-%}

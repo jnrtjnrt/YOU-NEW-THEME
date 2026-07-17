@@ -7,7 +7,13 @@
       <a href="{{ routes.all_products_collection_url }}" class="button">{{ 'sections.cart.continue_shopping' | t }}</a>
     </div>
   {%- else -%}
-    <form action="{{ routes.cart_url }}" method="post" novalidate>
+    {%- comment -%}
+      Native Shopify cart form: the "Continue to checkout" submit button is
+      named "checkout", which makes Shopify apply any quantity/note updates in
+      the same POST and redirect straight to the standard checkout. No JS is
+      attached to this form anywhere in the theme.
+    {%- endcomment -%}
+    <form action="{{ routes.cart_url }}" method="post" novalidate data-cart-page-form>
       <div>
         {%- for item in cart.items -%}
           <div class="cart-page__row">

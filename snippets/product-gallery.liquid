@@ -1,7 +1,10 @@
 {% comment %}
   Product image gallery: large image with prev/next arrows + thumbnail row.
-  Usage: {% render 'product-gallery', product: product, image_ratio: 'tall', show_thumbnails: true, show_arrows: true %}
+  Usage: {% render 'product-gallery', product: product, image_ratio: 'tall', show_thumbnails: true, show_arrows: true, group_by_color: true %}
   image_ratio: 'square' (1:1) | 'portrait' (3:4) | 'tall' (4:5) | 'natural' (image's own ratio)
+  group_by_color: when true, the JS filters media to the selected color's
+  images by matching each image's alt text against the color option value
+  (native, admin-manageable — set the image alt text to the color name).
 {% endcomment %}
 {%- liquid
   case image_ratio
@@ -17,7 +20,7 @@
 
   assign featured = product.selected_or_first_available_variant.featured_media | default: product.featured_media
 -%}
-<div data-product-gallery>
+<div data-product-gallery{% if group_by_color %} data-group-by-color{% endif %}>
   <div class="product__gallery-main">
     {%- if featured -%}
       <img
@@ -48,6 +51,7 @@
           class="product__thumb{% if media.id == featured.id %} is-active{% endif %}"
           data-gallery-thumb
           data-media-id="{{ media.id }}"
+          data-media-alt="{{ media.alt | escape }}"
           data-full-src="{{ media | image_url: width: 1200 }}"
           data-full-srcset="{{ media | image_url: width: 750 }} 750w, {{ media | image_url: width: 1200 }} 1200w, {{ media | image_url: width: 1600 }} 1600w"
           aria-label="{{ 'products.product.view_image' | t: number: forloop.index }}">

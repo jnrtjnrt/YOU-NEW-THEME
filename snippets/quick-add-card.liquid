@@ -51,14 +51,25 @@
     {%- if show_swatches and color_option != blank -%}
       <div class="quick-add-card__swatches" data-quick-add-swatches data-option-position="{{ color_option.position }}">
         {%- for value in color_option.values -%}
-          {%- capture swatch_bg %}{% render 'swatch-color', value: value %}{% endcapture -%}
+          {%- liquid
+            capture value_title
+              echo value
+            endcapture
+            capture swatch_bg
+              render 'swatch-style', value: value
+            endcapture
+            assign is_selected = false
+            if color_option.selected_value == value_title
+              assign is_selected = true
+            endif
+          -%}
           <button
             type="button"
-            class="quick-add-card__swatch{% if value == color_option.selected_value %} is-active{% endif %}"
-            data-swatch-value="{{ value | escape }}"
+            class="quick-add-card__swatch{% if is_selected %} is-active{% endif %}"
+            data-swatch-value="{{ value_title | escape }}"
             style="background: {{ swatch_bg | strip }};"
-            aria-label="{{ value | escape }}"
-            aria-pressed="{% if value == color_option.selected_value %}true{% else %}false{% endif %}"></button>
+            aria-label="{{ value_title | escape }}"
+            aria-pressed="{% if is_selected %}true{% else %}false{% endif %}"></button>
         {%- endfor -%}
       </div>
     {%- endif -%}
