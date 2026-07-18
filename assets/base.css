@@ -111,7 +111,8 @@ h1, h2, h3, h4, h5, h6 {
 .header-wrapper--sticky { position: sticky; top: 0; }
 .header { display: flex; align-items: center; gap: 32px; padding: 20px var(--gutter); }
 .header__logo { flex: 0 0 auto; display: block; }
-.header__logo img { display: block; }
+/* Logo sizing lives in the header section's style block (setting-driven);
+   no competing img rules here. */
 .header__logo-text { font-family: var(--font-display); font-weight: 800; font-size: 32px; letter-spacing: -0.02em; }
 .header__nav { flex: 1; display: flex; align-items: center; justify-content: center; gap: 32px; }
 .header__nav-link {

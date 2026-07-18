@@ -2,13 +2,24 @@
   <div class="container footer__columns" style="display: grid; grid-template-columns: 1.4fr repeat({{ section.blocks.size | at_most: 3 | at_least: 1 }}, 1fr); gap: 40px;">
     <div class="footer__brand" style="display: flex; flex-direction: column; gap: 16px;">
       {%- if section.settings.logo != blank -%}
-        <img
-          src="{{ section.settings.logo | image_url: height: 112 }}"
-          alt="{{ shop.name | escape }}"
-          style="height: 56px; width: auto; align-self: flex-start;"
-          width="{{ section.settings.logo.width }}"
-          height="56"
-          loading="lazy">
+        {%- liquid
+          assign footer_logo = section.settings.logo
+          assign footer_logo_height = 56
+          assign footer_logo_width = footer_logo_height | times: footer_logo.aspect_ratio | round | at_least: 1
+          assign footer_logo_width_2x = footer_logo_width | times: 2
+          assign footer_logo_width_3x = footer_logo_width | times: 3
+          assign footer_logo_widths = footer_logo_width | append: ', ' | append: footer_logo_width_2x | append: ', ' | append: footer_logo_width_3x
+          assign footer_logo_sizes = footer_logo_width | append: 'px'
+          assign footer_logo_alt = footer_logo.alt | default: shop.name
+        -%}
+        {{ footer_logo | image_url: width: footer_logo_width_3x | image_tag:
+          widths: footer_logo_widths,
+          sizes: footer_logo_sizes,
+          width: footer_logo_width,
+          height: footer_logo_height,
+          alt: footer_logo_alt,
+          loading: 'lazy',
+          style: 'height: 56px; width: auto; max-width: 100%; align-self: flex-start;' }}
       {%- else -%}
         <span class="header__logo-text" style="color: {{ settings.footer_text }};">{{ shop.name }}</span>
       {%- endif -%}

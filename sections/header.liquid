@@ -8,15 +8,29 @@
 
     <a href="{{ routes.root_url }}" class="header__logo">
       {%- if section.settings.logo != blank -%}
-        {%- assign logo_height = section.settings.logo_height -%}
-        <img
-          src="{{ section.settings.logo | image_url: height: logo_height }}"
-          srcset="{{ section.settings.logo | image_url: height: logo_height }} 1x, {{ section.settings.logo | image_url: height: logo_height, scale: 2 }} 2x"
-          alt="{{ shop.name | escape }}"
-          loading="eager"
-          style="height: {{ logo_height }}px; width: auto;"
-          width="{{ section.settings.logo.width }}"
-          height="{{ logo_height }}">
+        {%- liquid
+          # Display width derives from the image's own aspect ratio, so the
+          # width/height attributes always describe the true intrinsic ratio —
+          # no stretching and no layout shift. The srcset serves 1x/2x/3x for
+          # high-DPI screens (Shopify never upscales past the original).
+          assign logo = section.settings.logo
+          assign logo_height = section.settings.logo_height
+          assign logo_display_width = logo_height | times: logo.aspect_ratio | round | at_least: 1
+          assign logo_width_2x = logo_display_width | times: 2
+          assign logo_width_3x = logo_display_width | times: 3
+          assign logo_widths = logo_display_width | append: ', ' | append: logo_width_2x | append: ', ' | append: logo_width_3x
+          assign logo_sizes = logo_display_width | append: 'px'
+          assign logo_alt = logo.alt | default: shop.name
+        -%}
+        {{ logo | image_url: width: logo_width_3x | image_tag:
+          class: 'header__logo-image',
+          widths: logo_widths,
+          sizes: logo_sizes,
+          width: logo_display_width,
+          height: logo_height,
+          alt: logo_alt,
+          loading: 'eager',
+          fetchpriority: 'high' }}
       {%- else -%}
         <span class="header__logo-text">{{ shop.name }}</span>
       {%- endif -%}
@@ -75,6 +89,27 @@
       {%- endif -%}
     </div>
   </nav>
+{%- endif -%}
+
+{%- if section.settings.logo != blank -%}
+<style>
+  #shopify-section-{{ section.id }} .header__logo-image {
+    display: block;
+    height: {{ section.settings.logo_height }}px;
+    width: auto;
+  }
+  @media (max-width: 749px) {
+    #shopify-section-{{ section.id }} .header__logo-image {
+      /* Keep the logo comfortable next to the hamburger and icons: scale the
+         height down if needed and never let a wide wordmark crowd the row.
+         object-fit: contain guarantees the ratio survives the width guard. */
+      height: min({{ section.settings.logo_height }}px, 36px);
+      max-width: 45vw;
+      object-fit: contain;
+      object-position: left center;
+    }
+  }
+</style>
 {%- endif -%}
 
 {% schema %}
