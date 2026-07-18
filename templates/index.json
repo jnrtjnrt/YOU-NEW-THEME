@@ -16,6 +16,7 @@
           "type": "slide",
           "settings": {
             "image": "shopify://shop_images/ChatGPT_Image_Jun_17_2026_08_57_00_AM.png",
+            "mobile_image": "shopify://shop_images/VS5_4920_1.jpg",
             "fallback_color": "#1a1a1a",
             "eyebrow": "Made By YOU",
             "heading": "Unapologetically",
@@ -62,6 +63,7 @@
       ],
       "settings": {
         "height": 760,
+        "mobile_height": 480,
         "heading_size": 76,
         "overlay_opacity": 85,
         "autoplay": true,
