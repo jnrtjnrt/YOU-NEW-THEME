@@ -34,7 +34,7 @@
   @media (max-width: 749px) {
     #shopify-section-{{ section.id }} .promo-banners__grid > div { height: {{ section.settings.height | times: 0.75 | round }}px !important; }
     #shopify-section-{{ section.id }} .promo-banners__grid > div > div { padding: 28px var(--gutter) !important; }
-    #shopify-section-{{ section.id }} h3 { font-size: calc({{ section.settings.heading_size | times: 0.75 | round }}px * var(--heading-scale)) !important; }
+    #shopify-section-{{ section.id }} h3 { font-size: clamp(22px, calc(14px + 4vw), calc({{ section.settings.heading_size | times: 0.75 | round }}px * var(--heading-scale))) !important; }
   }
 </style>
 
