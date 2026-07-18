@@ -1,9 +1,12 @@
+{%- liquid
+  assign s = section.settings
+-%}
 <div
   class="hero"
   data-hero-carousel
-  data-autoplay="{{ section.settings.autoplay }}"
-  data-autoplay-speed="{{ section.settings.autoplay_speed }}"
-  style="position: relative; width: 100%; height: {{ section.settings.height }}px; overflow: hidden;">
+  data-autoplay="{{ s.autoplay }}"
+  data-autoplay-speed="{{ s.autoplay_speed }}"
+  style="position: relative; width: 100%; height: {{ s.height }}px; overflow: hidden;">
 
   {%- for block in section.blocks -%}
     <div
@@ -40,9 +43,9 @@
         <div style="position: absolute; inset: 0; background: {{ block.settings.fallback_color }};"></div>
       {%- endif -%}
 
-      <div class="hero__content" style="position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: flex-end; padding: 48px var(--gutter); background: linear-gradient(0deg, rgba(26,26,26,{{ section.settings.overlay_opacity | divided_by: 100.0 }}) 0%, rgba(26,26,26,{{ section.settings.overlay_opacity | divided_by: 100.0 | times: 0.65 }}) 60%, rgba(26,26,26,0) 100%);">
+      <div class="hero__content" style="position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: flex-end; padding: 48px var(--gutter); background: linear-gradient(0deg, rgba(26,26,26,{{ s.overlay_opacity | divided_by: 100.0 }}) 0%, rgba(26,26,26,{{ s.overlay_opacity | divided_by: 100.0 | times: 0.65 }}) 60%, rgba(26,26,26,0) 100%);">
         {%- if block.settings.eyebrow != blank -%}
-          <span class="eyebrow" style="color: {{ block.settings.text_color }}; margin-bottom: 6px;">{{ block.settings.eyebrow }}</span>
+          <span class="eyebrow hero__eyebrow" style="color: {{ block.settings.text_color }}; margin-bottom: 6px;">{{ block.settings.eyebrow }}</span>
         {%- endif -%}
         {%- if block.settings.heading != blank -%}
           <h2 class="hero__heading" style="color: {{ block.settings.text_color }}; margin: 0 0 20px 0; max-width: 900px;">
@@ -51,6 +54,9 @@
               <span style="color: {{ block.settings.accent_color }}; font-style: italic;"> {{ block.settings.heading_accent }}</span>
             {%- endif -%}
           </h2>
+        {%- endif -%}
+        {%- if block.settings.description != blank -%}
+          <p class="hero__description" style="color: {{ block.settings.text_color }};">{{ block.settings.description }}</p>
         {%- endif -%}
         {%- if block.settings.button_label != blank -%}
           <div class="hero__cta">
@@ -61,7 +67,7 @@
     </div>
   {%- endfor -%}
 
-  {%- if section.settings.show_dots and section.blocks.size > 1 -%}
+  {%- if s.show_dots and section.blocks.size > 1 -%}
     <div class="hero__dots" style="position: absolute; bottom: 24px; right: var(--gutter); display: flex; gap: 10px; z-index: 2;">
       {%- for block in section.blocks -%}
         <button
@@ -79,24 +85,85 @@
 </div>
 
 <style>
-  #shopify-section-{{ section.id }} .hero__heading {
-    /* Fluid type: tracks the section's headline-size setting on desktop and
-       scales down smoothly with the viewport instead of jumping at breakpoints. */
-    font-size: clamp(28px, calc(24px + 4.2vw), calc({{ section.settings.heading_size }}px * var(--heading-scale)));
-    line-height: 1.1;
-    overflow-wrap: break-word;
+  /* Typography system: every text element reads from CSS variables generated
+     out of the section's schema settings. Desktop values apply by default;
+     one media query swaps in the mobile set below 750px. */
+  #shopify-section-{{ section.id }} .hero {
+    --hero-eyebrow-size: {{ s.eyebrow_size_desktop }}px;
+    --hero-eyebrow-weight: {{ s.eyebrow_weight_desktop }};
+    --hero-eyebrow-lh: {{ s.eyebrow_lh_desktop }};
+    --hero-eyebrow-ls: {{ s.eyebrow_ls_desktop }}px;
+    --hero-heading-size: {{ s.heading_size }}px;
+    --hero-heading-weight: {{ s.heading_weight_desktop }};
+    --hero-heading-lh: {{ s.heading_lh_desktop }};
+    --hero-heading-ls: {{ s.heading_ls_desktop }}px;
+    --hero-desc-size: {{ s.desc_size_desktop }}px;
+    --hero-desc-weight: {{ s.desc_weight_desktop }};
+    --hero-desc-lh: {{ s.desc_lh_desktop }};
+    --hero-desc-ls: {{ s.desc_ls_desktop }}px;
+    --hero-button-size: {{ s.button_size_desktop }}px;
+    --hero-button-weight: {{ s.button_weight_desktop }};
+    --hero-button-lh: {{ s.button_lh_desktop }};
+    --hero-button-ls: {{ s.button_ls_desktop }}px;
   }
+
+  #shopify-section-{{ section.id }} .hero__eyebrow {
+    font-size: var(--hero-eyebrow-size);
+    font-weight: var(--hero-eyebrow-weight);
+    line-height: var(--hero-eyebrow-lh);
+    letter-spacing: var(--hero-eyebrow-ls);
+  }
+  #shopify-section-{{ section.id }} .hero__heading {
+    font-size: var(--hero-heading-size);
+    font-weight: var(--hero-heading-weight);
+    line-height: var(--hero-heading-lh);
+    letter-spacing: var(--hero-heading-ls);
+    overflow-wrap: break-word;
+    text-wrap: balance;
+  }
+  #shopify-section-{{ section.id }} .hero__description {
+    font-size: var(--hero-desc-size);
+    font-weight: var(--hero-desc-weight);
+    line-height: var(--hero-desc-lh);
+    letter-spacing: var(--hero-desc-ls);
+    margin: 0 0 20px 0;
+    max-width: 560px;
+  }
+  #shopify-section-{{ section.id }} .hero__cta .button {
+    font-size: var(--hero-button-size);
+    font-weight: var(--hero-button-weight);
+    line-height: var(--hero-button-lh);
+    letter-spacing: var(--hero-button-ls);
+  }
+
   @media (max-width: 749px) {
     #shopify-section-{{ section.id }} .hero {
-      height: {{ section.settings.mobile_height }}px !important;
+      --hero-eyebrow-size: {{ s.eyebrow_size_mobile }}px;
+      --hero-eyebrow-weight: {{ s.eyebrow_weight_mobile }};
+      --hero-eyebrow-lh: {{ s.eyebrow_lh_mobile }};
+      --hero-eyebrow-ls: {{ s.eyebrow_ls_mobile }}px;
+      --hero-heading-size: {{ s.heading_size_mobile }}px;
+      --hero-heading-weight: {{ s.heading_weight_mobile }};
+      --hero-heading-lh: {{ s.heading_lh_mobile }};
+      --hero-heading-ls: {{ s.heading_ls_mobile }}px;
+      --hero-desc-size: {{ s.desc_size_mobile }}px;
+      --hero-desc-weight: {{ s.desc_weight_mobile }};
+      --hero-desc-lh: {{ s.desc_lh_mobile }};
+      --hero-desc-ls: {{ s.desc_ls_mobile }}px;
+      --hero-button-size: {{ s.button_size_mobile }}px;
+      --hero-button-weight: {{ s.button_weight_mobile }};
+      --hero-button-lh: {{ s.button_lh_mobile }};
+      --hero-button-ls: {{ s.button_ls_mobile }}px;
+
+      height: {{ s.mobile_height }}px !important;
       max-height: 82svh;
     }
     #shopify-section-{{ section.id }} .hero__content {
       padding: 20px var(--gutter) 28px var(--gutter) !important;
     }
     #shopify-section-{{ section.id }} .hero__heading { margin-bottom: 14px !important; }
-    #shopify-section-{{ section.id }} .hero .eyebrow { letter-spacing: 0.2em; font-size: 11px; }
-    {%- if section.settings.show_dots and section.blocks.size > 1 -%}
+    #shopify-section-{{ section.id }} .hero__description { margin-bottom: 16px; }
+    {%- if s.show_dots and section.blocks.size > 1 -%}
     /* Reserve a clear lane for the dots below the CTA. */
     #shopify-section-{{ section.id }} .hero__content { padding-bottom: 56px !important; }
     #shopify-section-{{ section.id }} .hero__dots {
@@ -138,17 +205,6 @@
     },
     {
       "type": "range",
-      "id": "heading_size",
-      "label": "Headline size (desktop)",
-      "min": 40,
-      "max": 120,
-      "step": 4,
-      "unit": "px",
-      "default": 76,
-      "info": "On smaller screens the headline scales fluidly with the viewport."
-    },
-    {
-      "type": "range",
       "id": "overlay_opacity",
       "label": "Overlay darkness",
       "min": 0,
@@ -178,7 +234,68 @@
       "id": "show_dots",
       "label": "Show navigation dots",
       "default": true
-    }
+    },
+
+    { "type": "header", "content": "Heading — desktop" },
+    { "type": "range", "id": "heading_size", "label": "Size", "min": 40, "max": 120, "step": 4, "unit": "px", "default": 76 },
+    { "type": "select", "id": "heading_weight_desktop", "label": "Weight", "options": [
+      { "value": "400", "label": "Regular" }, { "value": "500", "label": "Medium" }, { "value": "600", "label": "Semibold" }, { "value": "700", "label": "Bold" }, { "value": "800", "label": "Extra bold" }
+    ], "default": "700" },
+    { "type": "range", "id": "heading_lh_desktop", "label": "Line height", "min": 0.8, "max": 2, "step": 0.1, "default": 1.1 },
+    { "type": "range", "id": "heading_ls_desktop", "label": "Letter spacing", "min": -4, "max": 8, "step": 0.5, "unit": "px", "default": -1 },
+    { "type": "header", "content": "Heading — mobile" },
+    { "type": "range", "id": "heading_size_mobile", "label": "Size", "min": 20, "max": 64, "step": 2, "unit": "px", "default": 34 },
+    { "type": "select", "id": "heading_weight_mobile", "label": "Weight", "options": [
+      { "value": "400", "label": "Regular" }, { "value": "500", "label": "Medium" }, { "value": "600", "label": "Semibold" }, { "value": "700", "label": "Bold" }, { "value": "800", "label": "Extra bold" }
+    ], "default": "700" },
+    { "type": "range", "id": "heading_lh_mobile", "label": "Line height", "min": 0.8, "max": 2, "step": 0.1, "default": 1.1 },
+    { "type": "range", "id": "heading_ls_mobile", "label": "Letter spacing", "min": -4, "max": 8, "step": 0.5, "unit": "px", "default": -0.5 },
+
+    { "type": "header", "content": "Eyebrow — desktop" },
+    { "type": "range", "id": "eyebrow_size_desktop", "label": "Size", "min": 9, "max": 20, "step": 1, "unit": "px", "default": 12 },
+    { "type": "select", "id": "eyebrow_weight_desktop", "label": "Weight", "options": [
+      { "value": "400", "label": "Regular" }, { "value": "500", "label": "Medium" }, { "value": "600", "label": "Semibold" }, { "value": "700", "label": "Bold" }, { "value": "800", "label": "Extra bold" }
+    ], "default": "700" },
+    { "type": "range", "id": "eyebrow_lh_desktop", "label": "Line height", "min": 0.8, "max": 2, "step": 0.1, "default": 1.4 },
+    { "type": "range", "id": "eyebrow_ls_desktop", "label": "Letter spacing", "min": -4, "max": 8, "step": 0.5, "unit": "px", "default": 3.5 },
+    { "type": "header", "content": "Eyebrow — mobile" },
+    { "type": "range", "id": "eyebrow_size_mobile", "label": "Size", "min": 9, "max": 18, "step": 1, "unit": "px", "default": 11 },
+    { "type": "select", "id": "eyebrow_weight_mobile", "label": "Weight", "options": [
+      { "value": "400", "label": "Regular" }, { "value": "500", "label": "Medium" }, { "value": "600", "label": "Semibold" }, { "value": "700", "label": "Bold" }, { "value": "800", "label": "Extra bold" }
+    ], "default": "700" },
+    { "type": "range", "id": "eyebrow_lh_mobile", "label": "Line height", "min": 0.8, "max": 2, "step": 0.1, "default": 1.4 },
+    { "type": "range", "id": "eyebrow_ls_mobile", "label": "Letter spacing", "min": -4, "max": 8, "step": 0.5, "unit": "px", "default": 2.5 },
+
+    { "type": "header", "content": "Description — desktop" },
+    { "type": "paragraph", "content": "Shown when a slide has description text." },
+    { "type": "range", "id": "desc_size_desktop", "label": "Size", "min": 12, "max": 24, "step": 1, "unit": "px", "default": 16 },
+    { "type": "select", "id": "desc_weight_desktop", "label": "Weight", "options": [
+      { "value": "400", "label": "Regular" }, { "value": "500", "label": "Medium" }, { "value": "600", "label": "Semibold" }, { "value": "700", "label": "Bold" }
+    ], "default": "400" },
+    { "type": "range", "id": "desc_lh_desktop", "label": "Line height", "min": 0.8, "max": 2, "step": 0.1, "default": 1.5 },
+    { "type": "range", "id": "desc_ls_desktop", "label": "Letter spacing", "min": -4, "max": 8, "step": 0.5, "unit": "px", "default": 0 },
+    { "type": "header", "content": "Description — mobile" },
+    { "type": "range", "id": "desc_size_mobile", "label": "Size", "min": 12, "max": 20, "step": 1, "unit": "px", "default": 14 },
+    { "type": "select", "id": "desc_weight_mobile", "label": "Weight", "options": [
+      { "value": "400", "label": "Regular" }, { "value": "500", "label": "Medium" }, { "value": "600", "label": "Semibold" }, { "value": "700", "label": "Bold" }
+    ], "default": "400" },
+    { "type": "range", "id": "desc_lh_mobile", "label": "Line height", "min": 0.8, "max": 2, "step": 0.1, "default": 1.5 },
+    { "type": "range", "id": "desc_ls_mobile", "label": "Letter spacing", "min": -4, "max": 8, "step": 0.5, "unit": "px", "default": 0 },
+
+    { "type": "header", "content": "Button text — desktop" },
+    { "type": "range", "id": "button_size_desktop", "label": "Size", "min": 12, "max": 20, "step": 1, "unit": "px", "default": 15 },
+    { "type": "select", "id": "button_weight_desktop", "label": "Weight", "options": [
+      { "value": "400", "label": "Regular" }, { "value": "500", "label": "Medium" }, { "value": "600", "label": "Semibold" }, { "value": "700", "label": "Bold" }, { "value": "800", "label": "Extra bold" }
+    ], "default": "700" },
+    { "type": "range", "id": "button_lh_desktop", "label": "Line height", "min": 0.8, "max": 2, "step": 0.1, "default": 1 },
+    { "type": "range", "id": "button_ls_desktop", "label": "Letter spacing", "min": -4, "max": 8, "step": 0.5, "unit": "px", "default": 0 },
+    { "type": "header", "content": "Button text — mobile" },
+    { "type": "range", "id": "button_size_mobile", "label": "Size", "min": 12, "max": 18, "step": 1, "unit": "px", "default": 14 },
+    { "type": "select", "id": "button_weight_mobile", "label": "Weight", "options": [
+      { "value": "400", "label": "Regular" }, { "value": "500", "label": "Medium" }, { "value": "600", "label": "Semibold" }, { "value": "700", "label": "Bold" }, { "value": "800", "label": "Extra bold" }
+    ], "default": "700" },
+    { "type": "range", "id": "button_lh_mobile", "label": "Line height", "min": 0.8, "max": 2, "step": 0.1, "default": 1.2 },
+    { "type": "range", "id": "button_ls_mobile", "label": "Letter spacing", "min": -4, "max": 8, "step": 0.5, "unit": "px", "default": 0 }
   ],
   "blocks": [
     {
@@ -191,6 +308,7 @@
         { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Made By YOU" },
         { "type": "text", "id": "heading", "label": "Headline", "default": "Unapologetically" },
         { "type": "text", "id": "heading_accent", "label": "Accented word", "default": "you.", "info": "Rendered italic in the accent color after the headline." },
+        { "type": "textarea", "id": "description", "label": "Description", "info": "Optional supporting text under the headline." },
         { "type": "color", "id": "accent_color", "label": "Accent color", "default": "#D4E84A" },
         { "type": "color", "id": "text_color", "label": "Text color", "default": "#FDFEFF" },
         { "type": "text", "id": "button_label", "label": "Button label", "default": "GO OFF THEN" },
