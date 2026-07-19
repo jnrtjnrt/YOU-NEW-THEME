@@ -669,8 +669,3 @@ a.pagination__item:hover { background: var(--color-border-subtle); color: var(--
   .style-lab-summary__inner { padding: 20px; justify-content: center; }
   .style-lab-summary__inner .button { width: 100%; }
 }
-@media (max-width: 768px) {
-  [class*="gallery"] {
-    grid-template-columns: repeat(3, 1fr) !important;
-  }
-}
