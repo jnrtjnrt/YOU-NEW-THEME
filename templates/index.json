@@ -21,6 +21,7 @@
             "eyebrow": "Made By YOU",
             "heading": "Unapologetically",
             "heading_accent": "you.",
+            "description": "",
             "accent_color": "#d4e84a",
             "text_color": "#fdfeff",
             "button_label": "GO OFF THEN",
@@ -35,6 +36,7 @@
             "eyebrow": "New",
             "heading": "Zero effort, all drip.",
             "heading_accent": "",
+            "description": "",
             "accent_color": "#d4e84a",
             "text_color": "#fdfeff",
             "button_label": "TAKE MY MONEY",
@@ -49,6 +51,7 @@
             "eyebrow": "Mix & Match",
             "heading": "Straps for every mood.",
             "heading_accent": "",
+            "description": "",
             "accent_color": "#d4e84a",
             "text_color": "#fdfeff",
             "button_label": "I GUESS I'LL LOOK",
@@ -64,11 +67,42 @@
       "settings": {
         "height": 760,
         "mobile_height": 480,
-        "heading_size": 76,
         "overlay_opacity": 85,
         "autoplay": true,
         "autoplay_speed": 5,
-        "show_dots": true
+        "show_dots": true,
+        "heading_size": 76,
+        "heading_weight_desktop": "700",
+        "heading_lh_desktop": 1.1,
+        "heading_ls_desktop": -1,
+        "heading_size_mobile": 34,
+        "heading_weight_mobile": "700",
+        "heading_lh_mobile": 1.1,
+        "heading_ls_mobile": -0.5,
+        "eyebrow_size_desktop": 12,
+        "eyebrow_weight_desktop": "700",
+        "eyebrow_lh_desktop": 1.4,
+        "eyebrow_ls_desktop": 3.5,
+        "eyebrow_size_mobile": 11,
+        "eyebrow_weight_mobile": "700",
+        "eyebrow_lh_mobile": 1.4,
+        "eyebrow_ls_mobile": 2.5,
+        "desc_size_desktop": 16,
+        "desc_weight_desktop": "400",
+        "desc_lh_desktop": 1.5,
+        "desc_ls_desktop": 0,
+        "desc_size_mobile": 14,
+        "desc_weight_mobile": "400",
+        "desc_lh_mobile": 1.5,
+        "desc_ls_mobile": 0,
+        "button_size_desktop": 15,
+        "button_weight_desktop": "700",
+        "button_lh_desktop": 1,
+        "button_ls_desktop": 0,
+        "button_size_mobile": 14,
+        "button_weight_mobile": "700",
+        "button_lh_mobile": 1.2,
+        "button_ls_mobile": 0
       }
     },
     "how_it_works": {
@@ -251,21 +285,12 @@
             "caption": "wears MINIGO in Volt",
             "link": ""
           }
-        },
-        "photo_4": {
-          "type": "photo",
-          "settings": {
-            "handle": "@therealbea",
-            "caption": "wears PIXIE in Bright Orange",
-            "link": ""
-          }
         }
       },
       "block_order": [
         "photo_1",
         "photo_2",
-        "photo_3",
-        "photo_4"
+        "photo_3"
       ],
       "settings": {
         "heading": "Wearing It Better Than Us",
@@ -273,7 +298,7 @@
         "heading_color": "#fdfeff",
         "handle_color": "#fdfeff",
         "caption_color": "#d4e84a",
-        "columns": 4,
+        "columns": 3,
         "padding": 64
       }
     },
