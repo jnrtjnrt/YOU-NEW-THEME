@@ -9,21 +9,30 @@
       </button>
     </div>
 
-    {%- if settings.cart_show_free_shipping_bar and settings.cart_free_shipping_threshold > 0 -%}
+    {%- comment -%}
+      Free shipping banner: fully controlled from Theme settings > Cart —
+      the on/off toggle, threshold, and both message strings are all
+      merchant-editable, with no hardcoded copy. When the toggle is off (or
+      the threshold is 0) this block renders nothing at all, so the drawer
+      layout closes up the space cleanly rather than leaving an empty bar.
+    {%- endcomment -%}
+    {%- if settings.cart_show_free_shipping_bar and settings.cart_free_shipping_threshold > 0 and cart.item_count > 0 -%}
       {%- liquid
         assign threshold_cents = settings.cart_free_shipping_threshold | times: 100
         assign remaining = threshold_cents | minus: cart.total_price
       -%}
-      {%- if cart.item_count > 0 -%}
-        <div class="cart-drawer__shipping-bar" style="background: {{ section.settings.header_color }};">
-          {%- if remaining > 0 -%}
-            {%- assign remaining_money = remaining | money -%}
-            {{ 'sections.cart.free_shipping_remaining' | t: amount: remaining_money }}
-          {%- else -%}
-            {{ 'sections.cart.free_shipping_unlocked' | t }}
-          {%- endif -%}
-        </div>
-      {%- endif -%}
+      <div class="cart-drawer__shipping-bar" style="background: {{ section.settings.header_color }};">
+        {%- if remaining > 0 -%}
+          {%- liquid
+            assign remaining_money = remaining | money
+            assign shipping_message = settings.cart_free_shipping_message | replace: '{{ amount }}', remaining_money
+            assign shipping_message = shipping_message | replace: '{{amount}}', remaining_money
+          -%}
+          {{ shipping_message }}
+        {%- else -%}
+          {{ settings.cart_free_shipping_success_message }}
+        {%- endif -%}
+      </div>
     {%- endif -%}
 
     <div class="cart-drawer__items">

@@ -139,7 +139,9 @@
         { "value": "page", "label": "Page" }
       ], "default": "drawer" },
       { "type": "checkbox", "id": "cart_show_free_shipping_bar", "label": "Show free shipping progress", "default": true },
-      { "type": "range", "id": "cart_free_shipping_threshold", "label": "Free shipping threshold", "min": 0, "max": 10000, "step": 100, "unit": "₱", "default": 2000, "info": "In your store currency. Set to 0 to hide." }
+      { "type": "range", "id": "cart_free_shipping_threshold", "label": "Free shipping threshold", "min": 0, "max": 10000, "step": 100, "unit": "₱", "default": 2000, "info": "In your store currency. Set to 0 to hide." },
+      { "type": "text", "id": "cart_free_shipping_message", "label": "Free shipping message", "default": "You're {{ amount }} away from free shipping!", "info": "Shown while the cart is below the threshold. Use {{ amount }} where the remaining amount should appear." },
+      { "type": "text", "id": "cart_free_shipping_success_message", "label": "Free shipping unlocked message", "default": "🎉 You've unlocked free shipping!", "info": "Shown once the cart reaches the threshold." }
     ]
   },
   {

@@ -1,3 +1,13 @@
+{% comment %}
+  Below the tablet breakpoint the grid switches to a wrapping, centered flex
+  row instead of CSS Grid. A fixed column grid leaves a literal empty cell
+  whenever the photo count doesn't divide evenly into the column count (e.g.
+  3 photos in a 2-column grid) — that empty cell is what reads as dead
+  space. Flex-wrap has no concept of "empty cells": an incomplete last row
+  simply centers, so this adapts automatically to any number of photos, now
+  or after more are added, with no per-count logic needed. Desktop keeps
+  the merchant's exact "Columns" grid setting, unchanged.
+{% endcomment %}
 <div style="background: {{ section.settings.background }}; padding: {{ section.settings.padding }}px 0;">
   <div class="container">
     {%- if section.settings.heading != blank -%}
@@ -12,7 +22,7 @@
             assign tag_el = 'a'
           endif
         -%}
-        <{{ tag_el }}{% if block.settings.link != blank %} href="{{ block.settings.link }}"{% endif %} style="position: relative; aspect-ratio: 3/4; overflow: hidden; display: block;" {{ block.shopify_attributes }}>
+        <{{ tag_el }} class="ugc__item"{% if block.settings.link != blank %} href="{{ block.settings.link }}"{% endif %} style="position: relative; aspect-ratio: 3/4; overflow: hidden; display: block;" {{ block.shopify_attributes }}>
           {%- if block.settings.image != blank -%}
             <img
               src="{{ block.settings.image | image_url: width: 420 }}"
@@ -43,15 +53,21 @@
 </div>
 
 <style>
+  /* 3 columns, 16px gap, matching the desktop-ish density used down to 750px. */
   @media (max-width: 989px) {
-    #shopify-section-{{ section.id }} .ugc__grid { grid-template-columns: repeat(3, 1fr) !important; }
+    #shopify-section-{{ section.id }} .ugc__grid {
+      display: flex !important; flex-wrap: wrap; justify-content: center;
+    }
+    #shopify-section-{{ section.id }} .ugc__item { flex: 0 0 calc((100% - 32px) / 3); }
   }
   @media (max-width: 749px) {
     #shopify-section-{{ section.id }} > div { padding: {{ section.settings.padding | times: 0.75 | round }}px 0 !important; }
     #shopify-section-{{ section.id }} .ugc__grid { gap: 8px !important; }
+    #shopify-section-{{ section.id }} .ugc__item { flex-basis: calc((100% - 16px) / 3); }
   }
+  /* 2 columns below 600px. */
   @media (max-width: 599px) {
-    #shopify-section-{{ section.id }} .ugc__grid { grid-template-columns: repeat(2, 1fr) !important; }
+    #shopify-section-{{ section.id }} .ugc__item { flex-basis: calc((100% - 8px) / 2); }
   }
 </style>
 

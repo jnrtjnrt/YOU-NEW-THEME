@@ -65,6 +65,8 @@
     "cart_type": "drawer",
     "cart_show_free_shipping_bar": true,
     "cart_free_shipping_threshold": 2000,
+    "cart_free_shipping_message": "You're {{ amount }} away from free shipping!",
+    "cart_free_shipping_success_message": "🎉 You've unlocked free shipping!",
     "social_facebook_label": "Facebook · YOU Bags",
     "social_instagram_label": "Instagram · @youofficialstore",
     "social_tiktok_label": "TikTok · @youofficialstore",

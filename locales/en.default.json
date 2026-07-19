@@ -61,9 +61,7 @@
       "decrease": "Decrease quantity",
       "note_label": "Order note",
       "taxes_note": "Taxes and shipping calculated at checkout.",
-      "error": "Something went wrong. Try again.",
-      "free_shipping_remaining": "You're {{ amount }} away from free shipping!",
-      "free_shipping_unlocked": "Free shipping unlocked. Go you."
+      "error": "Something went wrong. Try again."
     },
     "hero": {
       "go_to_slide": "Go to slide {{ number }}"
