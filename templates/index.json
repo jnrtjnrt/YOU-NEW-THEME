@@ -267,23 +267,25 @@
             "image": "shopify://shop_images/686161060_18582196825009466_7475025348656298444_n.jpg",
             "handle": "@ashleyortega",
             "caption": "wears PIXIE in NEON PINK",
-            "link": ""
+            "link": "shopify://products/you-pixie"
           }
         },
         "photo_2": {
           "type": "photo",
           "settings": {
+            "image": "shopify://shop_images/Screenshot_2026-07-20_at_3.12.11_AM.png",
             "handle": "@djbigboycheng",
-            "caption": "wears FLIP in Black Red",
-            "link": ""
+            "caption": "wears FLIP in Black Green",
+            "link": "shopify://products/ybflip-all-black"
           }
         },
         "photo_3": {
           "type": "photo",
           "settings": {
-            "handle": "@juliennearrr",
-            "caption": "wears MINIGO in Volt",
-            "link": ""
+            "image": "shopify://shop_images/RyzaCenon_for_YOU.jpg",
+            "handle": "@iamryzacenon",
+            "caption": "wears LATCH",
+            "link": "shopify://products/you-latch"
           }
         }
       },
