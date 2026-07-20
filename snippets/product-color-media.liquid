@@ -1,0 +1,54 @@
+{% comment %}
+  Resolves the best image to show for one color value on a product:
+    1. The first available variant matching that color that has its own
+       featured_media assigned in the admin variant editor (fastest, most
+       precise — no guessing).
+    2. Falls back to the first product image whose alt text mentions the
+       color (the same alt-text convention the PDP gallery uses), for
+       products where images were only assigned at the product level.
+  Outputs a JSON object ({"src","srcset","width","height","id"}) or the
+  bare word null when neither resolves — callers should leave the current
+  image untouched on null rather than show something incorrect.
+
+  Usage:
+    {%- capture media_json -%}
+      {% render 'product-color-media', for_product: product, color_position: color_option.position, value: value_title %}
+    {%- endcapture -%}
+{% endcomment %}
+{%- liquid
+  assign resolved_media = blank
+  if color_position and color_position > 0
+    assign pos = color_position | minus: 1
+    for variant in for_product.variants
+      if variant.options[pos] == value and variant.featured_media and variant.available
+        assign resolved_media = variant.featured_media
+        break
+      endif
+    endfor
+    if resolved_media == blank
+      for variant in for_product.variants
+        if variant.options[pos] == value and variant.featured_media
+          assign resolved_media = variant.featured_media
+          break
+        endif
+      endfor
+    endif
+  endif
+
+  if resolved_media == blank
+    assign needle = value | downcase
+    for media in for_product.media
+      assign alt_down = media.alt | downcase
+      if alt_down contains needle
+        assign resolved_media = media
+        break
+      endif
+    endfor
+  endif
+-%}
+{%- if resolved_media != blank -%}
+  {%- capture srcset_str -%}{{ resolved_media | image_url: width: 360 }} 360w, {{ resolved_media | image_url: width: 540 }} 540w, {{ resolved_media | image_url: width: 720 }} 720w{%- endcapture -%}
+  {"src": {{ resolved_media | image_url: width: 540 | json }}, "srcset": {{ srcset_str | json }}, "width": {{ resolved_media.width }}, "height": {{ resolved_media.height }}, "id": {{ resolved_media.id }}}
+{%- else -%}
+  null
+{%- endif -%}

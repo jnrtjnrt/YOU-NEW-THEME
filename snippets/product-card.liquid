@@ -113,26 +113,39 @@
           capture swatch_bg
             render 'swatch-style', value: value
           endcapture
+
+          # Prefer an available variant for this color (so the swatch never
+          # links to a sold-out combination when other sizes/etc. are in
+          # stock); fall back to the first match regardless of availability.
           assign matched_variant = blank
+          assign matched_variant_available = blank
           for variant in card_product.variants
             if variant.options[color_pos] == value_title
-              assign matched_variant = variant
-              break
+              if matched_variant == blank
+                assign matched_variant = variant
+              endif
+              if variant.available and matched_variant_available == blank
+                assign matched_variant_available = variant
+              endif
             endif
           endfor
+          if matched_variant_available != blank
+            assign matched_variant = matched_variant_available
+          endif
+
+          # Image resolution is independent of which variant we link to —
+          # falls back to alt-text matching when no variant has its own image.
+          capture color_media_json
+            render 'product-color-media', for_product: card_product, color_position: color_option.position, value: value_title
+          endcapture
+          assign color_media_json = color_media_json | strip
         -%}
         <button
           type="button"
           class="product-card__swatch{% if color_option.selected_value == value_title %} is-active{% endif %}"
           data-card-swatch
-          {% if matched_variant != blank %}
-            data-variant-url="{{ matched_variant.url }}"
-            {% if matched_variant.featured_media %}
-              data-media-id="{{ matched_variant.featured_media.id }}"
-              data-image-src="{{ matched_variant.featured_media | image_url: width: 540 }}"
-              data-image-srcset="{{ matched_variant.featured_media | image_url: width: 360 }} 360w, {{ matched_variant.featured_media | image_url: width: 540 }} 540w, {{ matched_variant.featured_media | image_url: width: 720 }} 720w, {{ matched_variant.featured_media | image_url: width: 900 }} 900w"
-            {% endif %}
-          {% endif %}
+          {% if matched_variant != blank %}data-variant-url="{{ matched_variant.url }}"{% endif %}
+          data-color-media="{{ color_media_json | escape }}"
           style="background: {{ swatch_bg | strip }};"
           title="{{ value_title | escape }}"
           aria-label="{{ value_title | escape }}"

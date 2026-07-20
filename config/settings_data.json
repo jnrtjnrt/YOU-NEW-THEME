@@ -63,7 +63,7 @@
     "animations_hover_lift": true,
     "animations_image_zoom": true,
     "cart_type": "drawer",
-    "cart_show_free_shipping_bar": true,
+    "cart_show_free_shipping_bar": false,
     "cart_free_shipping_threshold": 2000,
     "cart_free_shipping_message": "You're {{ amount }} away from free shipping!",
     "cart_free_shipping_success_message": "🎉 You've unlocked free shipping!",

@@ -504,17 +504,28 @@
 
         var cardTrack = qs('[data-card-track]', swatchCard);
         if (!cardTrack) return;
-        var mediaId = swatch.getAttribute('data-media-id');
-        var target = mediaId ? qs('[data-media-id="' + mediaId + '"]', cardTrack) : null;
+        var media = null;
+        try {
+          var raw = swatch.getAttribute('data-color-media');
+          media = raw ? JSON.parse(raw) : null;
+        } catch (err) { media = null; }
+        // No resolvable image for this color (no variant image assigned and
+        // no alt-text match): leave the current image showing rather than
+        // guess wrong or flash back to an unrelated default.
+        if (!media) return;
+
+        var target = qs('[data-media-id="' + media.id + '"]', cardTrack);
         if (target) {
           cardTrack.scrollTo({ left: target.offsetLeft, behavior: 'smooth' });
-        } else if (swatch.getAttribute('data-image-src')) {
-          // Variant media beyond the card's image limit: swap the first slide.
+        } else {
+          // That image isn't in the rendered gallery slice: swap the first slide.
           var firstImg = qs('.product-card__image', cardTrack);
           if (firstImg) {
-            firstImg.src = swatch.getAttribute('data-image-src');
-            firstImg.srcset = swatch.getAttribute('data-image-srcset') || '';
-            if (mediaId) firstImg.setAttribute('data-media-id', mediaId);
+            firstImg.src = media.src;
+            firstImg.srcset = media.srcset || '';
+            firstImg.setAttribute('data-media-id', media.id);
+            if (media.width) firstImg.setAttribute('width', media.width);
+            if (media.height) firstImg.setAttribute('height', media.height);
             cardTrack.scrollTo({ left: 0, behavior: 'smooth' });
           }
         }
@@ -565,6 +576,24 @@
             }
           }
           if (priceEl && variant.price_formatted) priceEl.innerHTML = variant.price_formatted;
+        }
+
+        // Swap the card image to match the selected color. Left untouched
+        // (never forced to a wrong/default image) when no image resolves
+        // for that color — see snippets/product-color-media.liquid.
+        var media = null;
+        try {
+          var rawMedia = swatch.getAttribute('data-color-media');
+          media = rawMedia ? JSON.parse(rawMedia) : null;
+        } catch (err) { media = null; }
+        if (media) {
+          var img = qs('[data-quick-add-image]', card);
+          if (img) {
+            img.src = media.src;
+            img.srcset = media.srcset || '';
+            if (media.width) img.setAttribute('width', media.width);
+            if (media.height) img.setAttribute('height', media.height);
+          }
         }
         return;
       }
@@ -703,6 +732,17 @@
       return available[0] || matches[0] || product.variants[0];
     }
 
+    // Resolves which image to show for a product at a given color selection:
+    // the color's own image if one resolved server-side, else the product's
+    // default photo. Shared by the picker and the "Your Set" summary so both
+    // always agree on which image represents the current color.
+    function colorImageFor(product, colorIdx) {
+      var colorEntry = product.colors[colorIdx];
+      var media = colorEntry && colorEntry.media;
+      if (media && media.src) return media;
+      return product.image ? { src: product.image } : null;
+    }
+
     qsa('[data-style-lab-picker]', builder).forEach(function (el) {
       var jsonEl = qs('[data-style-lab-data]', el);
       var products;
@@ -718,8 +758,18 @@
         var variant = variantFor(product, state.colorIdx);
         var img = qs('[data-style-lab-image]', el);
         if (img) {
-          if (product.image) { img.src = product.image; img.alt = product.title; }
-          else { img.removeAttribute('src'); }
+          var media = colorImageFor(product, state.colorIdx);
+          if (media && media.src) {
+            img.src = media.src;
+            img.srcset = media.srcset || '';
+            if (media.width) img.setAttribute('width', media.width);
+            else img.removeAttribute('width');
+            if (media.height) img.setAttribute('height', media.height);
+            else img.removeAttribute('height');
+            img.alt = product.title;
+          } else {
+            img.removeAttribute('src');
+          }
         }
         var nameEl = qs('[data-style-lab-name]', el);
         if (nameEl) nameEl.textContent = product.title;
@@ -774,8 +824,18 @@
       var strapVariant = variantFor(strap, pickers.strap.colorIdx);
       var bagImg = qs('[data-style-lab-summary-image="bag"]', summary);
       var strapImg = qs('[data-style-lab-summary-image="strap"]', summary);
-      if (bagImg && bag.image) { bagImg.src = bag.image; bagImg.alt = bag.title; }
-      if (strapImg && strap.image) { strapImg.src = strap.image; strapImg.alt = strap.title; }
+      var bagMedia = colorImageFor(bag, pickers.bag.colorIdx);
+      var strapMedia = colorImageFor(strap, pickers.strap.colorIdx);
+      if (bagImg && bagMedia && bagMedia.src) {
+        bagImg.src = bagMedia.src;
+        bagImg.srcset = bagMedia.srcset || '';
+        bagImg.alt = bag.title;
+      }
+      if (strapImg && strapMedia && strapMedia.src) {
+        strapImg.src = strapMedia.src;
+        strapImg.srcset = strapMedia.srcset || '';
+        strapImg.alt = strap.title;
+      }
       var nameEl = qs('[data-style-lab-summary-name]', summary);
       if (nameEl) nameEl.textContent = bag.title + ' + ' + strap.title;
       var totalEl = qs('[data-style-lab-summary-total]', summary);

@@ -31,8 +31,11 @@
           capture hex
             render 'swatch-style', value: value
           endcapture
+          capture color_media_json
+            render 'product-color-media', for_product: for_product, color_position: color_option.position, value: value_title
+          endcapture
         -%}
-        { "value": {{ value_title | json }}, "hex": {{ hex | strip | json }} }{% unless forloop.last %},{% endunless %}
+        { "value": {{ value_title | json }}, "hex": {{ hex | strip | json }}, "media": {{ color_media_json | strip }} }{% unless forloop.last %},{% endunless %}
       {%- endfor -%}
     {%- endif -%}
   ],
