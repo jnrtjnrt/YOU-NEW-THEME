@@ -1,0 +1,10 @@
+:root{
+--radius-sm:0px;--radius-md:0px;--radius-lg:0px;--radius-full:9999px;
+--border-hairline-width:2px;--border-hairline-color:var(--you-black);
+--shadow-flat:none;
+--shadow-pop:none;
+--shadow-pop-sm:none;
+--ease-snap:cubic-bezier(.2,.8,.2,1); /* @kind other */
+--dur-fast:120ms; /* @kind other */
+--dur-med:200ms; /* @kind other */
+}

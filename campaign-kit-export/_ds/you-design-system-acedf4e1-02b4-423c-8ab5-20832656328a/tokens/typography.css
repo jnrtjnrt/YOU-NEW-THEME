@@ -1,0 +1,11 @@
+:root{
+--text-h1-size:176px;--text-h1-line:0.85;--text-h1-track:-0.03em;--text-h1-weight:700;
+--text-h2-size:96px;--text-h2-line:0.88;--text-h2-track:-0.03em;--text-h2-weight:700;
+--text-h3-size:56px;--text-h3-line:0.95;--text-h3-track:-0.02em;--text-h3-weight:700;
+--text-serif-size:72px;--text-serif-line:0.9;--text-serif-track:-0.02em;--text-serif-style:italic;--text-serif-weight:500;
+--text-lede-size:24px;--text-lede-line:1.35;--text-lede-track:0;
+--text-body-size:16px;--text-body-line:1.6;--text-body-track:0;
+--text-body-sm-size:14px;--text-body-sm-line:1.5;--text-body-track:0;
+--text-micro-size:12px;--text-micro-line:1.4;--text-micro-track:0.3em;--text-micro-weight:700;--text-micro-case:uppercase;
+--text-button-size:15px;--text-button-line:1;--text-button-track:0.01em;--text-button-weight:700;
+}

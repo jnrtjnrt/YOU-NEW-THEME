@@ -1,0 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Caveat:wght@700&family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Archivo:wght@400;500;600;700&display=swap');
+:root{
+--font-display:'Anton',ui-sans-serif,system-ui,sans-serif;
+--font-display-alt:'Bricolage Grotesque',ui-sans-serif,system-ui,sans-serif;
+--font-script:'Caveat',cursive;
+--font-serif:'Cormorant Garamond',ui-serif,Georgia,serif;
+--font-body:'Archivo',ui-sans-serif,system-ui,sans-serif;
+}

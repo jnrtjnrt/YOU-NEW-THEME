@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&amp;family=Caveat:wght@700&amp;family=Cormorant+Garamond:ital,wght@1,500&amp;family=Archivo:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#FDFEFF;color:#1A1A1A;font-family:'Archivo',sans-serif}
+a{color:#E8401C;text-decoration:none}a:hover{color:#2B6BE6}
+::selection{background:#D4E84A;color:#1A1A1A}
+</style>
+</helmet>
+
+<!-- HEADER -->
+<div style="background:#1A1A1A;color:#FDFEFF;padding:56px 48px 44px;position:relative;overflow:hidden">
+  <div style="position:absolute;inset:0;background-image:radial-gradient(#333 1.4px, transparent 1.4px);background-size:10px 10px;opacity:.5"></div>
+  <div style="position:relative;display:flex;justify-content:space-between;align-items:flex-start;gap:24px;flex-wrap:wrap">
+    <div>
+      <img src="assets/you-wordmark-white.png" alt="YOU" style="height:40px;display:block;margin-bottom:26px">
+      <div style="font-family:'Anton',sans-serif;font-size:clamp(56px,8vw,116px);line-height:.88;letter-spacing:-0.03em;text-transform:uppercase">Buy 1.<br><span style="color:#D4E84A">Take 1</span><span style="color:#E8401C">.</span></div>
+      <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:25px;color:#F5A623;margin-top:16px">the campaign kit — revised calendar + every asset, ready to post.</div>
+    </div>
+    <div style="background:#E8401C;color:#FDFEFF;padding:16px 20px;transform:rotate(2deg);font-weight:700;font-size:13px;letter-spacing:.12em;text-transform:uppercase;line-height:1.9;margin-top:8px">
+      Launch: Mon Jul 20 · 6:00 PM PHT<br>Ends: Sun Aug 9 · 11:59 PM<br>Cadence: every other day<br>All feed assets: 1080×1350
+    </div>
+  </div>
+  <div style="position:relative;display:flex;gap:28px;flex-wrap:wrap;margin-top:36px;padding-top:18px;border-top:1px solid #444;font-size:12px;letter-spacing:.25em;text-transform:uppercase;font-weight:700;color:#999">
+    <span><span style="color:#D4E84A">13</span> posts</span>
+    <span><span style="color:#D4E84A">2</span> carousels</span>
+    <span><span style="color:#D4E84A">2</span> reel covers</span>
+    <span><span style="color:#D4E84A">20</span> designed frames</span>
+    <span><span style="color:#D4E84A">₱699</span> starter trio · B1T1</span>
+  </div>
+</div>
+
+<!-- CALENDAR -->
+<div style="padding:56px 48px;border-bottom:1px solid #1A1A1A">
+  <div style="font-size:12px;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:#E8401C;margin-bottom:12px">01 · Revised calendar</div>
+  <div style="font-family:'Anton',sans-serif;font-size:42px;letter-spacing:-0.02em;line-height:.95;margin-bottom:10px;text-transform:uppercase">Teasers → launch → highlights → engagement → urgency → last call</div>
+  <div style="font-size:14px;color:#555;margin-bottom:26px;max-width:760px">Same arc as the strategy briefing, compressed onto the new launch date. Payday (Jul 30) now falls mid-campaign — the save-bait bundle guide lands two days before it. All times PHT.</div>
+  <div style="display:flex;flex-direction:column">
+    <sc-for list="{{ cal }}" as="r" hint-placeholder-count="6">
+      <div style="display:grid;grid-template-columns:150px 96px 130px 1fr 190px;gap:14px;align-items:center;padding:11px 8px;border-bottom:1px solid #D9D6D0;font-size:14px">
+        <div style="font-weight:700;letter-spacing:.04em">{{ r.date }}</div>
+        <div style="color:#6B6B6B;font-size:13px">{{ r.time }}</div>
+        <div style="justify-self:start;background:{{ r.bg }};color:{{ r.fg }};font-size:10px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;padding:5px 9px;transform:rotate(-2deg)">{{ r.phase }}</div>
+        <div><b>{{ r.title }}</b> <span style="color:#6B6B6B;font-size:13px">· {{ r.fmt }}</span></div>
+        <div style="font-size:12px;color:#2B6BE6;font-weight:600"><a href="{{ r.href }}">{{ r.asset }}</a></div>
+      </div>
+    </sc-for>
+  </div>
+  <div style="font-size:13px;color:#6B6B6B;margin-top:14px;line-height:1.6">Story support (no feed asset needed): countdown sticker Mon 12NN → 6PM · nightly link-sticker frames during launch week · poll reshares on carousel days · final-hours countdown Aug 9.</div>
+</div>
+
+<!-- P0 TEASER -->
+<div id="p0" style="padding:56px 48px;border-bottom:1px solid #1A1A1A">
+  <div style="font-size:12px;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:#E8401C;margin-bottom:8px">Post 01 · Sun Jul 19 · 6:00 PM · Teaser</div>
+  <div style="font-family:'Anton',sans-serif;font-size:34px;text-transform:uppercase;margin-bottom:24px">Something loud is coming</div>
+  <div style="display:flex;gap:28px;flex-wrap:wrap;align-items:flex-start">
+    <div style="width:378px">
+      <div style="width:378px;height:473px;overflow:hidden;border:1px solid #1A1A1A">
+        <div id="asset-teaser" style="width:1080px;height:1350px;transform:scale(0.35);transform-origin:top left;position:relative;overflow:hidden;background:#1A1A1A;font-family:'Archivo',sans-serif">
+          <img src="uploads/Promotional%20Contents/DSCF3053.jpg" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
+          <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(26,26,26,.15) 40%,rgba(26,26,26,.78) 100%)"></div>
+          <div style="position:absolute;inset:0;background-image:radial-gradient(#FDFEFF 2px, transparent 2px);background-size:22px 22px;opacity:.06"></div>
+          <div style="position:absolute;left:64px;right:64px;bottom:220px">
+            <div style="font-family: Cormorant Garamond; font-size: 88px; color: #F4FF3D; transform: rotate(-2deg); line-height: 1; margin-bottom: 8px">keep an eye out.</div>
+            <div style="font-family:'Anton',sans-serif;font-size:132px;line-height:.9;letter-spacing:-0.02em;text-transform:uppercase;color:#FDFEFF">Something<br>loud lands<br>Monday<span style="color:#E8401C">.</span></div>
+            <div style="display:inline-block;background:#E8401C;color:#FDFEFF;font-weight:700;font-size:30px;letter-spacing:.18em;text-transform:uppercase;padding:14px 22px;margin-top:36px;transform:rotate(-2deg)">07.20 · 6:00 PM</div>
+          </div>
+          <div style="position:absolute;left:0;right:0;bottom:0;height:110px;background:#1A1A1A;display:flex;justify-content:space-between;align-items:center;padding:0 56px">
+            <img src="assets/you-wordmark-white.png" alt="YOU" style="height:44px">
+            <span style="color:#FDFEFF;font-size:26px;font-weight:700;letter-spacing:.2em;text-transform:uppercase">#MadeByYOU</span>
+          </div>
+        </div>
+      </div>
+      <div style="font-size:12px;color:#6B6B6B;margin-top:8px">asset-teaser · 1080×1350 · photo: DSCF3053</div>
+    </div>
+    <sc-if value="{{ showCaptions }}" hint-placeholder-val="{{ true }}">
+    <div style="width:340px;border:2px solid #1A1A1A;padding:22px;background:#FDFEFF">
+      <div style="font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:#E8401C;margin-bottom:10px">Caption</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:20px;margin-bottom:10px">“Alam mo na ba? 👀”</div>
+      <div style="font-size:14px;line-height:1.6;margin-bottom:12px">Your sweldo already has plans. 💸<br data-start="302" data-end="305">
+Monday. 6PM. First 24 hours only. Turn on post notifications if you like making good decisions.</div>
+      <div style="font-size:13px;color:#2B6BE6;line-height:1.6;margin-bottom:12px">#MadeByYOU #YOUBags #Abangan #PinoyStyle #BagAddict</div>
+      <div style="font-size:13px;line-height:1.7"><b>CTA:</b> Turn on post notifications<br><b>Why now:</b> Sunday 6–8PM is the week's biggest scroll window; 24h runway builds the launch-day opt-in pool.</div>
+    </div>
+    </sc-if>
+  </div>
+</div>
+
+<!-- P1 LAUNCH -->
+<div id="p1" style="padding:56px 48px;border-bottom:1px solid #1A1A1A;background:#F6F4EE">
+  <div style="font-size:12px;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:#E8401C;margin-bottom:8px">Post 02 · Mon Jul 20 · 6:00 PM · LAUNCH · boost this</div>
+  <div style="font-family:'Anton',sans-serif;font-size:34px;text-transform:uppercase;margin-bottom:24px">Starter Trio — Buy 1 Take 1, live</div>
+  <div style="display:flex;gap:28px;flex-wrap:wrap;align-items:flex-start">
+    <div style="width:378px">
+      <div style="width:378px;height:473px;overflow:hidden;border:1px solid #1A1A1A">
+        <div id="asset-launch" style="width:1080px;height:1350px;transform:scale(0.35);transform-origin:top left;position:relative;overflow:hidden;background:#D4E84A;font-family:'Archivo',sans-serif">
+          <img src="uploads/Starter%20Trio/DSCF0734.jpg" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
+          <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(26,26,26,0) 45%,rgba(26,26,26,.82) 100%)"></div>
+          <div style="position:absolute;top:56px;right:40px;width:340px;height:340px;display:flex;align-items:center;justify-content:center;text-align:center;clip-path:polygon(50% 0%,59.57% 14.28%,75% 6.7%,76.16% 23.83%,93.3% 25%,85.74% 40.42%,100% 50%,85.74% 59.58%,93.3% 75%,76.16% 76.16%,75% 93.3%,59.57% 85.74%,50% 100%,40.43% 85.74%,25% 93.3%,23.84% 76.16%,6.7% 75%,14.26% 59.58%,0% 50%,14.26% 40.42%,6.7% 25%,23.84% 23.84%,25% 6.7%,40.43% 14.28%);background:#E8401C;color:#FDFEFF;transform:rotate(8deg);font-family:'Anton',sans-serif;font-size:56px;line-height:1.02">BUY 1<br>TAKE 1</div>
+          <div style="position:absolute;left:64px;right:64px;bottom:210px">
+            <div style="font-family: Cormorant Garamond; font-size: 96px; color: #F4FF3D; transform: rotate(-2deg); line-height: 1">the starter trio —</div>
+            <div style="font-family:'Anton',sans-serif;font-size:170px;line-height:.88;letter-spacing:-0.02em;text-transform:uppercase;color:#FDFEFF">₱699<span style="color:#D4E84A">,</span><br>doubled<span style="color:#E8401C">.</span></div>
+            <div style="color:#FDFEFF;font-size:32px;font-weight:600;margin-top:26px">Until supply last!</div>
+          </div>
+          <div style="position:absolute;left:0;right:0;bottom:0;height:110px;background:#1A1A1A;display:flex;justify-content:space-between;align-items:center;padding:0 56px">
+            <img src="assets/you-wordmark-white.png" alt="YOU" style="height:44px">
+            <span style="color:#D4E84A;font-size:26px;font-weight:700;letter-spacing:.2em;text-transform:uppercase">Sale live · madebyyou.ph</span>
+          </div>
+        </div>
+      </div>
+      <div style="font-size:12px;color:#6B6B6B;margin-top:8px">asset-launch · 1080×1350 · photo: DSCF0734 (Starter Trio)</div>
+    </div>
+    <sc-if value="{{ showCaptions }}" hint-placeholder-val="{{ true }}">
+    <div style="width:340px;border:2px solid #1A1A1A;padding:22px;background:#FDFEFF">
+      <div style="font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:#E8401C;margin-bottom:10px">Caption</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:20px;margin-bottom:10px">“Buy 1. Take 1. Hindi typo.”</div>
+      <div style="font-size:14px;line-height:1.6;margin-bottom:12px">Your wallet said, "Be responsible." We said, "2 Starter Trios for ₱699." 😌  One's on us. Live now at madebyyou.ph. While supplies last.</div>
+      <div style="font-size:13px;color:#2B6BE6;line-height:1.6;margin-bottom:12px">#MadeByYOU #YOUBags #BuyOneTakeOne #SaleAlert #ShopLocal #PinoyStyle</div>
+      <div style="font-size:13px;line-height:1.7"><b>CTA:</b> Shop now — madebyyou.ph (link in bio)<br><b>Story blast:</b> 3 frames at 6PM — LIVE, trio close-ups + link sticker, “tag your twin” box.<br><b>Boost:</b> conversion objective, PH 18–34, from day 1.</div>
+    </div>
+    </sc-if>
+  </div>
+</div>
+
+<!-- P2 CAROUSEL A -->
+<div id="p2" style="padding:56px 48px;border-bottom:1px solid #1A1A1A">
+  <div style="font-size:12px;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:#E8401C;margin-bottom:8px">Post 03 · Wed Jul 22 · 12:00 NN · Carousel · 5 slides</div>
+  <div style="font-family:'Anton',sans-serif;font-size:34px;text-transform:uppercase;margin-bottom:24px">Meet the Starter Trio</div>
+  <div style="display:flex;gap:20px;flex-wrap:wrap;align-items:flex-start">
+    <div>
+      <div style="width:378px;height:473px;overflow:hidden;border:1px solid #1A1A1A">
+        <div id="asset-ca-1" style="width:1080px;height:1350px;transform:scale(0.35);transform-origin:top left;position:relative;overflow:hidden;background:#1E2DE0;font-family:'Archivo',sans-serif">
+          <div style="position:absolute;inset:0;background-image:radial-gradient(#FDFEFF 2.2px, transparent 2.2px);background-size:24px 24px;opacity:.1"></div>
+          <div style="position:absolute;top:80px;left:64px;right:64px">
+            <div style="font-family:'Anton',sans-serif;font-size:150px;line-height:.88;letter-spacing:-0.02em;text-transform:uppercase;color:#FDFEFF">One trio,<br><span style="color:#F4FF3D">doubled</span><span style="color:#FF2E92">.</span></div>
+            <div style="font-family:'Caveat',cursive;font-size:84px;color:#FDFEFF;transform:rotate(-2deg);margin-top:16px">buy 1 take 1 · ₱699</div>
+          </div>
+          <div style="position:absolute;left:64px;right:64px;bottom:190px;height:520px;transform:rotate(2deg);border:6px solid #1A1A1A;overflow:hidden">
+            <img src="./dscf0804-mrrrjliw-8wj8.jpg" alt="" style="width:100%;height:100%;object-fit:cover">
+          </div>
+          <div style="position:absolute;left:0;right:0;bottom:0;height:110px;display:flex;justify-content:space-between;align-items:center;padding:0 56px">
+            <img src="assets/you-wordmark-white.png" alt="YOU" style="height:44px">
+            <span style="color:#FDFEFF;font-size:26px;font-weight:700;letter-spacing:.2em;text-transform:uppercase">Swipe →</span>
+          </div>
+        </div>
+      </div>
+      <div style="font-size:12px;color:#6B6B6B;margin-top:8px">asset-ca-1 · cover</div>
+    </div>
+    <div>
+      <div style="width:378px;height:473px;overflow:hidden;border:1px solid #1A1A1A">
+        <div id="asset-ca-2" style="width:1080px;height:1350px;transform:scale(0.35);transform-origin:top left;position:relative;overflow:hidden;font-family:'Archivo',sans-serif">
+          <img src="uploads/Starter%20Trio/DSCF0729.jpg" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
+          <div style="position:absolute;top:64px;left:56px;background:#FF2E92;color:#FDFEFF;font-weight:700;font-size:34px;letter-spacing:.1em;text-transform:uppercase;padding:16px 26px;transform:rotate(-3deg)">01 · for the essentials</div>
+        </div>
+      </div>
+      <div style="font-size:12px;color:#6B6B6B;margin-top:8px">asset-ca-2 · photo: DSCF0729 (Starter Trio)</div>
+    </div>
+    <div>
+      <div style="width:378px;height:473px;overflow:hidden;border:1px solid #1A1A1A">
+        <div id="asset-ca-3" style="width:1080px;height:1350px;transform:scale(0.35);transform-origin:top left;position:relative;overflow:hidden;font-family:'Archivo',sans-serif">
+          <img src="uploads/Starter%20Trio/DSCF0709.jpg" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
+          <div style="position:absolute;top:64px;left:56px;background:#1E2DE0;color:#FDFEFF;font-weight:700;font-size:34px;letter-spacing:.1em;text-transform:uppercase;padding:16px 26px;transform:rotate(-3deg)">02 · for the commute</div>
+        </div>
+      </div>
+      <div style="font-size:12px;color:#6B6B6B;margin-top:8px">asset-ca-3 · photo: DSCF0709 (Starter Trio)</div>
+    </div>
+    <div>
+      <div style="width:378px;height:473px;overflow:hidden;border:1px solid #1A1A1A">
+        <div id="asset-ca-4" style="width:1080px;height:1350px;transform:scale(0.35);transform-origin:top left;position:relative;overflow:hidden;font-family:'Archivo',sans-serif">
+          <img src="uploads/Starter%20Trio/DSCF0716.jpg" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
+          <div style="position:absolute;top:64px;left:56px;background:#E8401C;color:#FDFEFF;font-weight:700;font-size:34px;letter-spacing:.1em;text-transform:uppercase;padding:16px 26px;transform:rotate(-3deg)">03 · for the gala</div>
+        </div>
+      </div>
+      <div style="font-size:12px;color:#6B6B6B;margin-top:8px">asset-ca-4 · photo: DSCF0716 (Starter Trio)</div>
+    </div>
+    <div>
+      <div style="width:378px;height:473px;overflow:hidden;border:1px solid #1A1A1A">
+        <div id="asset-ca-5" style="width:1080px;height:1350px;transform:scale(0.35);transform-origin:top left;position:relative;overflow:hidden;background:#D4E84A;font-family:'Archivo',sans-serif">
+          <div style="position:absolute;inset:0;background-image:radial-gradient(#1A1A1A 2px, transparent 2px);background-size:22px 22px;opacity:.12"></div>
+          <div style="position:absolute;top:110px;left:64px;right:64px">
+            <div style="font-family:'Anton',sans-serif;font-size:168px;line-height:.88;letter-spacing:-0.02em;text-transform:uppercase;color:#1A1A1A">₱699.<br>Times<br>two<span style="color:#E8401C">.</span></div>
+            <div style="font-family:'Caveat',cursive;font-size:80px;color:#1A1A1A;transform:rotate(-2deg);margin-top:24px">one for you, one for your twin</div>
+          </div>
+          <div style="position:absolute;right:48px;bottom:240px;width:300px;height:300px;display:flex;align-items:center;justify-content:center;text-align:center;clip-path:polygon(50% 0%,59.57% 14.28%,75% 6.7%,76.16% 23.83%,93.3% 25%,85.74% 40.42%,100% 50%,85.74% 59.58%,93.3% 75%,76.16% 76.16%,75% 93.3%,59.57% 85.74%,50% 100%,40.43% 85.74%,25% 93.3%,23.84% 76.16%,6.7% 75%,14.26% 59.58%,0% 50%,14.26% 40.42%,6.7% 25%,23.84% 23.84%,25% 6.7%,40.43% 14.28%);background:#E8401C;color:#FDFEFF;transform:rotate(-8deg);font-family:'Anton',sans-serif;font-size:48px;line-height:1.05">BUY 1<br>TAKE 1</div>
+          <div style="position:absolute;left:0;right:0;bottom:0;height:110px;background:#1A1A1A;display:flex;justify-content:space-between;align-items:center;padding:0 56px">
+            <img src="assets/you-wordmark-white.png" alt="YOU" style="height:44px">
+            <span style="color:#D4E84A;font-size:26px;font-weight:700;letter-spacing:.2em;text-transform:uppercase">madebyyou.ph</span>
+          </div>
+        </div>
+      </div>
+      <div style="font-size:12px;color:#6B6B6B;margin-top:8px">asset-ca-5 · end card</div>
+    </div>
+    <sc-if value="{{ showCaptions }}" hint-placeholder-val="{{ true }}">
+    <div style="width:340px;border:2px solid #1A1A1A;padding:22px;background:#FDFEFF">
+      <div style="font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:#E8401C;margin-bottom:10px">Caption</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:20px;margin-bottom:10px">“3 bags. ₱699. Doubled.”</div>
+      <div style="font-size:14px;line-height:1.6;margin-bottom:12px"><p data-start="818" data-end="872" class="PDq2pG_selectionAnchorContainer">Bookmark it. Screenshot it. Send it to the group chat.<span aria-hidden="true" class="PDq2pG_selectionAnchor"></span></p>
+<p data-start="874" data-end="914">Just don't act surprised when it's gone.</p>
+<p data-start="916" data-end="979"><strong data-start="916" data-end="945">Starter Trio Buy 1 Take 1</strong> is live. <strong data-start="955" data-end="979">While supplies last.</strong></p></div>
+      <div style="font-size:13px;color:#2B6BE6;line-height:1.6;margin-bottom:12px">#YOUStarterTrio #MadeByYOU #BuyOneTakeOne #BagAddict #OOTDPH</div>
+      <div style="font-size:13px;line-height:1.7"><b>CTA:</b> Save for payday<br><b>Story:</b> per-slide poll — “which one are you using first?”<br><b>Why noon:</b> lunch-break browse; carousels beat video in silent feeds.</div>
+    </div>
+    </sc-if>
+  </div>
+</div>
+
+<!-- P3 BUNDLE -->
+<div id="p3" style="padding:56px 48px;border-bottom:1px solid #1A1A1A;background:#F6F4EE">
+  <div style="font-size:12px;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:#E8401C;margin-bottom:8px">Post 04 · Fri Jul 24 · 6:00 PM · Product highlight</div>
+  <div style="font-family:'Anton',sans-serif;font-size:34px;text-transform:uppercase;margin-bottom:24px">Bundle announcement — the math is mathing</div>
+  <div style="display:flex;gap:28px;flex-wrap:wrap;align-items:flex-start">
+    <div style="width:378px">
+      <div style="width:378px;height:473px;overflow:hidden;border:1px solid #1A1A1A">
+        <div id="asset-bundle" style="width:1080px;height:1350px;transform:scale(0.35);transform-origin:top left;position:relative;overflow:hidden;background:#1A1A1A;font-family:'Archivo',sans-serif">
+          <img src="uploads/Promotional%20Contents/DSCF3242.jpg" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
+          <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(26,26,26,.1) 30%,rgba(26,26,26,.85) 100%)"></div>
+          <div style="position:absolute;top:56px;right:40px;width:320px;height:320px;display:flex;align-items:center;justify-content:center;text-align:center;clip-path:polygon(50% 0%,59.57% 14.28%,75% 6.7%,76.16% 23.83%,93.3% 25%,85.74% 40.42%,100% 50%,85.74% 59.58%,93.3% 75%,76.16% 76.16%,75% 93.3%,59.57% 85.74%,50% 100%,40.43% 85.74%,25% 93.3%,23.84% 76.16%,6.7% 75%,14.26% 59.58%,0% 50%,14.26% 40.42%,6.7% 25%,23.84% 23.84%,25% 6.7%,40.43% 14.28%);background:#D4E84A;color:#1A1A1A;transform:rotate(8deg);font-family:'Anton',sans-serif;font-size:44px;line-height:1.05">FREE<br>PHONE<br>PATCH</div>
+          <div style="position:absolute;left:64px;right:64px;bottom:180px">
+            <div style="font-family:'Caveat',cursive;font-size:84px;color:#F4FF3D;transform:rotate(-2deg);line-height:1;margin-bottom:12px">the math is mathing —</div>
+            <div style="font-family:'Anton',sans-serif;font-size:96px;line-height:1;letter-spacing:-0.01em;text-transform:uppercase;color:#FDFEFF">Bag ₱799<br><span style="text-decoration:line-through;text-decoration-color:#E8401C;text-decoration-thickness:10px">+ strap ₱349</span><br>= <span style="color:#D4E84A">₱799 all-in.</span></div>
+            <div style="color:#FDFEFF;font-size:32px;font-weight:600;margin-top:24px">Every bag now ships as a bundle — strap included, phone patch free.</div>
+          </div>
+          <div style="position:absolute;left:0;right:0;bottom:0;height:110px;background:#1A1A1A;display:flex;justify-content:space-between;align-items:center;padding:0 56px">
+            <img src="assets/you-wordmark-white.png" alt="YOU" style="height:44px">
+            <span style="color:#FDFEFF;font-size:26px;font-weight:700;letter-spacing:.2em;text-transform:uppercase">madebyyou.ph</span>
+          </div>
+        </div>
+      </div>
+      <div style="font-size:12px;color:#6B6B6B;margin-top:8px">asset-bundle · 1080×1350 · photo: DSCF3242 (bundle)</div>
+    </div>
+    <sc-if value="{{ showCaptions }}" hint-placeholder-val="{{ true }}">
+    <div style="width:340px;border:2px solid #1A1A1A;padding:22px;background:#FDFEFF">
+      <div style="font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:#E8401C;margin-bottom:10px">Caption</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:20px;margin-bottom:10px">“POV: hindi mo na kailangan mag-add to cart ng strap.”</div>
+      <div style="font-size:14px;line-height:1.6;margin-bottom:12px"><p data-start="125" data-end="165">We did the math so you don't have to. 🧮</p>
+<p data-start="167" data-end="302">Before: <strong data-start="175" data-end="183">₱799</strong> for the bag, <strong data-start="197" data-end="205">₱349</strong> for the strap.<br data-start="220" data-end="223">
+Now: <strong data-start="228" data-end="255">Bag + strap. One price.</strong> Plus a <strong data-start="263" data-end="283">FREE Phone Patch</strong> with every bundle.</p>
+<p data-start="304" data-end="349">No hidden math. No plot twists. Just bundles.</p></div>
+      <div style="font-size:13px;color:#2B6BE6;line-height:1.6;margin-bottom:12px">#MadeByYOU #YOUBags #BundleDeal #ShopLocal #SaleAlert</div>
+      <div style="font-size:13px;line-height:1.7"><b>CTA:</b> Link in bio — see all bundles<br><b>Why Fri 6PM:</b> weekend-planning scroll; primes the Sunday lifestyle post and next week's guide.</div>
+    </div>
+    </sc-if>
+  </div>
+</div>
+
+<!-- P4 LIFESTYLE -->
+<div id="p4" style="padding:56px 48px;border-bottom:1px solid #1A1A1A">
+  <div style="font-size:12px;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:#E8401C;margin-bottom:8px">Post 05 · Sun Jul 26 · 7:00 PM · Lifestyle · clean photo, no overlay</div>
+  <div style="font-family:'Anton',sans-serif;font-size:34px;text-transform:uppercase;margin-bottom:24px">Out in the wild</div>
+  <div style="display:flex;gap:28px;flex-wrap:wrap;align-items:flex-start">
+    <div style="width:378px">
+      <div id="asset-life" style="width:378px;height:473px;overflow:hidden;border:1px solid #1A1A1A">
+        <img src="uploads/Promotional%20Contents/DPD_0471.jpg" alt="" style="width:100%;height:100%;object-fit:cover;display:block">
+      </div>
+      <div style="font-size:12px;color:#6B6B6B;margin-top:8px">post as-is (crop 4:5 centered) · photo: DPD_0471</div>
+    </div>
+    <sc-if value="{{ showCaptions }}" hint-placeholder-val="{{ true }}">
+    <div style="width:340px;border:2px solid #1A1A1A;padding:22px;background:#FDFEFF">
+      <div style="font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:#E8401C;margin-bottom:10px">Caption</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:20px;margin-bottom:10px"><p data-start="335" data-end="358" class="PDq2pG_selectionAnchorContainer" style="font-family: Archivo, sans-serif; font-size: 14px; font-style: normal;">One bundle. Every plan.</p></div>
+      <div style="font-size:14px;line-height:1.6;margin-bottom:12px"><p data-start="335" data-end="358" class="PDq2pG_selectionAnchorContainer">From coffee runs to after-hours gala, <strong data-start="398" data-end="423">Lavender Latte Set 03</strong> is already dressed for the occasion.</p>
+<p data-start="462" data-end="517"><strong data-start="462" data-end="482">FREE Phone Patch</strong> included. <strong data-start="493" data-end="517">While supplies last.</strong></p>
+<hr data-start="519" data-end="522">
+<h3 data-section-id="1wywhdk" data-start="524" data-end="548"></h3></div>
+      <div style="font-size:13px;color:#2B6BE6;line-height:1.6;margin-bottom:12px">#MadeByYOU #YOUBags #OOTDPH #PinoyStyle #EverydayCarry</div>
+      <div style="font-size:13px;line-height:1.7"><b>CTA:</b> soft — link in bio<br><b>Why clean:</b> keeps the grid photo-led between two sale graphics; the clash colors ARE the graphic.</div>
+    </div>
+    </sc-if>
+  </div>
+</div>
+
+<!-- P5 GUIDE CAROUSEL -->
+<div id="p5" style="padding:56px 48px;border-bottom:1px solid #1A1A1A;background:#F6F4EE">
+  <div style="font-size:12px;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:#E8401C;margin-bottom:8px">Post 06 · Tue Jul 28 · 12:00 NN · Carousel · 8 slides · save-bait before payday</div>
+  <div style="font-family:'Anton',sans-serif;font-size:34px;text-transform:uppercase;margin-bottom:24px">The bundle guide</div>
+  <div style="display:flex;gap:20px;flex-wrap:wrap;align-items:flex-start">
+    <div>
+      <div style="width:378px;height:473px;overflow:hidden;border:1px solid #1A1A1A">
+        <div id="asset-gd-1" style="width:1080px;height:1350px;transform:scale(0.35);transform-origin:top left;position:relative;overflow:hidden;background:#E8401C;font-family:'Archivo',sans-serif">
+          <div style="position:absolute;inset:0;background-image:radial-gradient(#1A1A1A 2.2px, transparent 2.2px);background-size:24px 24px;opacity:.14"></div>
+          <div style="position:absolute;top:100px;left:64px;right:64px">
+            <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:44px;color:#FDFEFF;opacity:.92;margin-bottom:12px">study now, checkout on sweldo —</div>
+            <div style="font-family:'Anton',sans-serif;font-size:164px;line-height:.88;letter-spacing:-0.02em;text-transform:uppercase;color:#FDFEFF">The<br>bundle<br>guide<span style="color:#F4FF3D">.</span></div>
+            <div style="font-family:'Caveat',cursive;font-size:80px;color:#F4FF3D;transform:rotate(-2deg);margin-top:28px">bag + strap + free phone patch</div>
+          </div>
+          <div style="position:absolute;left:0;right:0;bottom:0;height:110px;display:flex;justify-content:space-between;align-items:center;padding:0 56px">
+            <img src="assets/you-wordmark-white.png" alt="YOU" style="height:44px">
+            <span style="color:#FDFEFF;font-size:26px;font-weight:700;letter-spacing:.2em;text-transform:uppercase">Swipe →</span>
+          </div>
+        </div>
+      </div>
+      <div style="font-size:12px;color:#6B6B6B;margin-top:8px">asset-gd-1 · cover</div>
+    </div>
+    <sc-for list="{{ guideSlides }}" as="g" hint-placeholder-count="3">
+      <div>
+        <div style="width:378px;height:473px;overflow:hidden;border:1px solid #1A1A1A">
+          <div id="{{ g.id }}" style="width:1080px;height:1350px;transform:scale(0.35);transform-origin:top left;position:relative;overflow:hidden;font-family:'Archivo',sans-serif">
+            <img src="{{ g.src }}" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
+            <div style="position:absolute;bottom:64px;left:56px;background:#1A1A1A;color:#FDFEFF;font-weight:700;font-size:36px;letter-spacing:.08em;text-transform:uppercase;padding:18px 28px;transform:rotate(-2deg)">{{ g.label }}</div>
+          </div>
+        </div>
+        <div style="font-size:12px;color:#6B6B6B;margin-top:8px">{{ g.id }} · photo: {{ g.file }}</div>
+      </div>
+    </sc-for>
+    <div>
+      <div style="width:378px;height:473px;overflow:hidden;border:1px solid #1A1A1A">
+        <div id="asset-gd-8" style="width:1080px;height:1350px;transform:scale(0.35);transform-origin:top left;position:relative;overflow:hidden;background:#1A1A1A;font-family:'Archivo',sans-serif">
+          <div style="position:absolute;inset:0;background-image:radial-gradient(#333 2px, transparent 2px);background-size:20px 20px;opacity:.5"></div>
+          <div style="position:absolute;top:88px;left:64px;right:64px">
+            <div style="font-family:'Anton',sans-serif;font-size:110px;line-height:.9;letter-spacing:-0.02em;text-transform:uppercase;color:#D4E84A;margin-bottom:44px">Pick your<br>set<span style="color:#E8401C">.</span></div>
+            <div style="display:flex;flex-direction:column;gap:0;border-top:3px solid #444">
+              <div style="display:flex;justify-content:space-between;align-items:baseline;padding:18px 0;border-bottom:1px solid #444"><span style="font-family:'Anton',sans-serif;font-size:50px;text-transform:uppercase;color:#FDFEFF">Strawberry Milk</span><span style="font-size:28px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#999">Set</span></div>
+              <div style="display:flex;justify-content:space-between;align-items:baseline;padding:18px 0;border-bottom:1px solid #444"><span style="font-family:'Anton',sans-serif;font-size:50px;text-transform:uppercase;color:#FDFEFF">Cherry Cola</span><span style="font-size:28px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#999">Set</span></div>
+              <div style="display:flex;justify-content:space-between;align-items:baseline;padding:18px 0;border-bottom:1px solid #444"><span style="font-family:'Anton',sans-serif;font-size:50px;text-transform:uppercase;color:#FDFEFF">Mint Condition</span><span style="font-size:28px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#999">Set</span></div>
+              <div style="display:flex;justify-content:space-between;align-items:baseline;padding:18px 0;border-bottom:1px solid #444"><span style="font-family:'Anton',sans-serif;font-size:50px;text-transform:uppercase;color:#FDFEFF">Dirty Matcha</span><span style="font-size:28px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#999">Set</span></div>
+              <div style="display:flex;justify-content:space-between;align-items:baseline;padding:18px 0;border-bottom:1px solid #444"><span style="font-family:'Anton',sans-serif;font-size:50px;text-transform:uppercase;color:#FDFEFF">Pink Lemonade</span><span style="font-size:28px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#999">Set</span></div>
+              <div style="display:flex;justify-content:space-between;align-items:baseline;padding:18px 0;border-bottom:1px solid #444"><span style="font-family:'Anton',sans-serif;font-size:50px;text-transform:uppercase;color:#FDFEFF">Espresso Shot</span><span style="font-size:28px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#999">Set</span></div>
+            </div>
+            <div style="font-family:'Anton',sans-serif;font-size:76px;text-transform:uppercase;color:#D4E84A;margin-top:36px">All-in from ₱799<span style="color:#E8401C">.</span></div>
+            <div style="font-family: Cormorant Garamond; font-size: 60px; color: #F4FF3D; transform: rotate(-2deg); margin-top: 12px">+ 30 more sets · straps + free phone patch</div>
+          </div>
+          <div style="position:absolute;left:0;right:0;bottom:0;height:110px;display:flex;justify-content:space-between;align-items:center;padding:0 56px">
+            <img src="assets/you-wordmark-white.png" alt="YOU" style="height:44px">
+            <span style="color:#FDFEFF;font-size:26px;font-weight:700;letter-spacing:.2em;text-transform:uppercase">madebyyou.ph</span>
+          </div>
+        </div>
+      </div>
+      <div style="font-size:12px;color:#6B6B6B;margin-top:8px">asset-gd-8 · price end card</div>
+    </div>
+    <sc-if value="{{ showCaptions }}" hint-placeholder-val="{{ true }}">
+    <div style="width:340px;border:2px solid #1A1A1A;padding:22px;background:#FDFEFF">
+      <div style="font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:#E8401C;margin-bottom:10px">Caption</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:20px;margin-bottom:10px"><p data-start="342" data-end="370" class="PDq2pG_selectionAnchorContainer" style="font-family: Archivo, sans-serif; font-size: 14px; font-style: normal;">Decision fatigue? We get it.</p></div>
+      <div style="font-size:14px;line-height:1.6;margin-bottom:12px"><p data-start="342" data-end="370" class="PDq2pG_selectionAnchorContainer"><strong data-start="372" data-end="386">36 bundles</strong> to choose from, all with a bag, strap, and a <strong data-start="432" data-end="452">FREE Phone Patch</strong>. Prices start at <strong data-start="470" data-end="478">₱799</strong>.</p>
+</div>
+      <div style="font-size:13px;color:#2B6BE6;line-height:1.6;margin-bottom:12px">#YOUBags #PaydayPicks #MadeByYOU #BundleDeal #ShopLocal #BagAddict</div><div style="font-size:13px;line-height:1.7"><b>CTA:</b> Save this for Jul 30<br><b>Story:</b> set battle polls (Cherry Cola vs Strawberry Milk, etc.) — winners get pushed on payday.<br><b>Note:</b> set names verified against the catalog. Send set-level prices and I'll stamp a price on each slide.</div>
+      
+    </div>
+    </sc-if>
+  </div>
+</div>
+
+<!-- P6 REEL 1 -->
+<div id="p6" style="padding:56px 48px;border-bottom:1px solid #1A1A1A">
+  <div style="font-size:12px;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:#E8401C;margin-bottom:8px">Post 07 · Thu Jul 30 · 8:00 AM · Reel (payday!) · cover design + caption, video yours to shoot</div>
+  <div style="font-family:'Anton',sans-serif;font-size:34px;text-transform:uppercase;margin-bottom:24px">What's in her bag — payday edition</div>
+  <div style="display:flex;gap:28px;flex-wrap:wrap;align-items:flex-start">
+    <div style="width:378px">
+      <div style="width:378px;height:473px;overflow:hidden;border:1px solid #1A1A1A">
+        <div id="asset-reel1" style="width:1080px;height:1350px;transform:scale(0.35);transform-origin:top left;position:relative;overflow:hidden;background:#1A1A1A;font-family:'Archivo',sans-serif">
+          <img src="uploads/Starter%20Trio/DSCF0747.jpg" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
+          <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(26,26,26,.55) 0%,rgba(26,26,26,.1) 45%,rgba(26,26,26,.7) 100%)"></div>
+          <div style="position:absolute;top:96px;left:64px;right:64px">
+            <div style="font-family:'Anton',sans-serif;font-size:150px;line-height:.9;letter-spacing:-0.02em;text-transform:uppercase;color:#FDFEFF">What's<br>in <span style="font-family: Cormorant Garamond; text-transform: none; font-size: 160px; color: #F4FF3D">her</span><br>bag?</div>
+            <div style="display:inline-block;background:#FF2E92;color:#FDFEFF;font-weight:700;font-size:30px;letter-spacing:.14em;text-transform:uppercase;padding:14px 24px;margin-top:30px;transform:rotate(-3deg)">Starter trio · payday edition</div>
+          </div>
+          <div style="position:absolute;left:0;right:0;bottom:0;height:110px;background:#1A1A1A;display:flex;justify-content:space-between;align-items:center;padding:0 56px">
+            <img src="assets/you-wordmark-white.png" alt="YOU" style="height:44px">
+            <span style="color:#FDFEFF;font-size:26px;font-weight:700;letter-spacing:.2em;text-transform:uppercase">▶ Watch</span>
+          </div>
+        </div>
+      </div>
+      <div style="font-size:12px;color:#6B6B6B;margin-top:8px">asset-reel1 · 1080×1350 cover · photo: DSCF0747 (Starter Trio)</div>
+    </div>
+    <sc-if value="{{ showCaptions }}" hint-placeholder-val="{{ true }}">
+    <div style="width:340px;border:2px solid #1A1A1A;padding:22px;background:#FDFEFF">
+      <div style="font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:#E8401C;margin-bottom:10px">Caption + shot notes</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:20px;margin-bottom:10px">“Sweldo day dump: lahat 'to kasya sa ₱699 na trio.”</div>
+      <div style="font-size:14px;line-height:1.6;margin-bottom:12px"><p data-start="295" data-end="348" class="PDq2pG_selectionAnchorContainer">our emotional support gloss deserves its own pocket.<span aria-hidden="true" class="PDq2pG_selectionAnchor"></span></p>
+<p data-start="350" data-end="471">Good thing the <strong data-start="365" data-end="381">Starter Trio</strong> has room for your phone, wallet, matcha fund, and whatever else you swear is "essential."</p>
+<p data-start="473" data-end="514"><strong data-start="473" data-end="489">Buy 1 Take 1</strong> is live. You're welcome.</p></div>
+      <div style="font-size:13px;color:#2B6BE6;line-height:1.6;margin-bottom:12px">#WhatsInMyBag #YOUStarterTrio #PaydaySale #MadeByYOU #BagTok</div>
+      <div style="font-size:13px;line-height:1.7"><b>Hook (first 2s):</b> items spill out in stop-motion, one per beat<br><b>CTA:</b> Shop the trio — link in bio<br><b>Why 8AM:</b> payday wallet-check scroll before work.</div>
+    </div>
+    </sc-if>
+  </div>
+</div>
+
+<!-- P7 ENGAGEMENT -->
+<div id="p7" style="padding:56px 48px;border-bottom:1px solid #1A1A1A;background:#F6F4EE">
+  <div style="font-size:12px;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:#E8401C;margin-bottom:8px">Post 08 · Sat Aug 1 · 11:00 AM · Engagement · clean photo, no overlay</div>
+  <div style="font-family:'Anton',sans-serif;font-size:34px;text-transform:uppercase;margin-bottom:24px">This is YOU — UGC callout</div>
+  <div style="display:flex;gap:28px;flex-wrap:wrap;align-items:flex-start">
+    <div style="width:378px">
+      <div id="asset-ugc" style="width:378px;height:473px;overflow:hidden;border:1px solid #1A1A1A">
+        <img src="uploads/Starter%20Trio/DSCF0709.jpg" alt="" style="width:100%;height:100%;object-fit:cover;display:block">
+      </div>
+      <div style="font-size:12px;color:#6B6B6B;margin-top:8px">post as-is (crop 4:5 centered) · photo: DSCF0709 (Starter Trio)</div>
+    </div>
+    <sc-if value="{{ showCaptions }}" hint-placeholder-val="{{ true }}">
+    <div style="width:340px;border:2px solid #1A1A1A;padding:22px;background:#FDFEFF">
+      <div style="font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:#E8401C;margin-bottom:10px">Caption</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:20px;margin-bottom:10px">“This is YOU. 🧡”</div>
+      <div style="font-size:14px;line-height:1.6;margin-bottom:12px"><p data-start="304" data-end="350" class="PDq2pG_selectionAnchorContainer">Your mirror selfie deserves a bigger audience.<span aria-hidden="true" class="PDq2pG_selectionAnchor"></span></p>
+<p data-start="352" data-end="463">Tag <strong data-start="356" data-end="364">@youofficialstore</strong> + <strong data-start="367" data-end="381">#MadeByYOU</strong> and you might be our next featured post. Monthly picks are officially a thing. 🧡</p></div>
+      <div style="font-size:13px;color:#2B6BE6;line-height:1.6;margin-bottom:12px">#MadeByYOU #YOUBags #OOTDPH #BagAddict #ShopLocal</div>
+      <div style="font-size:13px;line-height:1.7"><b>CTA:</b> Tag us to get featured<br><b>Story:</b> “drop your YOU pic” sticker box; reshare every submission — each one is free reach.<br><b>Why:</b> comment/tag peak on weekend late-morning; harvests UGC while launch buyers' orders arrive.</div>
+    </div>
+    </sc-if>
+  </div>
+</div>
+
+<!-- P8 HIGHLIGHT -->
+<div id="p8" style="padding:56px 48px;border-bottom:1px solid #1A1A1A">
+  <div style="font-size:12px;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:#E8401C;margin-bottom:8px">Post 09 · Mon Aug 3 · 6:00 PM · Product highlight · clean photo, no overlay</div>
+  <div style="font-family:'Anton',sans-serif;font-size:34px;text-transform:uppercase;margin-bottom:24px">Bundle hero — commute check</div>
+  <div style="display:flex;gap:28px;flex-wrap:wrap;align-items:flex-start">
+    <div style="width:378px">
+      <div id="asset-high" style="width:378px;height:473px;overflow:hidden;border:1px solid #1A1A1A">
+        <img src="uploads/Promotional%20Contents/DSCF3032.jpg" alt="" style="width:100%;height:100%;object-fit:cover;display:block">
+      </div>
+      <div style="font-size:12px;color:#6B6B6B;margin-top:8px">post as-is (crop 4:5 centered) · photo: DSCF3032 (bundle)</div>
+    </div>
+    <sc-if value="{{ showCaptions }}" hint-placeholder-val="{{ true }}">
+    <div style="width:340px;border:2px solid #1A1A1A;padding:22px;background:#FDFEFF">
+      <div style="font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:#E8401C;margin-bottom:10px">Caption</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:20px;margin-bottom:10px">“Monday armor.”</div>
+      <div style="font-size:14px;line-height:1.6;margin-bottom:12px"><p data-start="462" data-end="480" class="PDq2pG_selectionAnchorContainer">The bag? Included.<span aria-hidden="true" class="PDq2pG_selectionAnchor"></span></p>
+<p data-start="482" data-end="502">The strap? Included.</p>
+<p data-start="504" data-end="544">The <strong data-start="508" data-end="529">FREE Phone Patch?</strong> Also included.</p>
+<p data-start="546" data-end="637">At this point, the only excuse left is yours. 🖤 <strong data-start="595" data-end="637">Starting at ₱799. While supplies last.</strong></p></div>
+      <div style="font-size:13px;color:#2B6BE6;line-height:1.6;margin-bottom:12px">#YOUBags #MadeByYOU #CommuteFit #OOTDPH #BundleDeal</div>
+      <div style="font-size:13px;line-height:1.7"><b>CTA:</b> Link in bio<br><b>Why Mon 6PM:</b> commute-scroll peak; “one week left” starts the urgency ramp without a countdown graphic yet.</div>
+    </div>
+    </sc-if>
+  </div>
+</div>
+
+<!-- P9 REEL 2 -->
+<div id="p9" style="padding:56px 48px;border-bottom:1px solid #1A1A1A;background:#F6F4EE">
+  <div style="font-size:12px;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:#E8401C;margin-bottom:8px">Post 10 · Wed Aug 5 · 6:00 PM · Reel · cover design + caption, video yours to shoot</div>
+  <div style="font-family:'Anton',sans-serif;font-size:34px;text-transform:uppercase;margin-bottom:24px">Knot your average strap</div>
+  <div style="display:flex;gap:28px;flex-wrap:wrap;align-items:flex-start">
+    <div style="width:378px">
+      <div style="width:378px;height:473px;overflow:hidden;border:1px solid #1A1A1A">
+        <div id="asset-reel2" style="width:1080px;height:1350px;transform:scale(0.35);transform-origin:top left;position:relative;overflow:hidden;background:#1A1A1A;font-family:'Archivo',sans-serif">
+          <img src="uploads/Promotional%20Contents/DSCF3064.jpg" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
+          <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(26,26,26,.5) 0%,rgba(26,26,26,.05) 40%,rgba(26,26,26,.55) 100%)"></div>
+          <div style="position:absolute;top:96px;left:64px;right:64px">
+            <div style="font-family:'Anton',sans-serif;font-size:140px;line-height:.9;letter-spacing:-0.02em;text-transform:uppercase;color:#FDFEFF">Knot<br>your <span style="font-family:'Caveat',cursive;text-transform:none;font-size:150px;color:#F4FF3D">average</span><br>strap<span style="color:#E8401C">.</span></div>
+            <div style="display:inline-block;background:#2B6BE6;color:#FDFEFF;font-weight:700;font-size:30px;letter-spacing:.14em;text-transform:uppercase;padding:14px 24px;margin-top:30px;transform:rotate(-3deg)">Tutorial · your free strap, 3 ways</div>
+          </div>
+          <div style="position:absolute;left:0;right:0;bottom:0;height:110px;background:#1A1A1A;display:flex;justify-content:space-between;align-items:center;padding:0 56px">
+            <img src="assets/you-wordmark-white.png" alt="YOU" style="height:44px">
+            <span style="color:#FDFEFF;font-size:26px;font-weight:700;letter-spacing:.2em;text-transform:uppercase">▶ Watch</span>
+          </div>
+        </div>
+      </div>
+      <div style="font-size:12px;color:#6B6B6B;margin-top:8px">asset-reel2 · 1080×1350 cover · photo: DSCF3064 (bundle)</div>
+    </div>
+    <sc-if value="{{ showCaptions }}" hint-placeholder-val="{{ true }}">
+    <div style="width:340px;border:2px solid #1A1A1A;padding:22px;background:#FDFEFF">
+      <div style="font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:#E8401C;margin-bottom:10px">Caption + shot notes</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:20px;margin-bottom:10px">You got the strap for free. Creativity isn't included.</div>
+      <div style="font-size:14px;line-height:1.6;margin-bottom:12px"><p data-start="413" data-end="450" class="PDq2pG_selectionAnchorContainer">Three knots. Endless ways to wear it.<span aria-hidden="true" class="PDq2pG_selectionAnchor"></span></p>
+<p data-start="452" data-end="503">Save this for later. Your future self will need it.</p></div>
+      <div style="font-size:13px;color:#2B6BE6;line-height:1.6;margin-bottom:12px">#KnotTutorial #YOUBags #MadeByYOU #BagTok #StylingTips</div>
+      <div style="font-size:13px;line-height:1.7"><b>Hook:</b> hands-only macro, one knot per beat, Anton step counter 01–03<br><b>CTA:</b> Save this<br><b>Why:</b> value content mid-urgency week resets the give/take balance; tutorial saves = strongest ranking signal.</div>
+    </div>
+    </sc-if>
+  </div>
+</div>
+
+<!-- P10 URGENCY -->
+<div id="p10" style="padding:56px 48px;border-bottom:1px solid #1A1A1A">
+  <div style="font-size:12px;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:#E8401C;margin-bottom:8px">Post 11 · Fri Aug 7 · 6:00 PM · Urgency · boost this</div>
+  <div style="font-family:'Anton',sans-serif;font-size:34px;text-transform:uppercase;margin-bottom:24px">Last weekend</div>
+  <div style="display:flex;gap:28px;flex-wrap:wrap;align-items:flex-start">
+    <div style="width:378px">
+      <div style="width:378px;height:473px;overflow:hidden;border:1px solid #1A1A1A">
+        <div id="asset-urgent" style="width:1080px;height:1350px;transform:scale(0.35);transform-origin:top left;position:relative;overflow:hidden;background:#1A1A1A;font-family:'Archivo',sans-serif">
+          <img src="uploads/Promotional%20Contents/DSCF3054.jpg" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
+          <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(26,26,26,.2) 35%,rgba(26,26,26,.85) 100%)"></div>
+          <div style="position:absolute;top:56px;left:40px;width:360px;height:360px;display:flex;align-items:center;justify-content:center;text-align:center;clip-path:polygon(50% 0%,59.57% 14.28%,75% 6.7%,76.16% 23.83%,93.3% 25%,85.74% 40.42%,100% 50%,85.74% 59.58%,93.3% 75%,76.16% 76.16%,75% 93.3%,59.57% 85.74%,50% 100%,40.43% 85.74%,25% 93.3%,23.84% 76.16%,6.7% 75%,14.26% 59.58%,0% 50%,14.26% 40.42%,6.7% 25%,23.84% 23.84%,25% 6.7%,40.43% 14.28%);background:#E8401C;color:#FDFEFF;transform:rotate(-8deg);font-family:'Anton',sans-serif;font-size:52px;line-height:1.05">LAST<br>WEEKEND</div>
+          <div style="position:absolute;left:64px;right:64px;bottom:200px">
+            <div style="font-family:'Anton',sans-serif;font-size:150px;line-height:.88;letter-spacing:-0.02em;text-transform:uppercase;color:#FDFEFF">'Wag nang<br>mag-isip<span style="color:#E8401C">.</span></div>
+            <div style="font-family:'Caveat',cursive;font-size:80px;color:#F4FF3D;transform:rotate(-2deg);margin-top:24px">while supply lasts</div>
+          </div>
+          <div style="position:absolute;left:0;right:0;bottom:0;height:110px;background:#1A1A1A;display:flex;justify-content:space-between;align-items:center;padding:0 56px">
+            <img src="assets/you-wordmark-white.png" alt="YOU" style="height:44px">
+            <span style="color:#D4E84A;font-size:26px;font-weight:700;letter-spacing:.2em;text-transform:uppercase">madebyyou.ph</span>
+          </div>
+        </div>
+      </div>
+      <div style="font-size:12px;color:#6B6B6B;margin-top:8px">asset-urgent · 1080×1350 · photo: DSCF3054 (bundle)</div>
+    </div>
+    <sc-if value="{{ showCaptions }}" hint-placeholder-val="{{ true }}">
+    <div style="width:340px;border:2px solid #1A1A1A;padding:22px;background:#FDFEFF">
+      <div style="font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:#E8401C;margin-bottom:10px">Caption</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:20px;margin-bottom:10px">“Kung iniisip mo pa rin siya, sign na 'to.”</div>
+      <div style="font-size:14px;line-height:1.6;margin-bottom:12px"><p data-start="323" data-end="346" class="PDq2pG_selectionAnchorContainer">This isn't a countdown.<span aria-hidden="true" class="PDq2pG_selectionAnchor"></span></p>
+<p data-start="348" data-end="392">It's a <strong data-start="355" data-end="378">while supplies last</strong> situation. 😌</p>
+<p data-start="394" data-end="468"><strong data-start="394" data-end="468">Buy 1 Take 1 Starter Trio, bundles from ₱799, plus a FREE Phone Patch.</strong></p></div>
+      <div style="font-size:13px;color:#2B6BE6;line-height:1.6;margin-bottom:12px">#LastCall #YOUBags #MadeByYOU #SaleAlert #BuyOneTakeOne</div>
+      <div style="font-size:13px;line-height:1.7"><b>CTA:</b> Shop before Sunday — link in bio<br><b>Story:</b> nightly countdown frames Fri–Sun + cart-answers as social proof.<br><b>Boost:</b> retarget all Jul 19+ engagers, conversion objective.</div>
+    </div>
+    </sc-if>
+  </div>
+</div>
+
+<!-- P11 LAST CALL -->
+<div id="p11" style="padding:56px 48px;border-bottom:1px solid #1A1A1A;background:#F6F4EE">
+  <div style="font-size:12px;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:#E8401C;margin-bottom:8px">Post 12 · Sun Aug 9 · 6:00 PM · Last call</div>
+  <div style="font-family:'Anton',sans-serif;font-size:34px;text-transform:uppercase;margin-bottom:24px">Ends tonight</div>
+  <div style="display:flex;gap:28px;flex-wrap:wrap;align-items:flex-start">
+    <div style="width:378px">
+      <div style="width:378px;height:473px;overflow:hidden;border:1px solid #1A1A1A">
+        <div id="asset-last" style="width:1080px;height:1350px;transform:scale(0.35);transform-origin:top left;position:relative;overflow:hidden;background:#E8401C;font-family:'Archivo',sans-serif">
+          <div style="position:absolute;inset:0;background-image:radial-gradient(#1A1A1A 2.2px, transparent 2.2px);background-size:24px 24px;opacity:.14"></div>
+          <div style="position:absolute;top:96px;left:64px;right:64px">
+            <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:44px;color:#FDFEFF;opacity:.92;margin-bottom:10px">huling tawag —</div>
+            <div style="font-family:'Anton',sans-serif;font-size:190px;line-height:.86;letter-spacing:-0.02em;text-transform:uppercase;color:#FDFEFF">Last<br>call<span style="color:#F4FF3D">.</span></div>
+            <div style="font-family:'Caveat',cursive;font-size:84px;color:#F4FF3D;transform:rotate(-2deg);margin-top:24px">ends tonight, 11:59 PM</div>
+          </div>
+          <div style="position:absolute;left:64px;right:64px;bottom:180px;height:400px;transform:rotate(-2deg);border:6px solid #1A1A1A;overflow:hidden">
+            <img src="uploads/Promotional%20Contents/DSCF3328.jpg" alt="" style="width: 924px; height: 418px; object-fit: cover">
+          </div>
+          <div style="position:absolute;left:0;right:0;bottom:0;height:110px;background:#1A1A1A;display:flex;justify-content:space-between;align-items:center;padding:0 56px">
+            <img src="assets/you-wordmark-white.png" alt="YOU" style="height:44px">
+            <span style="color:#D4E84A;font-size:26px;font-weight:700;letter-spacing:.2em;text-transform:uppercase">madebyyou.ph</span>
+          </div>
+        </div>
+      </div>
+      <div style="font-size:12px;color:#6B6B6B;margin-top:8px">asset-last · 1080×1350 · photo: DSCF3328</div>
+    </div>
+    <sc-if value="{{ showCaptions }}" hint-placeholder-val="{{ true }}">
+    <div style="width:340px;border:2px solid #1A1A1A;padding:22px;background:#FDFEFF">
+      <div style="font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:#E8401C;margin-bottom:10px">Caption</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:20px;margin-bottom:10px">“11:59 PM. Tapos na.”</div>
+      <div style="font-size:14px;line-height:1.6;margin-bottom:12px">Last few hours. Buy 1 Take 1 Starter Trio + all bundles from ₱799 — gone by midnight. Salamat sa lahat ng nag-YOU this month 🧡 abangan ang next.</div>
+      <div style="font-size:13px;color:#2B6BE6;line-height:1.6;margin-bottom:12px">#LastCall #MadeByYOU #YOUBags #ShopLocal</div>
+      <div style="font-size:13px;line-height:1.7"><b>CTA:</b> Link in bio — before midnight<br><b>Post 13 (Mon Aug 10, 7PM):</b> thank-you Story only — warmest UGC + “abangan” tease; no feed post needed.</div>
+    </div>
+    </sc-if>
+  </div>
+</div>
+
+<!-- NOTES -->
+<div style="padding:56px 48px 72px">
+  <div style="font-size:12px;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:#E8401C;margin-bottom:12px">02 · Export &amp; production notes</div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px">
+    <div style="border:1px solid #1A1A1A;padding:20px;font-size:14px;line-height:1.65"><b>Exporting.</b> Every designed frame is a true 1080×1350 canvas — ask me to export any or all of them as PNGs and I'll generate the files. Clean-photo posts (05, 08, 09) post the original JPG, center-cropped to 4:5.</div>
+    <div style="border:1px solid #1A1A1A;padding:20px;font-size:14px;line-height:1.65"><b>Reels.</b> No video files were uploaded, so posts 07 and 10 ship as cover designs + captions + shot notes. Send the edits when shot and I can advise on text-overlay placement.</div>
+    <div style="border:1px solid #1A1A1A;padding:20px;font-size:14px;line-height:1.65"><b>Bundle names.</b> Verified against the catalog (uploads/*.png): DSCF3427 = Strawberry Milk Set, 3271 = Cherry Cola Set, 3254 = Mint Condition Set, 3287 = Dirty Matcha Set, 3413 = Pink Lemonade Set, 3328 = Espresso Shot Set. The end card lists these six featured sets + “15 more”; send per-set prices to add a price column.</div>
+    <div style="border:1px solid #1A1A1A;padding:20px;font-size:14px;line-height:1.65"><b>Grid rhythm.</b> Posting order alternates graphic → photo → carousel so the profile grid never shows two loud sale graphics side by side.</div>
+  </div>
+</div>
+
+<div style="background:#1A1A1A;color:#999;padding:20px 48px;display:flex;justify-content:space-between;align-items:center;font-size:12px;letter-spacing:.15em;text-transform:uppercase">
+  <img src="assets/you-wordmark-white.png" alt="YOU" style="height:16px;opacity:.8">
+  <span>Buy 1 Take 1 · Jul 20 – Aug 9 2026 · Made in the Philippines</span>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;showCaptions&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Kit view&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    const showCaptions = this.props.showCaptions ?? true;
+    const cal = [
+      { date:'SUN · JUL 19', time:'6:00 PM', phase:'Teaser',    bg:'#F5A623', fg:'#1A1A1A', title:'01 · Something loud lands Monday', fmt:'static graphic', asset:'asset-teaser', href:'#p0' },
+      { date:'MON · JUL 20', time:'12:00 NN', phase:'Teaser',   bg:'#F5A623', fg:'#1A1A1A', title:'Countdown sticker → 6PM', fmt:'Story only', asset:'— no feed asset', href:'#p0' },
+      { date:'MON · JUL 20', time:'6:00 PM', phase:'Launch',    bg:'#E8401C', fg:'#FDFEFF', title:'02 · STARTER TRIO — BUY 1 TAKE 1 LIVE', fmt:'static + Story blast · boost', asset:'asset-launch', href:'#p1' },
+      { date:'WED · JUL 22', time:'12:00 NN', phase:'Highlight', bg:'#2B6BE6', fg:'#FDFEFF', title:'03 · Meet the Starter Trio', fmt:'carousel · 5 slides', asset:'asset-ca-1…5', href:'#p2' },
+      { date:'FRI · JUL 24', time:'6:00 PM', phase:'Highlight', bg:'#2B6BE6', fg:'#FDFEFF', title:'04 · Bundle announcement — ₱799 all-in', fmt:'static graphic', asset:'asset-bundle', href:'#p3' },
+      { date:'SUN · JUL 26', time:'7:00 PM', phase:'Lifestyle', bg:'#F5A623', fg:'#1A1A1A', title:'05 · Out in the wild', fmt:'clean photo', asset:'DPD_0471 as-is', href:'#p4' },
+      { date:'TUE · JUL 28', time:'12:00 NN', phase:'Highlight', bg:'#2B6BE6', fg:'#FDFEFF', title:'06 · The bundle guide (save-bait)', fmt:'carousel · 8 slides', asset:'asset-gd-1…8', href:'#p5' },
+      { date:'THU · JUL 30', time:'8:00 AM', phase:'Highlight', bg:'#2B6BE6', fg:'#FDFEFF', title:'07 · What\u2019s in her bag — payday', fmt:'Reel · cover + caption', asset:'asset-reel1', href:'#p6' },
+      { date:'SAT · AUG 1',  time:'11:00 AM', phase:'Engage',   bg:'#E535AB', fg:'#FDFEFF', title:'08 · This is YOU — UGC callout', fmt:'clean photo', asset:'DSCF0709 as-is', href:'#p7' },
+      { date:'MON · AUG 3',  time:'6:00 PM', phase:'Highlight', bg:'#2B6BE6', fg:'#FDFEFF', title:'09 · Bundle hero — commute check', fmt:'clean photo', asset:'DSCF3032 as-is', href:'#p8' },
+      { date:'WED · AUG 5',  time:'6:00 PM', phase:'Engage',    bg:'#E535AB', fg:'#FDFEFF', title:'10 · Knot your average strap', fmt:'Reel · cover + caption', asset:'asset-reel2', href:'#p9' },
+      { date:'FRI · AUG 7',  time:'6:00 PM', phase:'Urgency',   bg:'#1A1A1A', fg:'#D4E84A', title:'11 · Last weekend — \u2019wag nang mag-isip', fmt:'static graphic · boost', asset:'asset-urgent', href:'#p10' },
+      { date:'SUN · AUG 9',  time:'6:00 PM', phase:'Last call', bg:'#E8401C', fg:'#FDFEFF', title:'12 · Last call — ends 11:59 PM', fmt:'static graphic', asset:'asset-last', href:'#p11' },
+    ];
+    const guideSlides = [
+      { id:'asset-gd-2', src:'uploads/Promotional%20Contents/DSCF3427.jpg', file:'DSCF3427', label:'Strawberry Milk Set' },
+      { id:'asset-gd-3', src:'uploads/Promotional%20Contents/DSCF3271.jpg', file:'DSCF3271', label:'Cherry Cola Set' },
+      { id:'asset-gd-4', src:'uploads/Promotional%20Contents/DSCF3254.jpg', file:'DSCF3254', label:'Mint Condition Set' },
+      { id:'asset-gd-5', src:'uploads/Promotional%20Contents/DSCF3287.jpg', file:'DSCF3287', label:'Dirty Matcha Set' },
+      { id:'asset-gd-6', src:'uploads/Promotional%20Contents/DSCF3413.jpg', file:'DSCF3413', label:'Pink Lemonade Set' },
+      { id:'asset-gd-7', src:'uploads/Promotional%20Contents/DSCF3328.jpg', file:'DSCF3328', label:'Espresso Shot Set' },
+    ];
+    return { showCaptions, cal, guideSlides };
+  }
+}
+</script>
+</body>
+</html>
