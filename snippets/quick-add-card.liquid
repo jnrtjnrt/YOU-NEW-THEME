@@ -4,6 +4,10 @@
   Used by: product-cross-sell-modal, product-cross-sell-grid, recently-viewed,
   and the Style Lab bundles carousel.
 
+  Swatches are capped at 6 so every card in a row stays the same height
+  regardless of variant count; a product with more than 6 color values gets
+  a "+N" pill in place of the rest, linking to the PDP to pick from there.
+
   Usage:
     {% render 'quick-add-card', card_product: product, show_swatches: true, button_label: 'Add to cart' %}
 
@@ -50,8 +54,10 @@
     </div>
 
     {%- if show_swatches and color_option != blank -%}
+      {%- assign swatch_limit = 6 -%}
+      {%- assign swatch_overflow = color_option.values.size | minus: swatch_limit -%}
       <div class="quick-add-card__swatches" data-quick-add-swatches data-option-position="{{ color_option.position }}">
-        {%- for value in color_option.values -%}
+        {%- for value in color_option.values limit: swatch_limit -%}
           {%- liquid
             capture value_title
               echo value
@@ -76,6 +82,14 @@
             aria-label="{{ value_title | escape }}"
             aria-pressed="{% if is_selected %}true{% else %}false{% endif %}"></button>
         {%- endfor -%}
+        {%- if swatch_overflow > 0 -%}
+          {%- capture more_label -%}{{ 'products.product.more_colors_count' | t: count: swatch_overflow }}{%- endcapture -%}
+          <a
+            href="{{ card_product.url }}"
+            class="quick-add-card__swatch quick-add-card__swatch--more"
+            aria-label="{{ more_label | strip | escape }}"
+            title="{{ more_label | strip | escape }}">+{{ swatch_overflow }}</a>
+        {%- endif -%}
       </div>
     {%- endif -%}
 

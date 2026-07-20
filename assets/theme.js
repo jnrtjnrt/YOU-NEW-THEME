@@ -551,11 +551,11 @@
     if (bindQuickAddCards._bound) return;
     bindQuickAddCards._bound = true;
     document.addEventListener('click', function (e) {
-      var swatch = e.target.closest('[data-quick-add-swatches] .quick-add-card__swatch');
+      var swatch = e.target.closest('[data-quick-add-swatches] .quick-add-card__swatch:not(.quick-add-card__swatch--more)');
       if (swatch) {
         var card = swatch.closest('[data-quick-add-card]');
         var swatchesWrap = swatch.closest('[data-quick-add-swatches]');
-        qsa('.quick-add-card__swatch', swatchesWrap).forEach(function (s) {
+        qsa('.quick-add-card__swatch:not(.quick-add-card__swatch--more)', swatchesWrap).forEach(function (s) {
           s.classList.toggle('is-active', s === swatch);
           s.setAttribute('aria-pressed', s === swatch ? 'true' : 'false');
         });

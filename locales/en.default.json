@@ -120,6 +120,10 @@
       "reviews_count": {
         "one": "{{ count }} review",
         "other": "{{ count }} reviews"
+      },
+      "more_colors_count": {
+        "one": "{{ count }} more color available — view product",
+        "other": "{{ count }} more colors available — view product"
       }
     }
   },
