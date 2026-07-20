@@ -142,12 +142,12 @@
           "twist-strappy",
           "yswirl",
           "short-strappy",
-          "multicolor-strappy",
           "link-strappy",
           "knot-strappy",
           "dna-strappy",
           "cloud-strappy",
-          "braided-strappy"
+          "braided-strappy",
+          "multicolor-strappy"
         ],
         "dismiss_label": "Nah, just the bag",
         "auto_open": true
