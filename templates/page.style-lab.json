@@ -50,7 +50,7 @@
       "settings": {
         "bags_collection": "frontpage",
         "straps_collection": "ropes",
-        "max_products": 8,
+        "max_products": 20,
         "bag_label": "Choose Your Bag",
         "strap_label": "Choose Your Strap",
         "add_set_label": "ADD SET TO CART"
