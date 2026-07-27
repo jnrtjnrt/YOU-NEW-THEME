@@ -48,7 +48,10 @@
     "builder": {
       "type": "style-lab-builder",
       "custom_css": [
-        "/* Make collection images square in Style Lab builder */.style-lab-builder img,[data-section-type=\"style-lab-builder\"] img {aspect-ratio: 1 / 1; object-fit: cover; width: 100%; height: auto;}"
+        "/* Make collection images square in Style Lab builder */.style-lab-builder img,[data-section-type=\"style-lab-builder\"] img {aspect-ratio: 1 / 1; object-fit: cover; width: 100%; height: auto;}",
+        "[data-style-lab-summary-image] {max-width: 300px; margin: 0 auto; padding: 0 16px; box-sizing: border-box;}",
+        "@media (max-width: 768px) {[data-style-lab-summary-image] {max-width: 100%; padding: 0 12px; }}",
+        "@media (max-width: 480px) {[data-style-lab-summary-image] {max-width: 40%; padding: 0 8px; }}"
       ],
       "settings": {
         "bags_collection": "frontpage",
