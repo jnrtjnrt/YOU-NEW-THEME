@@ -47,6 +47,9 @@
     },
     "builder": {
       "type": "style-lab-builder",
+      "custom_css": [
+        "/* Make collection images square in Style Lab builder */.style-lab-builder img,[data-section-type=\"style-lab-builder\"] img {aspect-ratio: 1 / 1; object-fit: cover; width: 100%; height: auto;}"
+      ],
       "settings": {
         "bags_collection": "frontpage",
         "straps_collection": "ropes",
